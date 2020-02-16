@@ -1,0 +1,44 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build - Create packaging venv",
+            "type": "shell",
+            "command": "py -3 -m venv env",
+            "group": "build"
+        },
+        {
+            "label": "Build - Update venv",
+            "type": "shell",
+            "command": "env/Scripts/activate; python -m pip install -U pip; pip install -U -r requirements.txt",
+            "group": "build",
+            "dependsOn": [
+                "Build - Create venv"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run - Localhost",
+            "type": "shell",
+            "command": "./env/Scripts/activate; python -m webbrowser -t 'http://localhost:8000'; python manage.py runserver_plus;",
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run - RSS to DB",
+            "type": "shell",
+            "command": "./env/Scripts/activate; python manage.py rss2db",
+            "group": "none",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run - Map builder",
+            "type": "shell",
+            "command": "./env/Scripts/activate; python manage.py map_builder",
+            "group": "none",
+            "problemMatcher": []
+        },
+    ]
+}

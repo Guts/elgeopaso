@@ -1,0 +1,48 @@
+# Common requirements
+# -----------------------
+# This file collects all required third-party applications that are needed
+# to run this project. Later you can install all these apps in a row
+# using pip. Example:
+#
+#     pip install -r REQUIREMENTS.txt
+#
+
+# basics
+setuptools
+wheel
+
+# utils
+arrow
+beautifulsoup4==4.6.*
+olefile
+pillow
+progressbar
+pytz
+six
+
+# server
+# celery==4.1.*
+gunicorn==19.9.*
+# redis==2.10.*
+# supervisor==3.2.0
+werkzeug
+
+# Django
+django >=2.0.8,<2.1
+# django-celery-beat==1.0.*
+# django-celery-results==1.0.*
+django-ckeditor==5.6.*
+# django-cities-light==3.3.*
+django-debug-toolbar==1.9.*
+django-extensions==2.1.*
+django-filter==1.1.*
+djangorestframework==3.8.*
+djangorestframework-filters
+django-rest-swagger==2.2.*
+django-suit==0.2.*
+django-widgets-improved
+
+# El Paso
+feedparser==5.2.*
+numpy==1.15.*
+nltk==3.4.*

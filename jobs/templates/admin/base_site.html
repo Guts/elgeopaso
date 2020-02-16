@@ -1,0 +1,42 @@
+{% extends "admin/base.html" %}
+{% load admin_static %}
+
+
+<!-- {# Additional <head> content here, some extra meta tags or favicon #}
+{#{% block extrahead %}#}
+{#{% endblock %}#}
+ -->
+
+
+<!-- {% block extrastyle %}
+<link rel="stylesheet" type="text/css" href="{% static "elpaso/admin/style.css" %}" media="all">
+{% endblock %} -->
+
+
+{% block header_content %}
+    {{ block.super }}
+    <div class="header-content">
+        <!-- First icon column -->
+        <div class="header-column icon">
+            <i class="icon-home"></i><br>
+        </div>
+        <div class="header-column" style="margin-right: 20px">
+            <a href="/" class="grey">Retourner sur El Géo Paso</a><br>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+<!-- {# Additional JS files in footer, right before </body> #}
+{#{% block extrajs %}#}
+{#  <script type="text/javascript" src="{% static 'js/my_project.js' %}"></script>#}
+{#{% endblock %}#} -->
+
+
+<!-- {# Footer links (left side) #}
+{#{% block footer_links %}#}
+{#  <a href="/docs/" class="icon"><i class="icon-question-sign"></i>Documentation</a>#}
+{#{% endblock %}#} -->
+
+

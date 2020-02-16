@@ -1,0 +1,68 @@
+[
+{
+    "model": "jobs.source",
+    "pk": 1,
+    "fields": {
+        "name": "GEOREZO_RSS",
+        "url": "http://georezo.net/extern.php?fid=10",
+        "comment": "GeoRezo.net, le Portail de la G\u00e9omatique et des SIG (Syst\u00e8mes d'Information G\u00e9ographique)",
+        "created": "2018-01-22T11:14:26.606Z",
+        "updated": "2018-01-22T11:14:27.553Z"
+    }
+},
+{
+    "model": "jobs.source",
+    "pk": 2,
+    "fields": {
+        "name": "GEOREZO_HIST",
+        "url": "",
+        "comment": "Donn\u00e9es historiques export\u00e9es directement depuis la base GeoRezo et import\u00e9es dans El Paso via des scripts.",
+        "created": "2018-01-22T11:14:26.606Z",
+        "updated": "2018-01-22T11:14:27.553Z"
+    }
+},
+{
+    "model": "jobs.source",
+    "pk": 3,
+    "fields": {
+        "name": "MAGIS",
+        "url": "http://gdr-magis.imag.fr/",
+        "comment": "",
+        "created": "2018-01-22T11:14:26.606Z",
+        "updated": "2018-01-22T11:14:27.553Z"
+    }
+},
+{
+    "model": "jobs.source",
+    "pk": 4,
+    "fields": {
+        "name": "POLE_EMPLOI",
+        "url": "https://candidat.pole-emploi.fr/candidat/rechercheoffres/avancee/selectionappellation/A______P__________INDIFFERENT_________________M1808______",
+        "comment": "Code ROME M1808",
+        "created": "2018-01-22T11:14:26.606Z",
+        "updated": "2018-01-22T11:14:27.553Z"
+    }
+},
+{
+    "model": "jobs.source",
+    "pk": 5,
+    "fields": {
+        "name": "MANUAL",
+        "url": "",
+        "comment": "",
+        "created": "2018-01-22T11:14:26.606Z",
+        "updated": "2018-01-22T11:14:27.553Z"
+    }
+},
+{
+    "model": "jobs.source",
+    "pk": 6,
+    "fields": {
+        "name": "ND",
+        "url": "",
+        "comment": "Source ind\u00e9termin\u00e9e.",
+        "created": "2018-01-22T11:14:26.606Z",
+        "updated": "2018-01-22T11:14:27.553Z"
+    }
+}
+]

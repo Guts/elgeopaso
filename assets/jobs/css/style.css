@@ -1,0 +1,95 @@
+body {
+  padding-top: 50px;
+}
+#main {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+div#weekday rect {
+    fill: #FF0080;
+}
+
+div.chart svg {
+  width:110%;
+  height: 400px;
+}
+
+/* MAP */
+#map { position: absolute; top:0; bottom:0; right:0; left:0; }
+.info {
+  padding: 6px 8px;
+  font: 14px/16px Arial, Helvetica, sans-serif;
+  background: white;
+  background: rgba(255,255,255,0.8);
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+.info h4 {
+  margin: 0 0 5px;
+  color: #777;
+}
+
+/*FOOTER*/
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  /*height: 80px;*/
+  background-color: #222;
+  color: #777;
+}
+
+
+/*MISC*/
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  float: right;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+
+
+
+/* @group Scroll to Top */
+
+.scroll-to-top {
+  padding: 10px;
+  background-color: #ecf0f1;
+  color: #18bc9c;
+  font-size: 12px;
+  text-decoration: none;
+
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  display:none;
+
+  -webkit-border-radius: 5px;
+  -moz-border-radius:    5px;
+  border-radius:         5px;
+  -moz-background-clip:    padding;
+  -webkit-background-clip: padding-box;
+  background-clip:         padding-box;
+}
+
+.scroll-to-top:hover {
+  text-decoration: none;
+}
+
+/* @end Scroll to Top */

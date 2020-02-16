@@ -1,0 +1,94 @@
+{% extends "jobs/base.html" %}
+{% load admin_urls %}
+{% load static %}
+{% block content %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+	<div class="container">
+		<h1>El Géo Paso</h1>
+		<p>Statistiques dynamiques sur l'emploi en géomatique</p>
+		<p>
+			<a class="btn btn-primary btn-lg" href="{% url 'jobs:stats' %}" role="button">Consulter les statistiques</a>
+			<br>
+			<small class='text-muted'>sur les {{ nb_contrats }} offres parues du {{ first_date|date }} au {{ last_date }}</small>
+		</p>
+	</div>
+</div>
+
+<div class="container">
+	<!-- Example row of columns -->
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Une base unique</h2>
+			<p>Tout géomaticien·ne francophone qui se respecte connaît GeoRezo et passe tôt ou tard par le forum Job. Ce forum, incontournable sans être exhaustif, est représentatif du marché de l'emploi du secteur de l'information géographique.</p>
+			<p>
+				<a class="btn btn-default" href="https://georezo.net/forum/viewforum.php?id=10" role="button">Consulter le forum Job sur GeoRezo &raquo;</a>
+			</p>
+			<hr>
+		</div>
+		<div class="col-md-4">
+			<h2>La démarche métier</h2>
+			<p>Ce travail s'ancre dans la continuité de celui entamé par GeoRezo et l'AFIGéo depuis des années sur la reconnaissance des métiers de l'information géographique.</p>
+			<p>
+				<a class="btn btn-default" href="https://georezo.net/wiki/main/formetiers/dem_metiers" role="button">Consulter la démarche métiers &raquo;</a>
+			</p>
+			<hr>
+		</div>
+		<div class="col-md-4">
+			<h2>Profession géomaticien·ne</h2>
+			<p>Le métier de géomaticien n'a jamais été aussi dynamique… mais ce n'est pour autant pas facile de le décrire et de le faire connaître !<br>Dans la continuité des démarches de reconnaissance des métiers de la géomatique, l’AFIGÉO et GeoRezo proposent un nouvel espace d’expression : le blog « Géomaticien » !</p>
+			<p>
+				<a class="btn btn-default" href="https://georezo.net/blog/geomaticien/" role="button">Consulter le blog &raquo;</a>
+			</p>
+			<hr>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="text">
+				<p class="lead">{{ presentation.content|safe }}</p>
+			</div>
+		</div>
+	</div>
+	<hr>
+</div>
+<!-- /container -->
+<div class="row">
+	<div class="col-lg-7 col-md-4">
+		<h3 align="justify">Nom</h3>
+		<div class="col-lg-2 col-md-1">
+			<a class="thumbnail">
+				<img src="{% static "jobs/img/logo_OldElPaso.jpg" %}" alt="Logo ElPaso" >
+			</a>
+		</div>
+		<div class="col-lg-10 col-md-3" align="justify">
+			Pourquoi El Paso ? Depuis des temps immémoriaux, le choix d'un nom de projet informatique est cornélien. Né autour de fajitas et de rhum, le nom El Paso s'est imposé comme une évidence. Bien traduit, il représente le petit pas qui sépare un demandeur d'emploi d'un poste. Une simple offre, un simple pas... non, en fait, rien de tout cela, c'était juste parce-que les fajitas étaient bonnes !
+		</div>
+	</div>
+
+	<div class="col-lg-5 col-md-3">
+		<h3 align="justify">Auteurs</h3>
+		<div class="col-lg-3 col-md-1">
+			<a class="thumbnail">
+				<img src="{% static "jobs/img/logo_GeoTribu.png" %}" alt="Logo ElPaso" >
+			</a>
+		</div>
+		<div class="col-lg-7" align="justify">
+			<p>Dans l'esprit Geotribu, on avait envie de faire un projet utile en utilisant des technos sympas.</p>
+			<div class="btn-group btn-group-justified" role="group">
+			<a class="btn btn-default" href="https://www.linkedin.com/in/julienmoura" target="_blank" role="button">
+				<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Julien Moura
+			</a>
+			<a class="btn btn-default" href="https://www.linkedin.com/in/pierre-vernier-84437345" target="_blank" role="button">
+				<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Pierre Vernier
+			</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+
+{% endblock content %}

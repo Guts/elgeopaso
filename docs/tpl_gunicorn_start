@@ -1,0 +1,33 @@
+#!/bin/bash
+
+NAME="ElPaso_APP"                                 # Name of the application
+DJANGODIR=/webapps/elpaso/                        # Django project directory
+SOCKFILE=/webapps/elpaso/run/gunicorn.sock        # we will communicte using this unix soc$
+USER=elpacha                                      # the user to run as
+GROUP=www-data                                    # the group to run as
+NUM_WORKERS=3                                     # how many worker processes should Gunic$
+DJANGO_SETTINGS_MODULE=elpaso.settings            # which settings file should Django use
+DJANGO_WSGI_MODULE=elpaso.wsgi                    # WSGI module name
+
+echo "Starting $NAME as `whoami`"
+
+# Activate the virtual env
+cd $DJANGODIR
+source /webapps/elpaso/virtenv/bin/activate
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
+# Create the run directory if it doesn't exist
+RUNDIR=$(dirname $SOCKFILE)
+test -d $RUNDIR || mkdir -p $RUNDIR
+
+# Start your Django Unicorn
+exec /webapps/elpaso/virtenv/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+  --name $NAME \
+  --workers $NUM_WORKERS \
+  --user=$USER \
+  --log-level=debug \
+  --log-file=/webapps/elpaso/logs/gunicorn.log \
+  --bind=unix:$SOCKFILE
+#  --bind=163.172.57.124:8443
+#  --bind=elgeopaso.fr:8000
