@@ -1,6 +1,7 @@
 # El Géo Paso
 
 !["Python 3.5.x"](https://img.shields.io/badge/python-3.5-blue.svg) [![Build Status](https://travis-ci.org/Guts/elpaso.svg?branch=master)](https://travis-ci.org/Guts/elpaso)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 Statistiques dynamiques sur les offres d'emploi en géomatique publiées sur le forum francophone de géomatique [GeoRezo](http://georezo.net/forum/viewforum.php?id=10).
 
