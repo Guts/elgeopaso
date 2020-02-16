@@ -21,18 +21,12 @@ pytz
 six
 
 # server
-# celery==4.1.*
 gunicorn==19.9.*
-# redis==2.10.*
-# supervisor==3.2.0
 werkzeug
 
 # Django
-django >=2.0.8,<2.1
-# django-celery-beat==1.0.*
-# django-celery-results==1.0.*
+django==2.2.*
 django-ckeditor==5.6.*
-# django-cities-light==3.3.*
 django-debug-toolbar==1.9.*
 django-extensions==2.1.*
 django-filter==1.1.*
