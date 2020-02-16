@@ -1,16 +1,16 @@
 {
-    "python.pythonPath": "${workspaceFolder}\\env\\Scripts\\python.exe",
-    "python.unitTest.unittestArgs": [
+    "python.pythonPath": ".venv\\Scripts\\python.exe",
+    "python.testing.unittestArgs": [
         "-v",
         "-s",
         ".",
         "-p",
         "test*.py"
     ],
-    "python.unitTest.unittestEnabled": false,
-    "python.unitTest.promptToConfigure": false,
-    "python.unitTest.pyTestEnabled": false,
-    "python.unitTest.nosetestsEnabled": false,
+    "python.testing.unittestEnabled": false,
+    "python.testing.promptToConfigure": false,
+    "python.testing.pytestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django"
     ],
