@@ -1,0 +1,52 @@
+{
+  "name": "El Géo Paso - DEV",
+  "description": "A simple web application to display charts about French jobs offers in GIS.",
+  "image": "heroku/python",
+  "repository": "https://github.com/guts/elgeopaso",
+  "keywords": [
+    "python",
+    "django",
+    "GIS",
+    "georezo",
+    "job offers"
+  ],
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev",
+      "options": {
+        "version": "11"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "env": {
+    "DJANGO_DEBUG": {
+      "description": "Debug or not debug",
+      "value": "False"
+    },
+    "DJANGO_SECRET_KEY": {
+      "description": "The secret key for the Django application.",
+      "generator": "secret"
+    },
+    "PYTHONHASHSEED": {
+      "description": "Hash randomization",
+      "value": "random"
+    },
+    "WEB_CONCURRENCY": {
+      "description": "The number of processes to run.",
+      "value": "4"
+    }
+  },
+  "environments": {
+    "test": {
+      "scripts": {
+        "test-setup": "python manage.py collectstatic --noinput",
+        "test": "python manage.py test"
+      }
+    }
+  }
+}
