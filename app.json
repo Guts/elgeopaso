@@ -2,7 +2,7 @@
   "name": "El Géo Paso - DEV",
   "description": "A simple web application to display charts about French jobs offers in GIS.",
   "image": "heroku/python",
-  "repository": "https://github.com/guts/elgeopaso",
+  "repository": "https://github.com/guts/elgeopaso/",
   "keywords": [
     "python",
     "django",
@@ -14,11 +14,14 @@
     {
       "plan": "heroku-postgresql:hobby-dev",
       "options": {
-        "version": "11"
+        "version": "12"
       }
     }
   ],
   "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
     {
       "url": "heroku/python"
     }
