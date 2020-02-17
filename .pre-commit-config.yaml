@@ -7,7 +7,7 @@ repos:
   rev: v2.4.0
   hooks:
   - id: trailing-whitespace
-    files: (^|/)a/.+\.(py|html|sh|css|js)$
+    # files: (^|/)a/.+\.(py|html|sh|css|js)$
   - id: check-yaml
   - id: detect-private-key
 - repo: https://github.com/python/black
