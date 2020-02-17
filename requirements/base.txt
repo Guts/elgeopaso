@@ -22,6 +22,7 @@ django-rest-swagger==2.2.*
 
 # Utils
 # --------------------------
+argon2-cffi==19.2.0  # https://github.com/hynek/argon2_cffi
 arrow==0.12.*
 beautifulsoup4==4.6.*
 Pillow==5.2.*  # https://github.com/python-pillow/Pillow
