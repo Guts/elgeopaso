@@ -53,7 +53,7 @@ LOCALE_PATHS = [ROOT_DIR.path("locale")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {"default": env.db("DATABASE_URL")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
-DATABASES["default"]["OPTIONS"]["connect_timeout"] = 30
+# DATABASES["default"]["OPTIONS"]["connect_timeout"] = 30
 
 # URLS
 # ------------------------------------------------------------------------------
