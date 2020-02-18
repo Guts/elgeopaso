@@ -9,6 +9,9 @@
 # ########## Libraries #############
 # ##################################
 
+# Django
+from django.core.exceptions import ImproperlyConfigured
+
 # 3rd party
 import environ
 import django_heroku
@@ -51,7 +54,21 @@ LOCALE_PATHS = [ROOT_DIR.path("locale")]
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {"default": env.db("DATABASE_URL")}
+try:
+    DATABASES = {
+        # read os.environ['DATABASE_URL'] and raises ImproperlyConfigured exception if not found
+        "default": env.db("DATABASE_URL"),
+        # read os.environ['SQLITE_URL']
+        "extra": env.db("SQLITE_URL", default="sqlite:////tmp/my-tmp-sqlite.db"),
+    }
+except ImproperlyConfigured:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": str(ROOT_DIR.path("local-db.sqlite3")),
+        }
+    }
+
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 # DATABASES["default"]["OPTIONS"]["connect_timeout"] = 30
 
