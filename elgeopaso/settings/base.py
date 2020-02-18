@@ -14,7 +14,6 @@ from django.core.exceptions import ImproperlyConfigured
 
 # 3rd party
 import environ
-import django_heroku
 
 # ##############################################################################
 # ########## Globals ###############
@@ -266,7 +265,3 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "PAGE_SIZE": 20,
 }
-
-# HEROKU HELPER
-# ------------------------------------------------------------------------------
-django_heroku.settings(locals())
