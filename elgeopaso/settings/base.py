@@ -18,12 +18,12 @@ import environ
 # ##############################################################################
 # ########## Globals ###############
 # ##################################
-ROOT_DIR = environ.Path(__file__) - 2  # (elgeopaso/settings/base.py - 2 = elgeopaso/)
+ROOT_DIR = environ.Path(__file__) - 3  # (elgeopaso/settings/base.py - 2 = elgeopaso/)
 APPS_DIR = ROOT_DIR.path("elgeopaso")
 
 env = environ.Env()
 
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=False)
+READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
 if READ_DOT_ENV_FILE:
     # OS environment variables take precedence over variables from .env
     env.read_env(str(ROOT_DIR.path(".env")))
@@ -146,7 +146,7 @@ MIDDLEWARE = [
 STATIC_ROOT = str(ROOT_DIR("staticfiles"))
 STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [str(APPS_DIR.path("assets"))]
+STATICFILES_DIRS = [str(ROOT_DIR.path("assets"))]
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
