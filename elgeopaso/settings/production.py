@@ -8,12 +8,16 @@
 # #############################################################################
 # ########## Libraries #############
 # ##################################
+
+# standar library
+from pathlib import Path
+
+# common settings
 from .base import *  # noqa
 from .base import env
 
 # 3rd party
 import django_heroku
-import environ
 
 # ##############################################################################
 # ########## Globals ###############
@@ -33,16 +37,14 @@ DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # no
 
 # CACHES
 # ------------------------------------------------------------------------------
+cache_dir = Path(str(ROOT_DIR), "_cache")
+cache_dir.mkdir(exist_ok=True)
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDIS_URL"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # Mimicing memcache behavior.
-            # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
-            "IGNORE_EXCEPTIONS": True,
-        },
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": cache_dir,
+        "KEY_PREFIX": "elgeopaso_",
+        "TIMEOUT": 1800,
     }
 }
 
