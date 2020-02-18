@@ -9,6 +9,7 @@ setuptools
 # -----------------------
 django==2.2.*   # pyup: < 3.0
 django-ckeditor==5.6.*
+django-environ==0.4.5  # https://github.com/joke2k/django-environ
 django-filter==1.1.*
 django-heroku==0.3.*
 django-suit==0.2.*
