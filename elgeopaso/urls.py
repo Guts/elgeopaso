@@ -19,6 +19,9 @@ urlpatterns = [
     path("", jobs.views.index, name="index"),
     path("db/", jobs.views.db, name="db"),
     path("admin/", admin.site.urls),
+    # CMS
+    path("content/", include(("cms.urls", "cms"), namespace="cms")),
+    path("ckeditor/", include("ckeditor_uploader.urls")),
 ]
 
 

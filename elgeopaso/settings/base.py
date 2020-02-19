@@ -92,10 +92,13 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "ckeditor",
+    "ckeditor_uploader",
     "rest_framework",
 ]
 
 PROJECT_APPS = [
+    "cms",
     "jobs",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -143,11 +146,11 @@ MIDDLEWARE = [
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_ROOT = str(ROOT_DIR("staticfiles"))
+STATIC_ROOT = str(ROOT_DIR("static"))
 STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [str(ROOT_DIR.path("assets"))]
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
+STATICFILES_DIRS = [str(ROOT_DIR("assets"))]
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
@@ -156,8 +159,8 @@ STATICFILES_FINDERS = [
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = str(APPS_DIR("uploads"))
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
+MEDIA_ROOT = str(ROOT_DIR("uploads"))
 MEDIA_URL = "/media/"
 
 
@@ -251,6 +254,28 @@ LOGGING = {
 
 # THIRD-PARTY APPS ##
 # ------------------------------------------------------------------------------
+
+# CMS - CK EDITOR
+CKEDITOR_UPLOAD_PATH = "ck_uploads"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+IMAGE_QUALITY = 75
+THUMBNAIL_SIZE = (300, 300)
+
+# CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_RESTRICT_BY_DATE = False
+CKEDITOR_BROWSE_SHOW_DIRS = True
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "Standard",
+        "height": 400,
+        "width": "100%",
+        "language": "fr",
+        "removePlugins": " bidi,flash,forms,language,scayt,wsc,",
+        "extraPlugins": "uploadimage,uploadwidget,",
+    },
+}
+
 # Django REST Framework (API)
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
