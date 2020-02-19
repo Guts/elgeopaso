@@ -18,19 +18,19 @@ from .base import env
 # ##################################
 # GENERAL
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#debug
+# https://docs.djangoproject.com/fr/2.2/ref/settings/#debug
 DEBUG = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
+# https://docs.djangoproject.com/fr/2.2/ref/settings/#secret-key
 SECRET_KEY = env(
     "DJANGO_SECRET_KEY",
     default="xhaBNHx2NPM3H2xmvn7fV8puVuIYxKr2aODG3Iw1HNxbkKbwV6QtGM2OHiWNPD7f",
 )
-# https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
+# https://docs.djangoproject.com/fr/2.2/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 
 # CACHES
 # https://docs.djangoproject.com/fr/2.2/topics/cache/
-# https://docs.djangoproject.com/en/dev/ref/settings/#caches
+# https://docs.djangoproject.com/fr/2.2/ref/settings/#caches
 # ------------------------------------------------------------------------------
 CACHES = {
     "default": {
@@ -40,7 +40,7 @@ CACHES = {
 }
 
 # APPS
-# https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
+# https://docs.djangoproject.com/fr/2.2/ref/settings/#installed-apps
 # ------------------------------------------------------------------------------
 DEVELOPMENT_APPS = ["debug_toolbar", "django_extensions"]
 INSTALLED_APPS += DEVELOPMENT_APPS
@@ -52,7 +52,7 @@ INSTALLED_APPS = ["whitenoise.runserver_nostatic"] + INSTALLED_APPS  # noqa F405
 
 # EMAIL
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
+# https://docs.djangoproject.com/fr/2.2/ref/settings/#email-backend
 EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
 )
