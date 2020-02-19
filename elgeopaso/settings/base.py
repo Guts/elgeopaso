@@ -98,8 +98,8 @@ THIRD_PARTY_APPS = [
 ]
 
 PROJECT_APPS = [
-    "cms",
-    "jobs",
+    "cms.apps.CmsConfig",
+    "jobs.apps.JobsConfig",
 ]
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
@@ -289,3 +289,13 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
     "PAGE_SIZE": 20,
 }
+
+
+# ===========================================================================
+# APPS SETTINGS
+# ===========================================================================
+
+# JOBS
+CRAWL_FREQUENCY = "hourly"
+CRAWL_RSS_SIZE = 200
+FIXTURE_DIRS = ("/jobs/fixtures/",)
