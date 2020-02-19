@@ -4,7 +4,7 @@ exclude: "node_modules|migrations|.venv|tests/dev/|tests/fixtures/"
 fail_fast: true
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.4.0
+  rev: v2.5.0
   hooks:
   - id: trailing-whitespace
     # files: (^|/)a/.+\.(py|html|sh|css|js)$

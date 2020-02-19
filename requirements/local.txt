@@ -28,7 +28,7 @@ pytest-django==3.8.*  # https://github.com/pytest-dev/pytest-django
 black==19.10b0  # https://github.com/ambv/black
 flake8==3.7.*  # https://github.com/PyCQA/flake8
 pylint-django==2.0.1*  # https://github.com/PyCQA/pylint-django
-pre-commit==2.0.*  # https://github.com/pre-commit/pre-commit
+pre-commit==2.1.*  # https://github.com/pre-commit/pre-commit
 
 # Django
 # ------------------------------------------------------------------------------
