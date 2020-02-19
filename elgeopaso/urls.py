@@ -1,24 +1,44 @@
+# -*- coding: UTF-8 -*-
+#! python3  # noqa E265
+
+"""
+    Project URLs settings.
+
+    Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
+
+    To add a new path:
+
+    .. code-block:: python
+
+        # first import the app
+        import jobs
+
+        # then add the new path:
+        path('jobs/', jobs.urls, name="Jobs offers")
+
+"""
+
+# #############################################################################
+# ########## Libraries #############
+# ##################################
+
+# Django
 from django.conf import settings
 from django.urls import include, path
 
 from django.contrib import admin
 
+# #############################################################################
+# ########### Globals ##############
+# ##################################
 admin.autodiscover()
 
-import jobs.views
 
-# To add a new path, first import the app:
-# import blog
-#
-# Then add the new path:
-# path('blog/', blog.urls, name="blog")
-#
-# Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
-
+# List of accepted URLs
 urlpatterns = [
-    path("", jobs.views.index, name="index"),
-    path("db/", jobs.views.db, name="db"),
     path("admin/", admin.site.urls),
+    # Jobs analytics
+    # path('jobs/', include("jobs.urls")),
     # CMS
     path("content/", include(("cms.urls", "cms"), namespace="cms")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
