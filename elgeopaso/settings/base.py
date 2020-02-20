@@ -95,9 +95,14 @@ THIRD_PARTY_APPS = [
     "ckeditor",
     "ckeditor_uploader",
     "rest_framework",
+    "rest_framework_filters",
+    "django_filters",
+    "widget_tweaks",
 ]
 
 PROJECT_APPS = [
+    "accounts.apps.AccountsConfig",
+    "api.apps.ApiConfig",
     "cms.apps.CmsConfig",
     "jobs.apps.JobsConfig",
 ]
@@ -218,6 +223,9 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_TIMEOUT = 5
 EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env("SMTP_USER", default="elpaso@georezo.net")
+EMAIL_HOST_PASSWORD = env("SMTP_PSWD", default="elpaso@georezo.net")
+RECIPIENTS = env("REPORT_REPORT_RECIPIENTS", default="elpaso@georezo.net")
 
 # ADMIN
 # ------------------------------------------------------------------------------

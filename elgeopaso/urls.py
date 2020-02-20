@@ -4,7 +4,7 @@
 """
     Project URLs settings.
 
-    Learn more here: https://docs.djangoproject.com/en/2.1/topics/http/urls/
+    Learn more here: https://docs.djangoproject.com/fr/2.2/topics/http/urls/
 
     To add a new path:
 
@@ -36,9 +36,11 @@ admin.autodiscover()
 
 # List of accepted URLs
 urlpatterns = [
+    # administration panel
     path("admin/", admin.site.urls),
     # Jobs analytics
-    # path('jobs/', include("jobs.urls")),
+    path(r"", include("jobs.urls", "index")),
+    path("jobs/", include("jobs.urls")),
     # CMS
     path("content/", include(("cms.urls", "cms"), namespace="cms")),
     path("ckeditor/", include("ckeditor_uploader.urls")),

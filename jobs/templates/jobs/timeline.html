@@ -1,0 +1,75 @@
+{% extends "jobs/base.html" %}
+{% load staticfiles %}
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1 id="timeline">Les {{ last50|length }} dernières offres</h1>
+    </div>
+      <ul class="timeline">
+        {% for offer in last50 %}
+        <li class="{% cycle 'timeline' 'timeline-inverted' %}">
+          <div class='timeline-badge {{ offer.kind }}'>
+            <i class='{{ offer.badge }}' data-toggle="tooltip" title="{{ offer.contract }}"></i>
+          </div>
+          <div class='timeline-panel'>
+            <div class='timeline-heading'>
+              <h4 class='timeline-title'> {{ offer.title }}</h4>
+              <p>
+                <small class='text-muted'>
+                  <i class='far fa-clock'></i> {{ offer.delay }} - le {{ offer.date|date }} à {{ offer.date|time }}
+                  <br />
+                  <i class='fas fa-map-marker-alt '></i> <a target='_blank' href="{{ offer.osm }}">{{ offer.place }}</a>
+                </small>
+              </p>
+            </div>
+            <div class='timeline-body'>
+              <p> {{ offer.description|capfirst }} </p>
+              <p>
+                {% for job in offer.jobs %}
+                  <span class="label label-default">
+                      <i class="fas fa-briefcase" aria-hidden="true"></i> {{ job.name|capfirst }}</p>
+                  </span>
+                {% empty %}
+                  <span class="label label-default">
+                      <i class="fas fa-briefcase" aria-hidden="true"></i> Aucun métier détecté</p>
+                  </span>
+                {% endfor %}
+              <p>
+                {% for tech in offer.technos %}
+                  {% if tech.type_soft == "SOFTWARE" %}
+                    <span class="label label-primary" style="margin-right:2px;">
+                      <i class="fas fa-laptop" aria-hidden="true" title="Logiciel ({{ tech.license }})"></i> {{ tech.name }}
+                    </span>
+                  {% elif tech.type_soft == "LANGUAGE" %}
+                    <span class="label label-info" style="margin-right: 2px;">
+                      <i class="fas fa-code" aria-hidden="true" title="Langage de programmation ({{ tech.license }}"></i> {{ tech.name }}
+                    </span>
+                  {% else %}
+                    <span class="label label-info" style="margin-right: 2px;">
+                      <i class="fas fa-question" aria-hidden="true"></i> {{ tech.name }}
+                    </span>
+                  {% endif %}
+                {% empty %}
+                  <span class="label label-default">
+                      <i class="fas fa-question" aria-hidden="true"></i> Aucun logiciel ou langage détecté.
+                  </span>
+                {% endfor %}
+              </p>
+            <div class="timeline-link">
+              <a class="btn btn-default btn-sm" target='_blank' href='{{ offer.link }}'>Voir l'annonce en entier</a>
+              {% if user.is_authenticated %}
+                  <a target='_blank' href="{% url 'admin:jobs_georezorss_change' offer.id_rss %}">
+                  <button type="button" class="btn btn-circle"><i class="fas fa-pencil-alt" aria-hidden="true"></i></button>
+                  </a>
+              {% endif %}
+            </div>
+            </div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <p style="text-align: center"><a href="#"><i class="fas fa-chevron-circle-up fa-4x"></i></a></p>
+</div>
+{% endblock content %}
