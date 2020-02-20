@@ -16,9 +16,6 @@ from pathlib import Path
 from .base import *  # noqa
 from .base import env
 
-# 3rd party
-import django_heroku
-
 # ##############################################################################
 # ########## Globals ###############
 # ##################################
@@ -153,7 +150,3 @@ LOGGING = {
         },
     },
 }
-
-# HEROKU HELPER
-# ------------------------------------------------------------------------------
-# django_heroku.settings(locals())
