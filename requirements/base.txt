@@ -37,5 +37,4 @@ dj-database-url==0.5.*
 # Project
 # -----------------------
 feedparser==5.2.*
-numpy==1.15.*
 nltk==3.4.*
