@@ -96,3 +96,5 @@ nltk_data/*
 .bash_history
 
 *.whl
+dev_flake8_report.txt
+junit/test-results.xml
