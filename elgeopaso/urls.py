@@ -44,6 +44,8 @@ urlpatterns = [
     # CMS
     path("content/", include(("cms.urls", "cms"), namespace="cms")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
+    # API
+    path("api/", include(("api.urls", "api"), namespace="api")),
 ]
 
 
