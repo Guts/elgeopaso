@@ -225,7 +225,7 @@ EMAIL_TIMEOUT = 5
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env("SMTP_USER", default="elpaso@georezo.net")
 EMAIL_HOST_PASSWORD = env("SMTP_PSWD", default="elpaso@georezo.net")
-RECIPIENTS = env("REPORT_REPORT_RECIPIENTS", default="elpaso@georezo.net")
+REPORT_RECIPIENTS = env("REPORT_RECIPIENTS", default="elpaso@georezo.net")
 
 # ADMIN
 # ------------------------------------------------------------------------------

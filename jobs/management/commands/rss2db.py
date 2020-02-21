@@ -103,7 +103,7 @@ class Command(BaseCommand):
             )
         )
         # recipients
-        dest = settings.REPORT_RECIPIENTS
+        dest = list(settings.REPORT_RECIPIENTS)
         dest.extend(
             Subscription.objects.select_related()
             .filter(report_hour=True)
