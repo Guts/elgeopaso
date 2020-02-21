@@ -54,16 +54,16 @@ Le projet est développé en Python 3.5.x avec le framework Django et des extens
 
 * [feedparser](https://pypi.org/project/feedparser/) pour la consommation du flux RSS
 * [NLTK](http://www.nltk.org/) pour l'analyse sémantique
-* [DRF (Django REST Framework)](http://www.django-rest-framework.org/) et [Django REST Swagger](https://github.com/marcgibbons/django-rest-swagger) pour la mise en place de l'API REST et sa documentation automatisée
+* [DRF (Django REST Framework)](http://www.django-rest-framework.org/) et [drf-yasg](https://github.com/axnsan12/drf-yasg/) pour la mise en place de l'API REST et sa documentation automatisée
 * [Django Extensions](https://github.com/django-extensions/django-extensions) pour la boîte à outils de dév Django
 
 Du côté de l'interface du site web, on retrouve les classiques :
 
 * [Bootstrap](https://getbootstrap.com/)
 * [D3.js](https://d3js.org/), via la surcouche [NVD3](http://nvd3.org)
-* [Django Suit](http://djangosuit.com/) pour l'habillage de l'interface d'administration
+* [Django Suit](https://djangosuit.com/) pour l'habillage de l'interface d'administration
 
-Le site est servi sur le Web par [gunicorn](http://gunicorn.org/) et nginx ou Apache selon les plateformes (dév ou production).
+Le site est servi sur le Web par [gunicorn](https://gunicorn.org/) et nginx ou Apache selon les plateformes (dév ou production).
 
 ### Docker
 
