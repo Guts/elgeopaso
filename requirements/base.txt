@@ -20,7 +20,7 @@ whitenoise[brotli]==5.0.*  # https://github.com/evansd/whitenoise
 # --------------------------
 djangorestframework==3.11.*
 djangorestframework-filters==1.0.*
-django-rest-swagger==2.2.*
+drf-yasg[validation]==1.7.*
 
 # Utils
 # --------------------------
