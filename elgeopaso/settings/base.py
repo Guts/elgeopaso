@@ -96,6 +96,7 @@ THIRD_PARTY_APPS = [
     "ckeditor_uploader",
     "rest_framework",
     "rest_framework_filters",
+    "drf_yasg",
     "django_filters",
     "widget_tweaks",
 ]
@@ -298,6 +299,13 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 20,
 }
 
+# OpenAPI
+SWAGGER_SETTINGS = {
+    "DEEP_LINKING": True,
+    "REFETCH_SCHEMA_WITH_AUTH": True,
+    "REFETCH_SCHEMA_ON_LOGOUT": True,
+    "TAGS_SORTER": "alpha",
+}
 
 # ===========================================================================
 # APPS SETTINGS
