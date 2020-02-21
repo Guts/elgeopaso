@@ -63,8 +63,8 @@ urlpatterns += [
         name="schema-json",
     ),
     # Swagger UI
-    path(
-        "swagger/",
+    re_path(
+        "swagger|docs",
         schema_view.with_ui(renderer="swagger", cache_timeout=60 * 60),
         name="schema-swagger-ui",
     ),
