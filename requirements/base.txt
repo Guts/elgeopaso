@@ -1,4 +1,5 @@
 -i https://pypi.org/simple
+--pre   # because of https://github.com/philipn/django-rest-framework-filters#django-rest-framework-filters
 
 # Common requirements
 # -----------------------
@@ -18,15 +19,15 @@ whitenoise[brotli]==5.0.*  # https://github.com/evansd/whitenoise
 # Django REST Framework (DRF)
 # --------------------------
 djangorestframework==3.8.*
-djangorestframework-filters==0.11.*
+djangorestframework-filters==1.0.*
 django-rest-swagger==2.2.*
 
 # Utils
 # --------------------------
 argon2-cffi==19.2.0  # https://github.com/hynek/argon2_cffi
 arrow==0.12.*
-beautifulsoup4==4.6.*
-Pillow==5.2.*  # https://github.com/python-pillow/Pillow
+beautifulsoup4==4.8.*
+Pillow==7.0.*  # https://github.com/python-pillow/Pillow
 progressbar==2.5.*
 pytz==2019.3  # https://github.com/stub42/pytz
 
