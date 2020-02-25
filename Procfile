@@ -1,2 +1,2 @@
-release: ./.deploy/release-tasks.sh
+release: .deploy/release-tasks.sh
 web: gunicorn elgeopaso.wsgi --log-file -
