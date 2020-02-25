@@ -1,2 +1,2 @@
-release: python manage.py migrate; python manage.py loaddata ./jobs/fixtures/contracts.json ; python manage.py loaddata ./jobs/fixtures/places.json
+release: ./.deploy/release-tasks.sh
 web: gunicorn elgeopaso.wsgi --log-file -
