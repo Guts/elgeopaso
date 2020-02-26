@@ -1,13 +1,15 @@
 # -*- coding: UTF-8 -*-
 
-# ############################################################################
-# ########## Libraries #############
+
 # ##################################
+# ########## Libraries #############
+# ############################################################################
+
 # Standard library
+import logging
 from argparse import RawTextHelpFormatter
 from datetime import timedelta
-import logging
-from os import path
+from pathlib import Path
 
 # 3rd party modules
 import arrow
@@ -15,8 +17,8 @@ import feedparser
 
 # Django project
 from django.conf import settings
-from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
+from django.core.management.base import BaseCommand, CommandParser
 from django.db import IntegrityError
 from django.db.models import F
 
@@ -26,13 +28,27 @@ from jobs.models import GeorezoRSS, Offer
 # submodules
 from .analyseur import Analizer
 
-
 # ############################################################################
 # ########### Classes #############
 # #################################
 
 
 class Command(BaseCommand):
+    """Commands to manage offers sync and analisis.
+
+    Two main steps:
+
+        1. Crawl GeoRezo RSS to get new offers, analyze it and store into the database.
+        2. Relaunch offer analisis on offers which have been manually modified (through the admin)
+
+    :param [type] BaseCommand: [description]
+
+    :raises ValueError: [description]
+
+    :return: [description]
+    :rtype: [type]
+    """
+
     args = "<foo bar ...>"
     help = """
         Commands to manage offers sync and analisis. 2 main steps:
@@ -45,15 +61,23 @@ class Command(BaseCommand):
 
     # attributes
     now = arrow.now(settings.TIME_ZONE)
-    logger = logging.getLogger("ElPaso")
 
     # Parsing options ------------------------------------------------------
-    def create_parser(self, *args, **kwargs):
+    def create_parser(self, *args, **kwargs) -> CommandParser:
+        """Super a command parser.
+
+        :return: [description]
+        :rtype: CommandParser
+        """
         parser = super(Command, self).create_parser(*args, **kwargs)
         parser.formatter_class = RawTextHelpFormatter
         return parser
 
-    def add_arguments(self, parser):
+    def add_arguments(self, parser: CommandParser):
+        """Add arguments to the CLI.
+
+        :param CommandParser parser: command parser
+        """
         parser.add_argument(
             "--offer_id",
             nargs="+",
@@ -81,7 +105,7 @@ class Command(BaseCommand):
         elif settings.CRAWL_FREQUENCY == "hourly":
             self.dt_prev = self.now.shift(hours=-1).datetime
         else:
-            self.logger.error("CRAWL_FREQUENCY has a bad value.")
+            logging.error("CRAWL_FREQUENCY has a bad value.")
             raise ValueError("CRAWL_FREQUENCY must be 'hourly' or 'daily'.")
 
         # launch analisis
@@ -93,7 +117,7 @@ class Command(BaseCommand):
         ct_broken_clean = self._fix_clean_offers_without_raw()
 
         # LOG and mail notification
-        self.logger.debug(
+        logging.debug(
             "{} new offers added\n"
             "{} offers updated\n"
             "{} orphans offers fixed\n"
@@ -143,10 +167,19 @@ class Command(BaseCommand):
     # New and updated offers -------------------------------------------
     def _add_new_offers(self):
         """Adds new offer from RSS feed."""
+        last_id_file = Path("./last_id_georezo.txt")
         # Get the id of the last offer parsed
-        with open(path.abspath(r"last_id_georezo.txt"), "r") as f:
-            last_id = int(f.readline())
-        self.logger.debug("Previous offer ID: {}".format(last_id))
+        if last_id_file.exists():
+            with last_id_file.open(mode="r") as in_file:
+                last_id = int(in_file.readline())
+            logging.info("Previous offer ID: {}".format(last_id))
+        else:
+            logging.warning(
+                "File with the latest ID offer is missing: {}. Considering latest ID = 0.".format(
+                    last_id_file.resolve()
+                )
+            )
+            last_id = 0
         # list to store offers IDs
         li_id = []
 
@@ -154,22 +187,40 @@ class Command(BaseCommand):
         compteur = 0
 
         # RSS parser
-        feed = feedparser.parse(
-            "https://georezo.net/extern.php?fid=10&show={}".format(
+        logging.info(
+            "Connecting to the RSS. Expecting {} entries as specified in settings.".format(
                 settings.CRAWL_RSS_SIZE
             )
         )
-        self.logger.debug("Parser created")
+        feed = feedparser.parse(
+            url_file_stream_or_string="https://georezo.net/extern.php?fid=10&show={}".format(
+                settings.CRAWL_RSS_SIZE
+            ),
+            agent="ElGeoPaso/{} +https://elgeopaso.georezo.net/".format(
+                settings.PROJECT_VERSION
+            )
+            # modified=True,
+        )
+
+        # test if feed is well-formed and contain entries
+        # https://pythonhosted.org/feedparser/bozo.html#bozo-detection
+        if feed.bozo:
+            logging.error(
+                "RSS feed is badly formed. Parser error: {}.".format(
+                    feed.bozo_exception
+                )
+            )
+            return compteur
 
         # looping on feed entries
         for entry in feed.entries:
             # get the ID cleaning 'link' markup
             try:
                 job_id = int(entry.id.split("#")[1].lstrip("p"))
-            except AttributeError as e:
-                self.logger.error(
+            except AttributeError as err:
+                logging.error(
                     "Feed index corrupted: {} - ({})".format(
-                        feed.entries.index(entry), e
+                        feed.entries.index(entry), err
                     )
                 )
                 continue
@@ -177,8 +228,8 @@ class Command(BaseCommand):
             # first offer parsed is the last published, so the biggest ID.
             # Put the ID in the dedicated text file.
             if feed.entries.index(entry) == 0:
-                with open(path.abspath(r"last_id_georezo.txt"), "w") as f:
-                    f.write(str(job_id))
+                with last_id_file.open(mode="w") as out_file:
+                    out_file.write(str(job_id))
             else:
                 pass
 
@@ -202,26 +253,26 @@ class Command(BaseCommand):
                     compteur += 1
                     # adding offer's ID to the list of new offers to process
                     li_id.append(job_id)
-                    self.logger.debug("New offer added: {}".format(job_id))
+                    logging.debug("New offer added: {}".format(job_id))
                 except IntegrityError:
                     # in case of duplicated offer
-                    self.logger.error("Offer ID already exists: {}".format(job_id))
+                    logging.warning("Offer ID already exists: {}".format(job_id))
                     continue
                 except Exception as error_msg:
-                    self.logger.error(error_msg)
+                    logging.error(error_msg)
             else:
-                self.logger.debug(
+                logging.debug(
                     "Offer ID inferior to the last registered: {}".format(job_id)
                 )
                 pass
 
         # if new offers => launch next processes
         if compteur > 0:
-            self.logger.debug("New offers IDs: " + str(li_id))
+            logging.info("{} new offers to add.".format(len(li_id)))
             analyzer = Analizer(li_id)
             analyzer.analisis()
         else:
-            pass
+            logging.info("No new offer retrieved...")
 
         return compteur
 
@@ -231,7 +282,7 @@ class Command(BaseCommand):
             "id_rss", flat=True
         )
         if selected.count():
-            self.logger.debug(
+            logging.debug(
                 "{} offers selected to be re-analyzed.".format(selected.count())
             )
             analyzer = Analizer(list(selected), new=force_create)
@@ -239,7 +290,7 @@ class Command(BaseCommand):
             # remove to_update status
             return selected.update(to_update=False)
         else:
-            self.logger.debug("No offer selected to be updated.")
+            logging.debug("No offer selected to be updated.")
         return selected.count()
 
     def _update_modified_offers(self):
@@ -250,13 +301,13 @@ class Command(BaseCommand):
             .values_list("id_rss", flat=True)
         )
         if updated.count():
-            self.logger.debug(
+            logging.debug(
                 "{} offers manually updated since last parse".format(updated.count())
             )
             analyzer = Analizer(list(updated), new=0)
             analyzer.analisis()
         else:
-            self.logger.debug("No offer updated.")
+            logging.debug("No offer updated.")
         return updated.count()
 
     def _fix_orphan_offers(self):
@@ -266,13 +317,13 @@ class Command(BaseCommand):
             "id_rss", flat=True
         )
         if orphans.count():
-            self.logger.debug(
+            logging.debug(
                 "{} orphans (in GeorezoRSS but not in Offer).".format(orphans.count())
             )
             analyzer = Analizer(list(orphans))
             analyzer.analisis()
         else:
-            self.logger.debug("No orphan offer found.")
+            logging.debug("No orphan offer found.")
         # end of method
         return orphans.count()
 
@@ -283,7 +334,7 @@ class Command(BaseCommand):
             id_rss__in=offers_clean_ids
         ).values_list("id_rss", flat=True)
         if raw_orphans.count():
-            self.logger.debug(
+            logging.debug(
                 "{} raw_orphans (in GeorezoRSS but not in Offer).".format(
                     raw_orphans.count()
                 )
@@ -291,7 +342,7 @@ class Command(BaseCommand):
             analyzer = Analizer(list(raw_orphans))
             analyzer.analisis()
         else:
-            self.logger.debug("No raw_orphan offer found.")
+            logging.debug("No raw_orphan offer found.")
         # end of method
         return raw_orphans.count()
 
@@ -303,11 +354,11 @@ class Command(BaseCommand):
                 o = Offer.objects.select_related().filter(id_rss=i.id_rss)
                 raw_offer = GeorezoRSS.objects.get(id_rss=i.id_rss)
                 o.update(raw_offer=raw_offer)
-            self.logger.debug(
+            logging.debug(
                 "{} clean offers were missing their raw offer.".format(no_raw.count())
             )
         else:
-            self.logger.debug("All clean offers have a related raw offer.")
+            logging.debug("All clean offers have a related raw offer.")
         # end of method
         return no_raw.count()
 
