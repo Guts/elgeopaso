@@ -136,16 +136,16 @@ class Command(BaseCommand):
 
         if not settings.DEBUG:
             send_mail(
-                "El Géo Paso - Analyse terminée",
-                "{} new offers added\n"
+                subject="El Géo Paso - Analyse terminée",
+                message="{} new offers added\n"
                 "{} offers updated\n"
                 "{} orphans offers fixed\n"
                 "{} broken raw offers fixed\n"
                 "{} broken clean offers fixed\n".format(
                     ct_added, ct_selected, ct_orphans, ct_broken_raw, ct_broken_clean
                 ),
-                settings.EMAIL_HOST_USER,
-                dest,
+                from_email=settings.EMAIL_HOST_USER,
+                recipient_list=dest,
                 fail_silently=False,
             )
         else:

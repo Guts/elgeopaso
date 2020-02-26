@@ -12,42 +12,38 @@
 # #################################
 
 # Standard library
-from itertools import zip_longest
+import html
 import logging
-import sys
 import re
+import sys
+from itertools import zip_longest
 from xml.etree import ElementTree as ET
 from xml.sax.saxutils import escape  # '<' -> '&lt;'
 
-# 3rd party modules
-import arrow
-from bs4 import BeautifulSoup
-import html
-import nltk
-from nltk.corpus import stopwords
-
-# Django project
+# Django
 from django.conf import settings
 from django.db import IntegrityError
+
+# 3rd party modules
+import arrow
+import nltk
+from bs4 import BeautifulSoup
+from nltk.corpus import stopwords
+
+# project modules
 from jobs.models import (
-    GeorezoRSS,
-    Offer,
-    Source,
     Contract,
     ContractVariations,
+    GeorezoRSS,
     JobPosition,
     JobPositionVariations,
+    Offer,
     Place,
     PlaceVariations,
+    Source,
     Technology,
     TechnologyVariations,
 )
-
-# ############################################################################
-# ########## Globals ##############
-# #################################
-
-logger = logging.getLogger("ElPaso")
 
 # #############################################################################
 # ########## Functions ############
@@ -118,7 +114,7 @@ class Analizer(object):
         self.opt_words = opt_words
         self.source = source
         self.new = new
-        logger.debug("Launching analisis on {} offers.".format(len(self.offers_ids)))
+        logging.debug("Launching analisis on {} offers.".format(len(self.offers_ids)))
 
     # MAIN METHOD ------------------------------------------------------------
 
@@ -142,7 +138,7 @@ class Analizer(object):
             self.offer_id = offer_id
             # chekcs if offer has already been added
             if Offer.objects.filter(id_rss=offer_id).exists() and self.new:
-                logger.error("Offer RSS_ID already exists in DB: {}".format(offer_id))
+                logging.error("Offer RSS_ID already exists in DB: {}".format(offer_id))
                 # Update Progress Bar only if debug mode is disabled
                 if not settings.DEBUG:
                     i += 1
@@ -157,7 +153,7 @@ class Analizer(object):
                     pass
                 continue
             else:
-                logger.debug("launch analisis on : {}".format(self.offer_id))
+                logging.debug("launch analisis on : {}".format(self.offer_id))
                 pass
             # get raw offer from georezo_rss table
             raw_offer = GeorezoRSS.objects.get(id_rss=offer_id)
@@ -194,7 +190,7 @@ class Analizer(object):
                 try:
                     clean_offer.save()
                 except IntegrityError as err_msg:
-                    logger.error(
+                    logging.error(
                         "Offer RSS_ID ({}) already exists in DB: {}".format(
                             offer_id, err_msg
                         )
@@ -215,7 +211,7 @@ class Analizer(object):
             else:
                 clean_offer = Offer.objects.select_related().filter(id_rss=offer_id)
                 if not clean_offer.exists():
-                    logger.info(
+                    logging.info(
                         "Offer to update no longer exists and won't be created: {}".format(
                             offer_id
                         )
@@ -237,7 +233,7 @@ class Analizer(object):
             # associate ManyToMany relationships
             clean_offer.technologies.set(technos)
             clean_offer.jobs_positions.set(jobs_labels)
-            logger.debug("Offer analyzed and inserted jobs.offer: {}".format(offer_id))
+            logging.debug("Offer analyzed and inserted jobs.offer: {}".format(offer_id))
             # Update Progress Bar only if debug mode is disabled
             if not settings.DEBUG:
                 i += 1
@@ -264,12 +260,12 @@ class Analizer(object):
         try:
             contract = offer_clean_title.split("[")[1].split("]")[0]
         except IndexError:
-            logger.warning(
+            logging.warning(
                 "Title bad formatted. Offer RSS ID: {}".format(self.offer_id)
             )
             contract = offer_clean_title.split("]")[0].lstrip("[")
 
-        logger.debug("Contract extracted from title: {}".format(contract))
+        logging.debug("Contract extracted from title: {}".format(contract))
         contract = contract.lower()
 
         # find a contract match
@@ -294,21 +290,21 @@ class Analizer(object):
         # removing contract type between []
         try:
             title = offer_raw_title.split("[")[1].split("]")[1]
-            logger.debug("Title without contract: {}".format(title))
+            logging.debug("Title without contract: {}".format(title))
         except IndexError:
-            logger.error("Title bad formatted. Offer RSS ID: {}".format(self.offer_id))
+            logging.error("Title bad formatted. Offer RSS ID: {}".format(self.offer_id))
             title = offer_raw_title
 
         # extract with regex
         if not mode:
             dpt_code = re.findall("\((\d+)\)", title)
-            logger.debug("STRICT regex applied: {}".format(dpt_code))
+            logging.debug("STRICT regex applied: {}".format(dpt_code))
         elif mode == 1:
             dpt_code = re.findall("\((2[AB]|[0-9]+)\)", title)
-            logger.debug("MEDIUM regex applied: {}".format(dpt_code))
+            logging.debug("MEDIUM regex applied: {}".format(dpt_code))
         elif mode == 2:
             dpt_code = re.findall("(2[AB]|[0-9]+)", title)
-            logger.debug("SOFT regex applied: {}".format(dpt_code))
+            logging.debug("SOFT regex applied: {}".format(dpt_code))
         else:
             raise TypeError("'mode' parameter only accepts an integer [0-2]")
 
@@ -316,17 +312,17 @@ class Analizer(object):
         if len(dpt_code) == 1:
             if Place.objects.filter(code=dpt_code[0]).exists():
                 place_name = Place.objects.get(code=dpt_code[0]).name
-                logger.debug("Place code MATCHED in title: {}".format(dpt_code))
+                logging.debug("Place code MATCHED in title: {}".format(dpt_code))
                 return Place.objects.get(name=place_name)
             else:
-                logger.debug("Place code MATCHED in title: {}".format(title))
+                logging.debug("Place code MATCHED in title: {}".format(title))
                 # try again
                 if mode < 2:
                     return self.parse_place(title, mode=mode + 1)
                 else:
                     pass
         elif len(dpt_code) > 1:
-            logger.warning(
+            logging.warning(
                 "More than possible department code found: {}.".format(
                     ";".join(dpt_code)
                 )
@@ -337,7 +333,7 @@ class Analizer(object):
             else:
                 pass
         elif not len(dpt_code):
-            logger.warning(
+            logging.warning(
                 "No place code found in title." " Trying to find a place anyway..."
             )
             t_place = title[title.find("(") + 1 : title.find(")")]
@@ -350,15 +346,15 @@ class Analizer(object):
             for i in t_place:
                 if PlaceVariations.objects.filter(label=i).exists():
                     pv = PlaceVariations.objects.get(label=i).name
-                    logger.debug("Place found: {}".format(i))
+                    logging.debug("Place found: {}".format(i))
                     return Place.objects.get(name=pv)
                 else:
-                    logger.debug("No place found in: {}".format(i))
+                    logging.debug("No place found in: {}".format(i))
             # try again
             if mode < 2:
                 return self.parse_place(title, mode=mode + 1)
             else:
-                logger.warning("No place found in title: {}".format(offer_raw_title))
+                logging.warning("No place found in title: {}".format(offer_raw_title))
                 pass
 
         # method ending if no place found during various attempts
@@ -454,7 +450,7 @@ class Analizer(object):
             if mot in stop_fr or mot in li_stop_custom:
                 contenu_tokenized = list(filter((mot).__ne__, contenu_tokenized))
 
-        logger.debug("Words parsed: {}".format(len(contenu_tokenized)))
+        logging.debug("Words parsed: {}".format(len(contenu_tokenized)))
 
         # print(len(contenu_tokenized))
         return contenu_tokenized
@@ -470,7 +466,7 @@ class Analizer(object):
                 technos_matched.append(Technology.objects.get(name=techno_name))
             else:
                 continue
-        logger.debug("Technologies identified: {}".format(technos_matched))
+        logging.debug("Technologies identified: {}".format(technos_matched))
         return technos_matched
 
     def parse_jobs_positions(self, offer_content_tokenized):
@@ -483,7 +479,7 @@ class Analizer(object):
                 jobs_positions_matched.append(JobPosition.objects.get(name=job_label))
             else:
                 continue
-        logger.debug("Jobs positions identified: {}".format(jobs_positions_matched))
+        logging.debug("Jobs positions identified: {}".format(jobs_positions_matched))
         return jobs_positions_matched
 
     def define_week_number(self, offer_raw_datetime):
