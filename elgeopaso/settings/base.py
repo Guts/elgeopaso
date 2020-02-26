@@ -15,6 +15,9 @@ from django.core.exceptions import ImproperlyConfigured
 # 3rd party
 import environ
 
+# project
+from elgeopaso import __about__
+
 # ##############################################################################
 # ########## Globals ###############
 # ##################################
@@ -30,6 +33,10 @@ if READ_DOT_ENV_FILE:
 
 # GENERAL
 # ------------------------------------------------------------------------------
+
+# some metadata
+PROJECT_VERSION = __about__.__version__
+
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#debug
 DEBUG = env.bool("DJANGO_DEBUG", False)
 # Local time zone. Choices are
