@@ -242,15 +242,18 @@ MANAGERS = ADMINS
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#logging
 # See https://docs.djangoproject.com/fr/2.2/topics/logging for
 # more details on how to customize your logging configuration.
+LOG_FORMAT = (
+    "%(asctime)s || %(levelname)s "
+    "|| %(process)d %(thread)d "
+    "|| %(module)s - %(lineno)d "
+    "|| %(funcName)s || %(message)s"
+)
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s "
-            "%(process)d %(thread)d %(message)s"
-        }
-    },
+    "formatters": {"verbose": {"format": LOG_FORMAT}},
     "handlers": {
         "console": {
             "level": "DEBUG",
