@@ -196,9 +196,7 @@ class Command(BaseCommand):
             url_file_stream_or_string="https://georezo.net/extern.php?fid=10&show={}".format(
                 settings.CRAWL_RSS_SIZE
             ),
-            agent="ElGeoPaso/{} +https://elgeopaso.georezo.net/".format(
-                settings.PROJECT_VERSION
-            )
+            agent=settings.USER_AGENT
             # modified=True,
         )
 

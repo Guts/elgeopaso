@@ -36,6 +36,9 @@ if READ_DOT_ENV_FILE:
 
 # some metadata
 PROJECT_VERSION = __about__.__version__
+USER_AGENT = "{}/{} +https://elgeopaso.georezo.net/".format(
+    __about__.__title_clean__, PROJECT_VERSION
+)
 
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#debug
 DEBUG = env.bool("DJANGO_DEBUG", False)
