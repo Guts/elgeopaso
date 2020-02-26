@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-#! python3  # noqa E265
+#! python3  # noqa: E265  # noqa E265
 
 """
     Settings built upon base for local development.

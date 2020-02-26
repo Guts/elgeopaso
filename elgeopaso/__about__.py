@@ -1,5 +1,5 @@
 # coding: utf-8
-#! python3  # noqa: E265
+#! python3  # noqa: E265  # noqa: E265
 
 """
     Metadata bout the package to easily retrieve informations about it.

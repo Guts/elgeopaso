@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
-#! python3
-#!/usr/bin/env python
+#! python3  # noqa: E265
 
 """
     Class to analyze raw offers, extracting contract type,
