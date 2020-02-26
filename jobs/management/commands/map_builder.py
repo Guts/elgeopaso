@@ -14,7 +14,7 @@ from os import path
 # Django project
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from jobs.models import (Offer, Place, PlaceVariations)
+from jobs.models import Offer, Place, PlaceVariations
 from django.templatetags.static import static
 
 # ############################################################################
@@ -23,7 +23,7 @@ from django.templatetags.static import static
 
 
 class Command(BaseCommand):
-    args = '<foo bar ...>'
+    args = "<foo bar ...>"
     help = """
                 Commands to generate geojson files used for map visualization.
                 GeoJSON are downloaded from:
@@ -52,10 +52,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Parse input GeoJSON and update needed values to display maps."""
         # vars
-        years = [i.year for i in Offer.objects.dates('pub_date', 'year')]
+        years = [i.year for i in Offer.objects.dates("pub_date", "year")]
         # load input geojson
-        in_gjson_metro = path.normpath(settings.BASE_DIR
-                                       + static("jobs/geojson/dpts_metro.json"))
+        in_gjson_metro = path.normpath(
+            settings.BASE_DIR + static("jobs/geojson/dpts_metro.json")
+        )
         with open(in_gjson_metro) as data_file:
             data = json.load(data_file)
 
@@ -68,18 +69,23 @@ class Command(BaseCommand):
             dpt_offers = offers_dpts.filter(place__code=props.get("CODE_DEPT"))
             props["JOBS_TOTAL"] = dpt_offers.count()
             for y in years:
-                props["JOBS_{}".format(y)] = dpt_offers.filter(pub_date__year=y)\
-                                                       .count()
-                props["histo"] = [{"values": [{"x": year,
-                                               "y": dpt_offers
-                                                    .filter(pub_date__year=year)
-                                                    .count()}
-                                   for year in years],
-                                  "key": "Offres",
-                                  "color": "#decbe4"
-                                }]
+                props["JOBS_{}".format(y)] = dpt_offers.filter(pub_date__year=y).count()
+                props["histo"] = [
+                    {
+                        "values": [
+                            {
+                                "x": year,
+                                "y": dpt_offers.filter(pub_date__year=year).count(),
+                            }
+                            for year in years
+                        ],
+                        "key": "Offres",
+                        "color": "#decbe4",
+                    }
+                ]
         # Save file
-        out_gjson_metro = path.normpath(settings.BASE_DIR
-                                        + "/assets/jobs/geojson/dpts_metro_jobs.json")
+        out_gjson_metro = path.normpath(
+            settings.BASE_DIR + "/assets/jobs/geojson/dpts_metro_jobs.json"
+        )
         with open(out_gjson_metro, "w") as jsonFile:
             json.dump(data, jsonFile)

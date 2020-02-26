@@ -1,5 +1,5 @@
 function offers_by_period(period) {
-    $.ajax({  
+    $.ajax({
      type: "GET",
      url: 'get_offers_by_period',
      data: {period: period},
@@ -56,7 +56,7 @@ function offers_by_period(period) {
 
 
 function types_contract_global(in_data) {
-    $("#title_contracts_type_pie").text("Proportion par type de contrat");    
+    $("#title_contracts_type_pie").text("Proportion par type de contrat");
     nv.addGraph(function () {
             chart = nv.models.pieChart()
                 .x(function (d) { return d.x })
@@ -81,7 +81,7 @@ function types_contract_global(in_data) {
 
 
 function types_contract_by_period(period) {
-    $.ajax({  
+    $.ajax({
      type: "GET",
      url: 'get_types_contract_by_period',
      data: {period: period},
@@ -132,7 +132,7 @@ function types_contract_by_period(period) {
 
 
 function contracts_by_technos() {
-    $.ajax({  
+    $.ajax({
      type: "GET",
      url: 'get_contracts_by_technos',
      dataType: "json",

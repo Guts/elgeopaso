@@ -70,14 +70,11 @@ target/
 *.sqlite*
 
 # secret ini file
-secret.ini
 *.env
+!example.env
 
 # virtual environments
 *.venv/
-virtenv/
-virtualenv/
-env3*
 
 # custom
 *.log*
@@ -99,3 +96,5 @@ nltk_data/*
 .bash_history
 
 *.whl
+dev_flake8_report.txt
+junit/test-results.xml

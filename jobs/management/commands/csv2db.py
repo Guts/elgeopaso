@@ -33,20 +33,22 @@ from jobs.models import GeorezoRSS
 # ########## Globals #############
 # ################################
 
-csv.register_dialect("pipe",
-                     delimiter="|",
-                     escapechar="\\",
-                     skipinitialspace=1,
-                     quotechar = '"',
-                     doublequote = True,
-                     )
+csv.register_dialect(
+    "pipe",
+    delimiter="|",
+    escapechar="\\",
+    skipinitialspace=1,
+    quotechar='"',
+    doublequote=True,
+)
 
 # ############################################################################
 # ########## Classes #############
 # ################################
 
+
 class Command(BaseCommand):
-    args = '<foo bar ...>'
+    args = "<foo bar ...>"
     help = """
               Import CSV data into the project database
            """.strip()
@@ -58,18 +60,21 @@ class Command(BaseCommand):
         return parser
 
     def add_arguments(self, parser):
-        parser.add_argument("--input-csv",
-                            nargs='?',
-                            type=str,
-                            dest="input-csv",
-                            default=None,
-                            help='Path to the input CSV.')
+        parser.add_argument(
+            "--input-csv",
+            nargs="?",
+            type=str,
+            dest="input-csv",
+            default=None,
+            help="Path to the input CSV.",
+        )
 
     def handle(self, *args, **options):
         if options.get("input-csv"):
             if not path.isfile(path.realpath(options.get("input-csv"))):
                 raise FileNotFoundError(
-                    "{} is not a valid path".format(options.get("input-csv")))
+                    "{} is not a valid path".format(options.get("input-csv"))
+                )
             self.import_georezo_backup(options.get("input-csv"))
         else:
             pass
@@ -87,24 +92,29 @@ class Command(BaseCommand):
         else:
             pass
         # open it an dread it
-        with open(in_csv, newline="\n", encoding='utf-8') as csvfile:
-            fieldnames = ['rss_id', 'title', 'abstract', 'pub_date']
+        with open(in_csv, newline="\n", encoding="utf-8") as csvfile:
+            fieldnames = ["rss_id", "title", "abstract", "pub_date"]
             reader = csv.DictReader(csvfile, dialect="pipe", fieldnames=fieldnames)
             ct_new_offers = 0
             for row in reader:
                 if GeorezoRSS.objects.filter(id_rss=row.get("rss_id")).exists():
-                    logging.info("Offer can't be imported from input CSV because already exists in DB. RSS ID: {}".format(
-                        row.get("rss_id")))
+                    logging.info(
+                        "Offer can't be imported from input CSV because already exists in DB. RSS ID: {}".format(
+                            row.get("rss_id")
+                        )
+                    )
                 else:
                     in_date = arrow.get(row.get("pub_date"))
                     ct_new_offers += 1
                     # insert
-                    offer = GeorezoRSS(id_rss=row.get("rss_id"),
-                                       title=row.get("title"),
-                                       content=row.get("abstract"),
-                                       pub_date=in_date.format(),
-                                       source=True,
-                                       to_update=True)
+                    offer = GeorezoRSS(
+                        id_rss=row.get("rss_id"),
+                        title=row.get("title"),
+                        content=row.get("abstract"),
+                        pub_date=in_date.format(),
+                        source=True,
+                        to_update=True,
+                    )
                     offer.save()
             logging.info("{} new offer inserted.".format(ct_new_offers))
         # end of method

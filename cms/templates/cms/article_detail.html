@@ -15,7 +15,7 @@
                 <p  class='text-muted'>
                     Catégorie : <a href="{% url 'cms:view_category' slug=article.category.slug_name %}">{{article.category}}</a>
                     - De : {{ article.author.first_name }}
-                    <br><i class='far fa-calendar'></i> Créé le {{ article.created|date }} - 
+                    <br><i class='far fa-calendar'></i> Créé le {{ article.created|date }} -
                     <i class='far fa-clock'></i> Mis à jour le {{ article.updated|date }}
                 </p>
                 <hr>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <!-- /.row -->
-    
-        <hr>   
+
+        <hr>
     </div>
 {% endblock %}

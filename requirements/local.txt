@@ -1,0 +1,36 @@
+-r ./base.txt
+
+# Database
+# -----------------------
+psycopg2==2.8.* --no-binary psycopg2  # https://github.com/psycopg/psycopg2
+
+
+# Server
+# -----------------------
+Werkzeug==1.0.* # https://github.com/pallets/werkzeug
+
+
+# Documentation
+# -----------------------
+recommonmark==0.6.*
+Sphinx==2.4.*  # https://github.com/sphinx-doc/sphinx
+sphinx-markdown-tables==0.0.12  # to render markdown tables
+sphinx-rtd-theme==0.4.*
+
+# Testing
+# ----------------------
+pytest==5.3.*  # https://github.com/pytest-dev/pytest
+pytest-cov==2.8.*
+pytest-django==3.8.*  # https://github.com/pytest-dev/pytest-django
+
+# Code quality
+# ----------------------
+black==19.10b0  # https://github.com/ambv/black
+flake8==3.7.*  # https://github.com/PyCQA/flake8
+pylint-django==2.0.*  # https://github.com/PyCQA/pylint-django
+pre-commit==2.1.*  # https://github.com/pre-commit/pre-commit
+
+# Django
+# ------------------------------------------------------------------------------
+django-debug-toolbar==2.2  # https://github.com/jazzband/django-debug-toolbar
+django-extensions==2.2.8  # https://github.com/django-extensions/django-extensions
