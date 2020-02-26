@@ -166,7 +166,7 @@ class Command(BaseCommand):
 
     # New and updated offers -------------------------------------------
     def _add_new_offers(self):
-        """Adds new offer from RSS feed."""
+        """Retrieve new offers from RSS feed."""
         last_id_file = Path("./last_id_georezo.txt")
         # Get the id of the last offer parsed
         if last_id_file.exists():
@@ -200,12 +200,37 @@ class Command(BaseCommand):
             # modified=True,
         )
 
-        # test if feed is well-formed and contain entries
+        # test if feed is well-formed
         # https://pythonhosted.org/feedparser/bozo.html#bozo-detection
         if feed.bozo:
             logging.error(
                 "RSS feed is badly formed. Parser error: {}.".format(
                     feed.bozo_exception
+                )
+            )
+            return compteur
+
+        # test if feed contains entries
+        if not feed.entries:
+            # build feed metadata
+            feed_metadata = "HTTP status: {}".format(feed.status)
+            # feed title
+            feed_metadata += " - Title: {}".format(
+                feed.feed.get("title", "WARN - Missing title")
+            )
+            feed_metadata += " (subtitle: {})".format(
+                feed.feed.get("subtitle", "no subtitle")
+            )
+            # get last updated info from feed
+            if hasattr(feed.feed, "updated_parsed"):
+                feed_metadata += "Last updated: {}".format(
+                    arrow.get(feed.feed.updated_parsed).format()
+                )
+
+            # log everything
+            logging.error(
+                "RSS feed is empty, no entries (items) found. Feed info: {}.".format(
+                    feed_metadata
                 )
             )
             return compteur
@@ -262,7 +287,7 @@ class Command(BaseCommand):
                 logging.debug(
                     "Offer ID inferior to the last registered: {}".format(job_id)
                 )
-                pass
+                continue
 
         # if new offers => launch next processes
         if compteur > 0:
