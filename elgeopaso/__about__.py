@@ -20,10 +20,17 @@ __all__ = [
 ]
 
 
+__author__ = "Julien M. (guts@github)"
+__copyright__ = "2018 - {0}, {1}".format(date.today().year, __author__)
+__email__ = "elpaso@georezo.net"
+__license__ = "GNU Lesser General Public License v3.0"
+__summary__ = (
+    "Simple web application performing statistical analisis on job offers "
+    "published on GeoRezo."
+)
 __title__ = "El Géo Paso"
-__summary__ = "Simple web application performing statistical analisis on job offers published on GeoRezo."
+__title_clean__ = "".join(e for e in __title__ if e.isalnum())
 __uri__ = "https://github.com/Guts/elgeopaso/"
-
 __version__ = "1.0.0"
 __version_info__ = tuple(
     [
@@ -31,10 +38,3 @@ __version_info__ = tuple(
         for num in __version__.replace("-", ".", 1).split(".")
     ]
 )
-
-
-__author__ = "Isogeo"
-__email__ = "elpaso@georezo.net"
-
-__license__ = "GNU Lesser General Public License v3.0"
-__copyright__ = "2018 - {0}, {1}".format(date.today().year, __author__)
