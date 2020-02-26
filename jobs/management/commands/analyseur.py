@@ -4,12 +4,6 @@
 """
     Class to analyze raw offers, extracting contract type,
     place, etc. from title and abstract.
-
-    Usage:
-
-        ```python
-        python
-        ```
 """
 
 
@@ -505,24 +499,37 @@ class Analizer(object):
     # ------------ UTILITIES -------------------------------------------------
 
     def remove_tags(self, html_text):
-        """
-        very basic cleaner for HTML markups
+        """Very basic cleaner for HTML markups.
+
+        :param [type] html_text: [description]
+
+        :return: [description]
+        :rtype: [type]
+
+        :example:
+
+        .. code-block:: python
+
+            # here comes an example in Python
         """
         html_text = html.unescape(html_text)
         try:
             text = " ".join(ET.fromstring(html_text).itertext())
-        except Exception as e:
+        except Exception as err:
+            logging.debug(
+                "Error cleaning HTML markup: {}. Exception: {}".format(html_text, err)
+            )
             TAG_RE = re.compile(r"<[^>]+>")
             return TAG_RE.sub(" ", html_text)
         # end of function
         return text.lower()
 
-    def remove_accents(self, input_str, substitute=u""):
+    def remove_accents(self, input_str, substitute=""):
         """Clean string from special characters.
 
         source: http://stackoverflow.com/a/5843560
         """
-        return unicode(substitute).join(char for char in input_str if char.isalnum())
+        return substitute.join(char for char in input_str if char.isalnum())
 
     def clean_xml(self, invalid_xml, mode="soft", substitute="_"):
         """Clean string of XML invalid characters.
