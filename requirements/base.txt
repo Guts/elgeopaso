@@ -28,7 +28,6 @@ argon2-cffi==19.2.0  # https://github.com/hynek/argon2_cffi
 arrow==0.12.*
 beautifulsoup4==4.8.*
 Pillow==7.0.*  # https://github.com/python-pillow/Pillow
-progressbar==2.5.*
 pytz==2019.3  # https://github.com/stub42/pytz
 
 # Database
