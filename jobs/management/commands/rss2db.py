@@ -88,9 +88,13 @@ class Command(BaseCommand):
         parser.add_argument(
             "--new", nargs="?", type=bool, default=0, help="Consider offer(s) as new."
         )
-        # parser.add_argument("--rollback", nargs='?', type=bool,
-        #                     default=0,
-        #                     help='Restore clean offers which have been deleted from their raw copy.')
+        # parser.add_argument(
+        #     "--rollback",
+        #     nargs="?",
+        #     type=bool,
+        #     default=0,
+        #     help="Restore clean offers which have been deleted from their raw copy.",
+        # )
 
     def handle(self, *args, **options):
         # analyze specific offer or whole things
