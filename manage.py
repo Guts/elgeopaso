@@ -22,8 +22,11 @@ from dotenv import find_dotenv, load_dotenv
 
 start_dir = Path(".")
 
-# look for `.env` files
-dotenv_files = list(start_dir.glob("*.env"))
+# look for `.env` files, ignoring example.env
+dotenv_files = [
+    env_file for env_file in start_dir.glob("*.env") if env_file.name != "example.env"
+]
+
 if not len(dotenv_files):
     logging.info(
         "No environment ('.env') file found in: {}"
@@ -33,11 +36,6 @@ if not len(dotenv_files):
     )
 elif len(dotenv_files) == 1:
     logging.info("Environment file found: {}".format(dotenv_files[0].resolve()))
-    if dotenv_files[0].name == "example.env":
-        logging.error(
-            "Example environment file should not be used because it's git tracked."
-        )
-        raise
     # load environment variables
     load_dotenv(find_dotenv(dotenv_files[0]), override=True)
 else:
