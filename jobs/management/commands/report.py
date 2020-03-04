@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+#! python3  # noqa: E265
 
 # ############################################################################
 # ########## Libraries #############
@@ -6,24 +7,25 @@
 # Standard library
 import logging
 
+# Django
+from django.conf import settings
+from django.core.mail import send_mail
+from django.core.management.base import BaseCommand
+
 # 3rd party modules
 import arrow
 
 # Django project
-from django.conf import settings
-from django.core.management.base import BaseCommand
-from django.core.mail import send_mail
 from accounts.models import Subscription
 from jobs.models import (
+    JobPosition,
+    JobPositionVariations,
     Offer,
     Place,
     PlaceVariations,
     Technology,
     TechnologyVariations,
-    JobPosition,
-    JobPositionVariations,
 )
-
 
 # ############################################################################
 # ########### Classes #############
@@ -38,7 +40,6 @@ class Command(BaseCommand):
 
     # attributes
     now = arrow.now(settings.TIME_ZONE)
-    logger = logging.getLogger("ElPaso")
 
     # Parsing options ------------------------------------------------------
 
@@ -160,4 +161,4 @@ class Command(BaseCommand):
             #           fail_silently=False,
             #           )
             pass
-        self.logger.info("Metrics retrieved and sent")
+        logging.info("Metrics retrieved and sent")

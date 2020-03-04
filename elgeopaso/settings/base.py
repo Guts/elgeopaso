@@ -233,7 +233,9 @@ EMAIL_TIMEOUT = 5
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = getenv("SMTP_USER", default="elpaso@georezo.net")
 EMAIL_HOST_PASSWORD = getenv("SMTP_PSWD", default="")
-REPORT_RECIPIENTS = getenv("REPORT_RECIPIENTS", default="elpaso@georezo.net,")
+REPORT_RECIPIENTS = getenv("REPORT_RECIPIENTS", default="elpaso@georezo.net,").split(
+    ","
+)
 
 # ADMIN
 # ------------------------------------------------------------------------------
