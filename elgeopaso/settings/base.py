@@ -9,11 +9,15 @@
 # ########## Libraries #############
 # ##################################
 
+# standard
+import pathlib
+from os import getenv
+
 # Django
 from django.core.exceptions import ImproperlyConfigured
 
 # 3rd party
-import environ
+import dj_database_url
 
 # project
 from elgeopaso import __about__
@@ -21,15 +25,8 @@ from elgeopaso import __about__
 # ##############################################################################
 # ########## Globals ###############
 # ##################################
-ROOT_DIR = environ.Path(__file__) - 3  # (elgeopaso/settings/base.py - 2 = elgeopaso/)
-APPS_DIR = ROOT_DIR.path("elgeopaso")
-
-env = environ.Env()
-
-READ_DOT_ENV_FILE = env.bool("DJANGO_READ_DOT_ENV_FILE", default=True)
-if READ_DOT_ENV_FILE:
-    # OS environment variables take precedence over variables from .env
-    env.read_env(str(ROOT_DIR.path(".env")))
+ROOT_DIR = pathlib.Path(__file__).parents[2].resolve()
+PROJ_DIR = ROOT_DIR / getenv("DJANGO_PROJECT_FOLDER", default="elgeopaso")
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -41,7 +38,7 @@ USER_AGENT = "{}/{} +https://elgeopaso.georezo.net/".format(
 )
 
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#debug
-DEBUG = env.bool("DJANGO_DEBUG", False)
+DEBUG = getenv("DJANGO_DEBUG", default=False)
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
@@ -58,7 +55,7 @@ USE_L10N = True
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#use-tz
 USE_TZ = True
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#locale-paths
-LOCALE_PATHS = [ROOT_DIR.path("locale")]
+LOCALE_PATHS = [ROOT_DIR / "locale"]
 
 # DATABASES
 # ------------------------------------------------------------------------------
@@ -66,20 +63,20 @@ LOCALE_PATHS = [ROOT_DIR.path("locale")]
 try:
     DATABASES = {
         # read os.environ['DATABASE_URL'] and raises ImproperlyConfigured exception if not found
-        "default": env.db("DATABASE_URL"),
-        # read os.environ['SQLITE_URL']
-        "extra": env.db("SQLITE_URL", default="sqlite:////tmp/my-tmp-sqlite.db"),
+        # "default": env.db("DATABASE_URL", default="sqlite:///local-db.sqlite3"),
+        "default": dj_database_url.config(
+            env="DATABASE_URL", default="sqlite:///local-db.sqlite3", conn_max_age=300
+        )
     }
 except ImproperlyConfigured:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": str(ROOT_DIR.path("local-db.sqlite3")),
+            "NAME": str(ROOT_DIR / "local-db.sqlite3"),
         }
     }
 
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
-# DATABASES["default"]["OPTIONS"]["connect_timeout"] = 30
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -162,10 +159,10 @@ MIDDLEWARE = [
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_ROOT = str(ROOT_DIR("static"))
+STATIC_ROOT = str(ROOT_DIR / "static")
 STATIC_URL = "/static/"
 # https://docs.djangoproject.com/fr/2.2/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = [str(ROOT_DIR("assets"))]
+STATICFILES_DIRS = [str(ROOT_DIR / "assets")]
 # https://docs.djangoproject.com/fr/2.2/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -175,7 +172,7 @@ STATICFILES_FINDERS = [
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#media-root
-MEDIA_ROOT = str(ROOT_DIR("uploads"))
+MEDIA_ROOT = str(ROOT_DIR / "uploads")
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#media-url
 MEDIA_URL = "/media/"
 
@@ -188,7 +185,7 @@ TEMPLATES = [
         # https://docs.djangoproject.com/fr/2.2/ref/settings/#std:setting-TEMPLATES-BACKEND
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # https://docs.djangoproject.com/fr/2.2/ref/settings/#template-dirs
-        "DIRS": [str(APPS_DIR.path("templates"))],
+        "DIRS": [str(PROJ_DIR / "templates")],
         "OPTIONS": {
             # https://docs.djangoproject.com/fr/2.2/ref/settings/#template-loaders
             # https://docs.djangoproject.com/fr/2.2/ref/templates/api/#loader-types
@@ -226,7 +223,7 @@ X_FRAME_OPTIONS = "DENY"
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#email-backend
-EMAIL_BACKEND = env(
+EMAIL_BACKEND = getenv(
     "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
 )
 # https://docs.djangoproject.com/en/2.2/ref/settings/#email-timeout
@@ -234,16 +231,16 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_TIMEOUT = 5
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = env("SMTP_USER", default="elpaso@georezo.net")
-EMAIL_HOST_PASSWORD = env("SMTP_PSWD", default="")
-REPORT_RECIPIENTS = env("REPORT_RECIPIENTS", default="elpaso@georezo.net,")
+EMAIL_HOST_USER = getenv("SMTP_USER", default="elpaso@georezo.net")
+EMAIL_HOST_PASSWORD = getenv("SMTP_PSWD", default="")
+REPORT_RECIPIENTS = getenv("REPORT_RECIPIENTS", default="elpaso@georezo.net,")
 
 # ADMIN
 # ------------------------------------------------------------------------------
 # Django Admin URL.
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#admins
-ADMINS = [("""Julien Moura""", "elpaso@georezo.net")]
+ADMINS = [("Julien Moura", "elpaso@georezo.net")]
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#managers
 MANAGERS = ADMINS
 
