@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+#! python3  # noqa: E265
 
 # ############################################################################
 # ########## Libraries #############
@@ -8,14 +9,14 @@ import json
 import logging
 from os import path
 
-# 3rd party modules
-
-
-# Django project
+# Django
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from jobs.models import Offer, Place, PlaceVariations
 from django.templatetags.static import static
+
+# Django project
+from jobs.models import Offer
+
 
 # ############################################################################
 # ########### Classes #############
@@ -29,9 +30,6 @@ class Command(BaseCommand):
                 GeoJSON are downloaded from:
                 https://github.com/gregoiredavid/france-geojson
            """
-
-    # attributes
-    logger = logging.getLogger("ElPaso")
 
     # Parsing options ------------------------------------------------------
 
@@ -55,7 +53,7 @@ class Command(BaseCommand):
         years = [i.year for i in Offer.objects.dates("pub_date", "year")]
         # load input geojson
         in_gjson_metro = path.normpath(
-            settings.BASE_DIR + static("jobs/geojson/dpts_metro.json")
+            str(settings.ROOT_DIR) + static("jobs/geojson/dpts_metro.json")
         )
         with open(in_gjson_metro) as data_file:
             data = json.load(data_file)
@@ -85,7 +83,7 @@ class Command(BaseCommand):
                 ]
         # Save file
         out_gjson_metro = path.normpath(
-            settings.BASE_DIR + "/assets/jobs/geojson/dpts_metro_jobs.json"
+            str(settings.ROOT_DIR) + "/assets/jobs/geojson/dpts_metro_jobs.json"
         )
         with open(out_gjson_metro, "w") as jsonFile:
             json.dump(data, jsonFile)
