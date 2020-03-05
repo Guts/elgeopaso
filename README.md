@@ -25,7 +25,7 @@ Les données sont ensuite représentées dans différents modes :
 
 ## Description technique
 
-Pour dupliquer le projet, la documentation est dans [le wiki du dépôt](https://github.com/Guts/elpaso/wiki).
+Pour dupliquer le projet, la documentation est dans [le wiki du dépôt](https://github.com/Guts/elgeopaso/wiki).
 
 ### Base de données
 
