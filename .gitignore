@@ -73,6 +73,9 @@ target/
 *.env
 !example.env
 
+# local SSL certificates
+certs/*
+
 # virtual environments
 *.venv/
 
