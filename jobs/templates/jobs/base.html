@@ -1,126 +1,150 @@
 <!DOCTYPE html>
 {% load static %}
+{% load version %}
 <html lang="fr">
-  <head>
-    <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Statistiques dynamiques et analyse sur l'emploi du secteur de la géomatique francophone">
-    <meta name="author" content="Julien Moura">
-    <meta name="keywords" content="géomatique,sig,emploi,job,offres emploi,statistique,cartographie,georezo" />
-    <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-fr" />
-    <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-gp" />
-    <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-mq" />
-    <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-re" />
-    <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-gf" />
-    <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-nc" />
-    <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-pf" />
-    <title>
-        {% block title %}El Paso - Statistiques dynamiques sur l'emploi en géomatique{% endblock %}
-    </title>
-    {% block ganalytics %}
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64624501-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
 
-      gtag('config', 'UA-64624501-1');
-    </script>
-    {% endblock ganalytics %}
+<head>
+  <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="Statistiques dynamiques et analyse sur l'emploi du secteur de la géomatique francophone">
+  <meta name="author" content="Julien Moura">
+  <meta name="keywords" content="géomatique,sig,emploi,job,offres emploi,statistique,cartographie,georezo" />
+  <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-fr" />
+  <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-gp" />
+  <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-mq" />
+  <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-re" />
+  <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-gf" />
+  <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-nc" />
+  <link rel="alternate" href="https://elgeopaso.georezo.net/" hreflang="fr-pf" />
+  <title>
+    {% block title %}El Paso - Statistiques dynamiques sur l'emploi en géomatique{% endblock %}
+  </title>
+  {% block ganalytics %}
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64624501-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-    {% block css %}
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Optional Bootstrap theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <!-- NVD3 -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.css">
-    <!-- LeafletJS MapBox GL-->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
-    <!-- Timeline CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static "libs/timeline/timeline.css" %}">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static "jobs/css/style.css" %}">
-    <!-- SB Admin 2 CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static "jobs/css/sb-admin-2.css" %}">
-    <!-- DatePicker -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" integrity="sha256-JDBcnYeV19J14isGd3EtnsCQK05d8PczJ5+fvEvBJvI=" crossorigin="anonymous" />
-    {% endblock %}
-  </head>
+    gtag('config', 'UA-64624501-1');
+  </script>
+  {% endblock ganalytics %}
+
+  {% block css %}
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <!-- Optional Bootstrap theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <!-- NVD3 -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.css">
+  <!-- LeafletJS MapBox GL-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin="" />
+  <!-- Timeline CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static "libs/timeline/timeline.css" %}">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static "jobs/css/style.css" %}">
+  <!-- SB Admin 2 CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static "jobs/css/sb-admin-2.css" %}">
+  <!-- DatePicker -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css"
+    integrity="sha256-JDBcnYeV19J14isGd3EtnsCQK05d8PczJ5+fvEvBJvI=" crossorigin="anonymous" />
+  {% endblock %}
+</head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        {% block navbar %}
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="/"><i class="fas fa-briefcase" ></i> El Paso</a>
-            </div>
-            <div class="collapse navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li>
-                  <a href="/jobs/stats/">
-                    <i class="fas fa-chart-bar"></i> Statistiques</a>
-                </li>
-                <li><a href="/jobs/map/"><i class="fas fa-globe"></i> Carte</a></li>
-                <li><a href="/jobs/timeline/"><i class="fas fa-clock" ></i> Dernières offres</a></li>
-                <li><a href="/jobs/search/"><i class="fas fa-search" ></i> Archives</a></li>
-                <li><a href="/api/docs"><i class="fab fa-connectdevelop" ></i> API</a></li></li>
-                {% if user.is_authenticated %}
-                <li><a href="{% url 'cms:view_category' slug='help' %}"><i class="fas fa-question" ></i> Aide</a></li>
-                {% endif %}
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
-                  <li><a href="/admin/logout?next={{ request.path }}"><i class="fas fa-user" title="Se déconnecter"></i></a></li>
-                {% else %}
-                  <li><a href="/admin/login?next={{ request.path }}"><i class="far fa-user" title="S'authentifier"></i></a></li>
-                {% endif %}
-                {% if user.is_staff %}
-                  <li><a href="{% url 'admin:index' %}"><i class="fas fa-building" title="Administration"></i></a></li>
-                {% endif %}
-              </ul>
-            </div><!--/.nav-collapse -->
-          </div>
-      {% endblock %}
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    {% block navbar %}
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><i class="fas fa-briefcase"></i> El Paso</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="/jobs/stats/">
+              <i class="fas fa-chart-bar"></i> Statistiques</a>
+          </li>
+          <li><a href="/jobs/map/"><i class="fas fa-globe"></i> Carte</a></li>
+          <li><a href="/jobs/timeline/"><i class="fas fa-clock"></i> Dernières offres</a></li>
+          <li><a href="/jobs/search/"><i class="fas fa-search"></i> Archives</a></li>
+          <li><a href="/api/docs"><i class="fab fa-connectdevelop"></i> API</a></li>
+          </li>
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'cms:view_category' slug='help' %}"><i class="fas fa-question"></i> Aide</a></li>
+          {% endif %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+          <li><a href="/admin/logout?next={{ request.path }}"><i class="fas fa-user" title="Se déconnecter"></i></a>
+          </li>
+          {% else %}
+          <li><a href="/admin/login?next={{ request.path }}"><i class="far fa-user" title="S'authentifier"></i></a></li>
+          {% endif %}
+          {% if user.is_staff %}
+          <li><a href="{% url 'admin:index' %}"><i class="fas fa-building" title="Administration"></i></a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
     </div>
-    <div id= "main" class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
-	<footer class="footer">
-		<div class="container">
-    <div class="text-muted">
-      <p><center>El Géo Paso 2014-2020 - <a target="_blank" href="{% url 'admin:index' %}">Interface d'administration</a> - Site sous <a target="_blank" href="https://github.com/Guts/elpaso/blob/master/LICENSE">licence GPL 3</a></center></p>
-    </div>
-	</footer>
-{% block js %}
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- Font Awesome -->
-  <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js" integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9"
+    {% endblock %}
+  </div>
+  <div id="main" class="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+  <footer class="footer">
+    <div class="container">
+      <div class="text-muted">
+        <p>
+          <center>El Géo Paso 2014-2020 - v{% version_number %} ({% version_date %}) - <a target="_blank"
+              href="{% url 'admin:index' %}">Interface d'administration</a> - Site sous <a target="_blank"
+              href="https://github.com/Guts/elgeopaso/blob/master/LICENSE">licence GPL 3</a></center>
+        </p>
+      </div>
+  </footer>
+  {% block js %}
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!-- Font Awesome -->
+  <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"
+    integrity="sha384-3LK/3kTpDE/Pkp8gTNp2gR/2gOiwQ6QaO7Td0zV76UFJVhqLl4Vl3KL1We6q6wR9"
     crossorigin="anonymous"></script>
-    <!-- BootStrap -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <!-- D3 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-    <!-- NVD3 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.js"></script>
-    <!-- Leaflet Mapbox GL -->
-    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
-    <!-- DatePicker -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js" integrity="sha256-tW5LzEC7QjhG0CiAvxlseMTs2qJS7u3DRPauDjFJ3zo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.fr.min.js" integrity="sha256-IRibTuqtDv2uUUN/0iTrhnrvvygNczxRRAbPgCbs+LE=" crossorigin="anonymous"></script>
-{% endblock %}
-{% block custom_js %}
-{% endblock %}
+  <!-- BootStrap -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+  <!-- D3 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+  <!-- NVD3 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.js"></script>
+  <!-- Leaflet Mapbox GL -->
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+    integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+    crossorigin=""></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+  <!-- DatePicker -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"
+    integrity="sha256-tW5LzEC7QjhG0CiAvxlseMTs2qJS7u3DRPauDjFJ3zo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.fr.min.js"
+    integrity="sha256-IRibTuqtDv2uUUN/0iTrhnrvvygNczxRRAbPgCbs+LE=" crossorigin="anonymous"></script>
+  {% endblock %}
+  {% block custom_js %}
+  {% endblock %}
 </body>
+
 </html>
