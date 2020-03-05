@@ -12,6 +12,7 @@
 # #################################
 
 # Standard library
+import logging
 import time
 
 # Django
@@ -29,7 +30,10 @@ register = template.Library()
 @register.simple_tag
 def version_date(date_format: str = "%d/%m/%Y") -> str:
     git_folder = settings.ROOT_DIR / ".git"
-    return time.strftime(date_format, time.gmtime(git_folder.stat().st_mtime))
+    if git_folder.exists():
+        logging.debug("Git folder found")
+        return time.strftime(date_format, time.gmtime(git_folder.stat().st_mtime))
+    
 
 
 @register.simple_tag
