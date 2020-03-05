@@ -30,12 +30,6 @@ def main():
     """Launch the Django's command-line utility for administrative tasks.
 
     :raises ImportError: if Django is not installed
-
-    :example:
-
-    .. code-block:: shell
-
-        python manage.py --help
     """
     # ensure that the Django project settings module to use is in the environment variables.
     # If not, it'll use the local settings by default

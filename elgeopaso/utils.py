@@ -23,12 +23,6 @@ def find_and_load_environment_vars(start_dir: Path = "."):
     """Find and load environment files.
 
     :param Path start_dir: folder where to look for envi files. Defaults to: "." - optional
-
-    :example:
-
-    .. code-block:: python
-
-        # here comes an example in Python
     """
     # look for `.env` files, ignoring example.env
     dotenv_files = [
