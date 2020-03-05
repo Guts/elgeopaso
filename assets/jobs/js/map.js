@@ -22,7 +22,7 @@ $(document).ready(function(){
     };
 
     info.update = function (props) {
-        this._div.innerHTML = (props ? '<h4>' + props.NOM_DEPT + '</h4>' + 
+        this._div.innerHTML = (props ? '<h4>' + props.NOM_DEPT + '</h4>' +
             '(' + props.NOM_REGION + ')<br />' + props.JOBS_TOTAL + ' offres'
           : 'Survolez un département'
           );
@@ -59,7 +59,7 @@ $(document).ready(function(){
     };
     function whenClicked(e) {
    // e = event
-   
+
         $("#title_dpt_histo").text("Statistique historique du département");
 
    /* CHART https://stackoverflow.com/a/37479585/2556577 */

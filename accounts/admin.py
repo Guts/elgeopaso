@@ -9,12 +9,12 @@ from .models import Subscription
 class SubscriptionInline(admin.StackedInline):
     model = Subscription
     can_delete = False
-    verbose_name_plural = 'Options'
+    verbose_name_plural = "Options"
 
 
 # Define a new User admin
 class UserAdmin(BaseUserAdmin):
-    inlines = (SubscriptionInline, )
+    inlines = (SubscriptionInline,)
 
 
 # REGISTERING and DISPLAY

@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "alexcvzz.vscode-sqlite",
+    "coenraads.bracket-pair-colorizer-2",
+    "eriklynd.json-tools",
+    "mikestead.dotenv",
+    "ms-azuretools.vscode-docker",
+    "ms-ceintl.vscode-language-pack-fr",
+    "ms-python.python",
+    "ms-vscode-remote.remote-wsl",
+    "njpwerner.autodocstring"
+  ]
+}
