@@ -1,16 +1,22 @@
 # -*- coding: UTF-8 -*-
-#! python3  # noqa: E265  # noqa E265
+#! python3  # noqa: E265
+
+"""
+    Application views.
+
+    Learn more here: https://docs.djangoproject.com/fr/2.2/topics/http/views/
+"""
 
 # ###########################################################################
 # ######### Libraries #############
 # #################################
 
 # Standard library
-import logging
 import json
+import logging
 
 # Django
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -18,20 +24,20 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.gzip import gzip_page
 from django.views.decorators.http import require_safe
 
-# project
-from .filters import OfferFilter
-from .models import Offer, Contract
-from cms.models import Article
-from .decorators import conditional_cache
-
 # 3rd party modules
 import arrow
+
+# project
+# from cms.models import Article
+from .decorators import conditional_cache
+from .filters import OfferFilter
+from .models import Contract, Offer
 
 # ############################################################################
 # ########## Globals ##############
 # #################################
 
-utc = arrow.utcnow()
+UTC = arrow.utcnow()
 
 # #############################################################################
 # ########## Views ################
@@ -82,10 +88,10 @@ def stats_contrats(request):
         nb_place_perc = int(100 * nb_place_all / nb_offers)
         nb_contract_perc = int(100 * nb_contract_all / nb_offers)
         week_actual_year = Offer.objects.filter(
-            week="{}{}".format(*utc.shift(weeks=-1).isocalendar()[0:2])
+            week="{}{}".format(*UTC.shift(weeks=-1).isocalendar()[0:2])
         ).count()
         week_last_year = Offer.objects.filter(
-            week="{}{}".format(*utc.shift(weeks=-1, years=-1).isocalendar()[0:2])
+            week="{}{}".format(*UTC.shift(weeks=-1, years=-1).isocalendar()[0:2])
         ).count()
         week_comparison_perc = round(
             (week_actual_year - week_last_year) / week_last_year * 100, 2
@@ -159,7 +165,7 @@ def get_offers_by_period(request):
             }
         ]
     elif period == "month":
-        months = [i.month for i in Offer.objects.dates("pub_date", "month")]
+        # months = [i.month for i in Offer.objects.dates("pub_date", "month")]
         pass
     # weeks
     else:
