@@ -6,8 +6,8 @@ psycopg2-binary==2.8.*  # https://github.com/psycopg/psycopg2
 
 # Server
 # -----------------------
-Werkzeug==1.0.* # https://github.com/pallets/werkzeug
-
+pyOpenSSL==19.1.*   # required for run webiste on HTTPS even in local
+Werkzeug==1.0.*     # https://github.com/pallets/werkzeug
 
 # Documentation
 # -----------------------
