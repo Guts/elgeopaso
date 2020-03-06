@@ -26,16 +26,16 @@ from .base import *  # noqa
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#secret-key
 SECRET_KEY = getenv("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = getenv(
-    "DJANGO_ALLOWED_HOSTS", default="elgeopaso.georezo.net"
-).split(", ")
+ALLOWED_HOSTS = getenv("DJANGO_ALLOWED_HOSTS", default="elgeopaso.georezo.net, ").split(
+    ", "
+)
 
 # DATABASES
 # ------------------------------------------------------------------------------
 DATABASES["default"] = dj_database_url.config(env="DATABASE_URL")  # noqa F405
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
 DATABASES["default"]["CONN_MAX_AGE"] = int(  # noqa F405
-    getenv("CONN_MAX_AGE", default=60)
+    getenv("CONN_MAX_AGE", default="60")
 )
 
 # CACHES
