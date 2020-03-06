@@ -37,8 +37,10 @@ admin.autodiscover()
 urlpatterns = [
     # administration panel
     path("admin/", admin.site.urls),
+    # authentication flow
+    path('accounts/', include('allauth.urls')),
     # Jobs analytics
-    path(r"", include("jobs.urls", "index")),
+    path(r"", include("jobs.urls", "index"), name="home"),
     path("jobs/", include("jobs.urls")),
     # CMS
     path("content/", include(("cms.urls", "cms"), namespace="cms")),

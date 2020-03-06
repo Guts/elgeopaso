@@ -38,7 +38,7 @@ USER_AGENT = "{}/{} +https://elgeopaso.georezo.net/".format(
 )
 
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#debug
-DEBUG = getenv("DJANGO_DEBUG", default=False)
+DEBUG = getenv("DJANGO_DEBUG", default="0")
 # Local time zone. Choices are
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # though not all of them may be available with every OS.
@@ -92,15 +92,20 @@ DJANGO_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.humanize",
-    "django.contrib.sessions",
     "django.contrib.messages",
+    "django.contrib.sessions",
+    "django.contrib.sites",
     "django.contrib.staticfiles",
     "django.forms",
 ]
 
 THIRD_PARTY_APPS = [
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     "ckeditor",
     "ckeditor_uploader",
+    "crispy_forms",
     "rest_framework",
     "rest_framework_filters",
     "drf_yasg",
@@ -189,9 +194,19 @@ TEMPLATES = [
         "OPTIONS": {
             # https://docs.djangoproject.com/fr/2.2/ref/settings/#template-loaders
             # https://docs.djangoproject.com/fr/2.2/ref/templates/api/#loader-types
+            # "loaders": [
+            #     "django.template.loaders.cached.Loader"
+            #     "django.template.loaders.app_directories.Loader",
+            #     "django.template.loaders.filesystem.Loader",
+            # ],
             "loaders": [
-                "django.template.loaders.filesystem.Loader",
-                "django.template.loaders.app_directories.Loader",
+                (
+                    "django.template.loaders.cached.Loader",
+                    [
+                        "django.template.loaders.filesystem.Loader",
+                        "django.template.loaders.app_directories.Loader",
+                    ],
+                ),
             ],
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -219,6 +234,17 @@ SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
 
+# AUTHENTICATION
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/fr/2.2/ref/settings/#auth
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+LOGIN_REDIRECT_URL = "home"
+
+SITE_ID = 1
 
 # EMAIL
 # ------------------------------------------------------------------------------
@@ -275,6 +301,21 @@ LOGGING = {
 
 # THIRD-PARTY APPS ##
 # ------------------------------------------------------------------------------
+
+# CRISPY FORMS
+# http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
+CRISPY_TEMPLATE_PACK = "bootstrap3"
+
+# DJANGO ALLAUTH
+# https://django-allauth.readthedocs.io/en/latest/configuration.html
+ACCOUNT_ALLOW_REGISTRATION = int(
+    getenv("DJANGO_ACCOUNT_ALLOW_REGISTRATION", default="1")
+)
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_ADAPTER = "django_starter.users.adapters.AccountAdapter"
+# SOCIALACCOUNT_ADAPTER = "django_starter.users.adapters.SocialAccountAdapter"
 
 # CMS - CK EDITOR
 CKEDITOR_UPLOAD_PATH = "ck_uploads"
