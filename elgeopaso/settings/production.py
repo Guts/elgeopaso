@@ -27,7 +27,7 @@ from .base import *  # noqa
 SECRET_KEY = getenv("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = getenv(
-    "DJANGO_ALLOWED_HOSTS", default=["elgeopaso.georezo.net, "]
+    "DJANGO_ALLOWED_HOSTS", default="elgeopaso.georezo.net"
 ).split(", ")
 
 # DATABASES
