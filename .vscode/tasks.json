@@ -40,5 +40,31 @@
             "group": "none",
             "problemMatcher": []
         },
+        {
+            "label": "Format code",
+            "type": "shell",
+            "command": "${config:python.pythonPath}",
+            "args": [
+                "-m",
+                "black",
+                "--target-version=py37",
+                "./elgeopaso"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Format tests",
+            "type": "shell",
+            "command": "${config:python.pythonPath}",
+            "args": [
+                "-m",
+                "black",
+                "--target-version=py37",
+                "./tests"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
     ]
 }
