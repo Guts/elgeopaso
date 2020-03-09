@@ -89,10 +89,10 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
-          <li><a href="/admin/logout?next={{ request.path }}"><i class="fas fa-user" title="Se déconnecter"></i></a>
+          <li><a href="/accounts/logout?next={{ request.path }}"><i class="fas fa-user" title="Se déconnecter"></i></a>
           </li>
           {% else %}
-          <li><a href="/admin/login?next={{ request.path }}"><i class="far fa-user" title="S'authentifier"></i></a></li>
+          <li><a href="/accounts/login?next={{ request.path }}"><i class="far fa-user" title="S'authentifier"></i></a></li>
           {% endif %}
           {% if user.is_staff %}
           <li><a href="{% url 'admin:index' %}"><i class="fas fa-building" title="Administration"></i></a></li>

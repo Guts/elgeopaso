@@ -314,6 +314,7 @@ ACCOUNT_ALLOW_REGISTRATION = int(
 ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 # ACCOUNT_ADAPTER = "django_starter.users.adapters.AccountAdapter"
 # SOCIALACCOUNT_ADAPTER = "django_starter.users.adapters.SocialAccountAdapter"
 
