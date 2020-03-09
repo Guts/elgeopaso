@@ -1,6 +1,8 @@
 # El Géo Paso
 
-!["Python 3.5.x"](https://img.shields.io/badge/python-3.5-blue.svg) [![Build Status](https://travis-ci.org/Guts/elpaso.svg?branch=master)](https://travis-ci.org/Guts/elpaso)
+![Python lint and test](https://github.com/Guts/elgeopaso/workflows/Python%20lint%20and%20test/badge.svg)
+!["Python 3.7.x"](https://img.shields.io/badge/python-3.7-blue.svg)
+[![Build Status](https://travis-ci.org/Guts/elgeopaso.svg?branch=master)](https://travis-ci.org/Guts/elgeopaso)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
