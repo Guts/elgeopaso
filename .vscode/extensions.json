@@ -2,6 +2,7 @@
   "recommendations": [
     "alexcvzz.vscode-sqlite",
     "coenraads.bracket-pair-colorizer-2",
+    "dotjoshjohnson.xml",
     "eriklynd.json-tools",
     "mikestead.dotenv",
     "ms-azuretools.vscode-docker",
