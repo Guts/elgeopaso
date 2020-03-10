@@ -36,13 +36,20 @@ FEEDPARSER_DOC_BASE_URL = "https://pythonhosted.org/feedparser/"
 
 
 class GeorezoRssParser:
-    """Handy module to parse GeoRezo job offers through RSS."""
+    """Handy module to parse GeoRezo job offers through RSS.
+        
+    :param str feed_base_url: URL to the feed. Defaults to: "https://georezo.net/extern.php?fid=10" - optional
+    :param str feed_length_param: name of the URL parameter to specifiy the number of items. Defaults to: "show" - optional
+    :param int items_to_parse: number of items to request to the feed. Defaults to: 50 - optional
+    :param str user_agent: HTTP user-agent. Defaults to: "ElGeoPaso/DEV +https://elgeopaso.georezo.net/" - optional
+    """
 
     # Attributes
 
     # Feed datetime structure
     # see: https://docs.python.org/fr/3/library/datetime.html#strftime-and-strptime-format-codes
     FEED_DATETIME_RAW_FORMAT = "%a, %d %b %Y %H:%M:%S %z"
+    FEED_DATETIME_RAW_FORMAT_ARROW = "ddd, D MMM YYYY HH:mm:ss Z"
 
     def __init__(
         self,
@@ -51,6 +58,7 @@ class GeorezoRssParser:
         items_to_parse: int = 50,
         user_agent: str = "ElGeoPaso/DEV +https://elgeopaso.georezo.net/",
     ):
+        """Instanciate the class."""
         # store parameters as attributes
         self.feed_base_url = feed_base_url
         self.feed_length_param = feed_length_param
@@ -108,26 +116,87 @@ class GeorezoRssParser:
 
         return last_id
 
-    def save_parsing_data(self, feed_parsed: feedparser.FeedParserDict):
+    def save_parsing_data(
+        self, feed_parsed: feedparser.FeedParserDict, save_type: str = "json"
+    ) -> dict:
         """Dumps some metadata from parsed feed to track behavior and enforce future \
             usage into a structured JSON file.
         
         :param feedparser.FeedParserDict feed_parsed: parsed feed
+        :param str save_type: type of save to perform. Defaults to: "json" - optional
+
+        :return: dictionary of saved data
+        :rtype: dict
+
+        :example:
+        
+        .. code-block:: json
+        
+            [
+                {
+                    "encoding": "ISO-8859-1",
+                    "entries_required": 50,
+                    "entries_total": 50,
+                    "feed_updated_converted": "2020-03-10 13:07:06+01:00",
+                    "feed_updated_parsed": [
+                    2020,
+                    3,
+                    10,
+                    12,
+                    7,
+                    6,
+                    1,
+                    70,
+                    0
+                    ],
+                    "feed_updated_raw": "Tue, 10 Mar 2020 13:07:06 +0100",
+                    "latest_offer_id": 331132,
+                    "status": 200,
+                    "version": "rss20"
+                }
+            ]
         """
-        data_to_save = [
-            {
-                "feed_updated": feed_parsed.feed.updated,
-                "feed_updated_parsed": feed_parsed.feed.updated_parsed,
-                "entries_required": self.items_to_parse,
-                "entries_total": len(feed_parsed.entries),
-                "encoding": feed_parsed.encoding,
-                "status": feed_parsed.status,
-                "version": feed_parsed.version,
-            }
-        ]
-        json_dest = Path("crawler_georezo_rss_latest.json")
-        with json_dest.open("w") as json_file:
-            json.dump(data_to_save, json_file, indent=2, sort_keys=True)
+        # extract last job offer id
+        if len(feed_parsed.entries):
+            last_job_offer_id = int(feed_parsed.entries[0].id.split("#")[1].lstrip("p"))
+        else:
+            logging.warning("Unable to retrive latest job offer ID")
+            last_job_offer_id = 0
+
+        # convert datetime to str
+        try:
+            feed_build_dt = datetime.strptime(
+                feed_parsed.feed.updated, self.FEED_DATETIME_RAW_FORMAT,
+            )
+        except Exception as err:
+            logging.error(
+                "Feed date '{}' can be parsed with format: {}. Error: {}".format(
+                    feed_parsed.feed.updated, self.FEED_DATETIME_RAW_FORMAT, err
+                )
+            )
+            # fallback value
+            feed_build_dt = None
+
+        # dump data
+        if save_type == "json":
+            data_to_save = [
+                {
+                    "feed_updated_raw": feed_parsed.feed.updated,
+                    "feed_updated_converted": str(feed_build_dt),
+                    "feed_updated_parsed": feed_parsed.feed.updated_parsed,
+                    "entries_required": self.items_to_parse,
+                    "entries_total": len(feed_parsed.entries),
+                    "encoding": feed_parsed.encoding,
+                    "latest_offer_id": last_job_offer_id,
+                    "status": feed_parsed.status,
+                    "version": feed_parsed.version,
+                }
+            ]
+            json_dest = Path("crawler_georezo_rss_latest.json")
+            with json_dest.open("w") as json_file:
+                json.dump(data_to_save, json_file, indent=2, sort_keys=True)
+
+            return data_to_save
 
     def parse_new_offers(self) -> Union[int, list]:
         """Retrieve new offers from RSS feed."""
@@ -216,17 +285,6 @@ class GeorezoRssParser:
                     )
                 )
                 continue
-
-            # first offer parsed is the last published, so the biggest ID.
-            # Put the ID in the dedicated text file.
-            if feed.entries.index(entry) == 0:
-                with last_id_file.open(mode="w") as out_file:
-                    out_file.write(str(job_id))
-            else:
-                pass
-
-            # formating publication date
-            publication_date = arrow.get(entry.published, "ddd, D MMM YYYY HH:mm:ss Z")
 
             # if entry's ID is greater than ID stored into the file,
             # that means the offer is more recent and has to be processed

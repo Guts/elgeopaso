@@ -50,8 +50,11 @@ class TestDatetimesParsing(unittest.TestCase):
         # see: https://pythonhosted.org/feedparser/reference-feed-updated_parsed.html
         rss_dt_updated_parsed = "2020-03-09T21:00:29+00:00"
 
-        # using arrow
+        # using standard lib
         datetime.strptime(rss_dt_updated_raw, GeorezoRssParser.FEED_DATETIME_RAW_FORMAT)
+
+        # using arrow
+        arrow.get(rss_dt_updated_raw, "ddd, D MMM YYYY HH:mm:ss Z")
         arrow.get(rss_dt_updated_parsed)
 
 
