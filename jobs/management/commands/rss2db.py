@@ -26,6 +26,7 @@ from accounts.models import Subscription
 from jobs.models import GeorezoRSS, Offer
 
 # submodules
+from jobs.crawlers import GeorezoRssParser
 from .analyseur import Analizer
 
 # ############################################################################
@@ -171,6 +172,15 @@ class Command(BaseCommand):
     # New and updated offers -------------------------------------------
     def _add_new_offers(self):
         """Retrieve new offers from RSS feed."""
+        #  Using new module
+        georezo_rss_parser = GeorezoRssParser(
+            items_to_parse=settings.CRAWL_RSS_SIZE,
+            user_agent=settings.USER_AGENT
+        )
+
+        li_new_offers_to_add = georezo_rss_parser.parse_new_offers()
+
+        # Former code
         last_id_file = Path("./last_id_georezo.txt")
         # Get the id of the last offer parsed
         if last_id_file.exists():
@@ -200,7 +210,7 @@ class Command(BaseCommand):
             url_file_stream_or_string="https://georezo.net/extern.php?fid=10&show={}".format(
                 settings.CRAWL_RSS_SIZE
             ),
-            agent=settings.USER_AGENT
+            agent=settings.USER_AGENT,
             # modified=True,
         )
 
