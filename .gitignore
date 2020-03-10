@@ -79,6 +79,9 @@ certs/*
 # virtual environments
 *.venv/
 
+# crawlers
+crawler_*.json
+
 # custom
 *.log*
 tmp/

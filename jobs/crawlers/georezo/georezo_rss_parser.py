@@ -12,15 +12,23 @@
 # ##################################
 
 # Standard library
+import json
 import logging
-from datetime import timedelta
+from datetime import datetime
 from pathlib import Path
+from typing import Union
 
 # 3rd party modules
 import arrow
 import feedparser
 
+# ############################################################################
+# ########## GLOBALS #############
+# ################################
+
+# Feed base URL
 FEEDPARSER_DOC_BASE_URL = "https://pythonhosted.org/feedparser/"
+
 
 # ############################################################################
 # ########## Classes #############
@@ -29,6 +37,12 @@ FEEDPARSER_DOC_BASE_URL = "https://pythonhosted.org/feedparser/"
 
 class GeorezoRssParser:
     """Handy module to parse GeoRezo job offers through RSS."""
+
+    # Attributes
+
+    # Feed datetime structure
+    # see: https://docs.python.org/fr/3/library/datetime.html#strftime-and-strptime-format-codes
+    FEED_DATETIME_RAW_FORMAT = "%a, %d %b %Y %H:%M:%S %z"
 
     def __init__(
         self,
@@ -94,7 +108,28 @@ class GeorezoRssParser:
 
         return last_id
 
-    def parse_new_offers(self):
+    def save_parsing_data(self, feed_parsed: feedparser.FeedParserDict):
+        """Dumps some metadata from parsed feed to track behavior and enforce future \
+            usage into a structured JSON file.
+        
+        :param feedparser.FeedParserDict feed_parsed: parsed feed
+        """
+        data_to_save = [
+            {
+                "feed_updated": feed_parsed.feed.updated,
+                "feed_updated_parsed": feed_parsed.feed.updated_parsed,
+                "entries_required": self.items_to_parse,
+                "entries_total": len(feed_parsed.entries),
+                "encoding": feed_parsed.encoding,
+                "status": feed_parsed.status,
+                "version": feed_parsed.version,
+            }
+        ]
+        json_dest = Path("crawler_georezo_rss_latest.json")
+        with json_dest.open("w") as json_file:
+            json.dump(data_to_save, json_file, indent=2, sort_keys=True)
+
+    def parse_new_offers(self) -> Union[int, list]:
         """Retrieve new offers from RSS feed."""
         last_id = self.get_previous_item_id() or 0
 
@@ -115,6 +150,8 @@ class GeorezoRssParser:
             agent=self.user_agent,
             # modified=True,
         )
+
+        self.save_parsing_data(feed)
 
         # test if feed is well-formed
         # https://pythonhosted.org/feedparser/bozo.html#bozo-detection
