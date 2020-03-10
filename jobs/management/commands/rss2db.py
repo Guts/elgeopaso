@@ -174,8 +174,7 @@ class Command(BaseCommand):
         """Retrieve new offers from RSS feed."""
         #  Using new module
         georezo_rss_parser = GeorezoRssParser(
-            items_to_parse=settings.CRAWL_RSS_SIZE,
-            user_agent=settings.USER_AGENT
+            items_to_parse=settings.CRAWL_RSS_SIZE, user_agent=settings.USER_AGENT
         )
 
         li_new_offers_to_add = georezo_rss_parser.parse_new_offers()

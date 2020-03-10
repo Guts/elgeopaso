@@ -37,7 +37,7 @@ FEEDPARSER_DOC_BASE_URL = "https://pythonhosted.org/feedparser/"
 
 class GeorezoRssParser:
     """Handy module to parse GeoRezo job offers through RSS.
-        
+
     :param str feed_base_url: URL to the feed. Defaults to: "https://georezo.net/extern.php?fid=10" - optional
     :param str feed_length_param: name of the URL parameter to specifiy the number of items. Defaults to: "show" - optional
     :param int items_to_parse: number of items to request to the feed. Defaults to: 50 - optional
@@ -67,7 +67,7 @@ class GeorezoRssParser:
 
     def _build_feed_url(self) -> str:
         """Build RSS feed URL from class attributes.
-        
+
         :return: RSS feed URL with parameters
         :rtype: str
         """
@@ -84,9 +84,9 @@ class GeorezoRssParser:
     @classmethod
     def get_previous_item_id(cls, from_source: str = "./last_id_georezo.txt") -> int:
         """Retrieve last parsed item ID from specified source.
-        
+
         :param str from_source: where to load the ID. Defaults to: "./last_id_georezo.txt" - optional
-        
+
         :raises NotImplementedError: [description]
         :raises ValueError: [description]
 
@@ -121,7 +121,7 @@ class GeorezoRssParser:
     ) -> dict:
         """Dumps some metadata from parsed feed to track behavior and enforce future \
             usage into a structured JSON file.
-        
+
         :param feedparser.FeedParserDict feed_parsed: parsed feed
         :param str save_type: type of save to perform. Defaults to: "json" - optional
 
@@ -129,9 +129,9 @@ class GeorezoRssParser:
         :rtype: dict
 
         :example:
-        
+
         .. code-block:: json
-        
+
             [
                 {
                     "encoding": "ISO-8859-1",
