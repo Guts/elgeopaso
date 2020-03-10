@@ -179,77 +179,9 @@ class Command(BaseCommand):
 
         li_new_offers_to_add = georezo_rss_parser.parse_new_offers()
 
-        # Former code
-        last_id_file = Path("./last_id_georezo.txt")
-        # Get the id of the last offer parsed
-        if last_id_file.exists():
-            with last_id_file.open(mode="r") as in_file:
-                last_id = int(in_file.readline())
-            logging.info("Previous offer ID: {}".format(last_id))
-        else:
-            logging.warning(
-                "File with the latest ID offer is missing: {}. Considering latest ID = 0.".format(
-                    last_id_file.resolve()
-                )
-            )
-            last_id = 0
-        # list to store offers IDs
-        li_id = []
-
-        # reset offers counter
-        compteur = 0
-
-        # RSS parser
-        logging.info(
-            "Connecting to the RSS. Expecting {} entries as specified in settings.".format(
-                settings.CRAWL_RSS_SIZE
-            )
-        )
-        feed = feedparser.parse(
-            url_file_stream_or_string="https://georezo.net/extern.php?fid=10&show={}".format(
-                settings.CRAWL_RSS_SIZE
-            ),
-            agent=settings.USER_AGENT,
-            # modified=True,
-        )
-
-        # test if feed is well-formed
-        # https://pythonhosted.org/feedparser/bozo.html#bozo-detection
-        if feed.bozo:
-            logging.error(
-                "RSS feed is badly formed. Parser error: {}.".format(
-                    feed.bozo_exception
-                )
-            )
-            return compteur
-
-        # test if feed contains entries
-        if not feed.entries:
-            # build feed metadata
-            feed_metadata = "HTTP status: {}".format(feed.status)
-            # feed title
-            feed_metadata += " - Title: {}".format(
-                feed.feed.get("title", "WARN - Missing title")
-            )
-            feed_metadata += " (subtitle: {})".format(
-                feed.feed.get("subtitle", "no subtitle")
-            )
-            # get last updated info from feed
-            if hasattr(feed.feed, "updated_parsed"):
-                feed_metadata += "Last updated: {}".format(
-                    arrow.get(feed.feed.updated_parsed).format()
-                )
-
-            # log everything
-            logging.error(
-                "RSS feed is empty, no entries (items) found. Feed info: {}.".format(
-                    feed_metadata
-                )
-            )
-            return compteur
 
         # looping on feed entries
-        for entry in feed.entries:
+        for entry in li_new_offers_to_add:
             # get the ID cleaning 'link' markup
             try:
                 job_id = int(entry.id.split("#")[1].lstrip("p"))
@@ -260,14 +192,6 @@ class Command(BaseCommand):
                     )
                 )
                 continue
-
-            # first offer parsed is the last published, so the biggest ID.
-            # Put the ID in the dedicated text file.
-            if feed.entries.index(entry) == 0:
-                with last_id_file.open(mode="w") as out_file:
-                    out_file.write(str(job_id))
-            else:
-                pass
 
             # formating publication date
             publication_date = arrow.get(entry.published, "ddd, D MMM YYYY HH:mm:ss Z")
@@ -302,15 +226,15 @@ class Command(BaseCommand):
                 )
                 continue
 
-        # if new offers => launch next processes
-        if compteur > 0:
-            logging.info("{} new offers to add.".format(len(li_id)))
-            analyzer = Analizer(li_id)
-            analyzer.analisis()
-        else:
-            logging.info("No new offer retrieved...")
+        # # if new offers => launch next processes
+        # if compteur > 0:
+        #     logging.info("{} new offers to add.".format(len(li_id)))
+        #     analyzer = Analizer(li_id)
+        #     analyzer.analisis()
+        # else:
+        #     logging.info("No new offer retrieved...")
 
-        return compteur
+        # return compteur
 
     def _update_selected_offers(self, force_create: bool = 0):
         """Perform a new analisis on modified raw offers."""
