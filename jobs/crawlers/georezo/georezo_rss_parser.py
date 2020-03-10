@@ -16,7 +16,6 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import Union
 
 # 3rd party modules
 import arrow
@@ -28,7 +27,6 @@ import feedparser
 
 # Feed base URL
 FEEDPARSER_DOC_BASE_URL = "https://pythonhosted.org/feedparser/"
-
 
 # ############################################################################
 # ########## Classes #############
@@ -50,6 +48,9 @@ class GeorezoRssParser:
     # see: https://docs.python.org/fr/3/library/datetime.html#strftime-and-strptime-format-codes
     FEED_DATETIME_RAW_FORMAT = "%a, %d %b %Y %H:%M:%S %z"
     FEED_DATETIME_RAW_FORMAT_ARROW = "ddd, D MMM YYYY HH:mm:ss Z"
+
+    # File to store the feed metadata
+    CRAWLER_LATEST_METADATA = "crawler_georezo_rss_latest.json"
 
     def __init__(
         self,
@@ -82,41 +83,47 @@ class GeorezoRssParser:
         return complete_feed_url
 
     @classmethod
-    def get_previous_item_id(cls, from_source: str = "./last_id_georezo.txt") -> int:
+    def load_previous_crawler_metadata(
+        cls, from_source: str = "./last_id_georezo.txt"
+    ) -> dict:
         """Retrieve last parsed item ID from specified source.
 
-        :param str from_source: where to load the ID. Defaults to: "./last_id_georezo.txt" - optional
+        :param str from_source: where to load the ID. Defaults to: "./last_id_georezo.txt"
 
         :raises NotImplementedError: [description]
         :raises ValueError: [description]
 
-        :return: ID of the last parsed offer in the GeoRezo RSS
-        :rtype: int
+        :return: dictionary with previous crawler execution metadata
+        :rtype: dict
         """
-        if from_source == "database":
-            raise NotImplementedError
-        elif Path(from_source).exists():
+        in_source = Path(from_source)
+        if in_source.exists() and in_source.suffix == ".json":
+            logging.info(
+                "Reading last parsed item ID from file: {}".format(from_source)
+            )
+            with in_source.open("r") as in_json:
+                out_dict = json.load(in_json)
+        elif in_source.exists() and in_source.suffix == ".txt":
             logging.info(
                 "Reading last parsed item ID from file: {}".format(from_source)
             )
             last_id_file = Path(from_source)
             # Get the id of the last offer parsed
-            if last_id_file.exists():
-                with last_id_file.open(mode="r") as in_file:
-                    last_id = int(in_file.readline())
-                logging.info("Previous offer ID: {}".format(last_id))
-            else:
-                logging.warning(
-                    "File with the latest ID offer is missing: {}. "
-                    "Considering latest ID = 0.".format(last_id_file.resolve())
-                )
-                last_id = 0
+            with last_id_file.open(mode="r") as in_file:
+                last_id = int(in_file.readline())
+            logging.info("Previous offer ID: {}".format(last_id))
+            out_dict = {"latest_offer_id": last_id}
+
         else:
-            raise ValueError
+            logging.warning(
+                "File with the latest ID offer is missing: {}. "
+                "Considering latest ID = 0.".format(last_id_file.resolve())
+            )
+            out_dict = {"latest_offer_id": 0}
 
-        return last_id
+        return out_dict
 
-    def save_parsing_data(
+    def save_parsing_metadata(
         self, feed_parsed: feedparser.FeedParserDict, save_type: str = "json"
     ) -> dict:
         """Dumps some metadata from parsed feed to track behavior and enforce future \
@@ -139,15 +146,15 @@ class GeorezoRssParser:
                     "entries_total": 50,
                     "feed_updated_converted": "2020-03-10 13:07:06+01:00",
                     "feed_updated_parsed": [
-                    2020,
-                    3,
-                    10,
-                    12,
-                    7,
-                    6,
-                    1,
-                    70,
-                    0
+                        2020,
+                        3,
+                        10,
+                        12,
+                        7,
+                        6,
+                        1,
+                        70,
+                        0
                     ],
                     "feed_updated_raw": "Tue, 10 Mar 2020 13:07:06 +0100",
                     "latest_offer_id": 331132,
@@ -179,28 +186,34 @@ class GeorezoRssParser:
 
         # dump data
         if save_type == "json":
-            data_to_save = [
-                {
-                    "feed_updated_raw": feed_parsed.feed.updated,
-                    "feed_updated_converted": str(feed_build_dt),
-                    "feed_updated_parsed": feed_parsed.feed.updated_parsed,
-                    "entries_required": self.items_to_parse,
-                    "entries_total": len(feed_parsed.entries),
-                    "encoding": feed_parsed.encoding,
-                    "latest_offer_id": last_job_offer_id,
-                    "status": feed_parsed.status,
-                    "version": feed_parsed.version,
-                }
-            ]
-            json_dest = Path("crawler_georezo_rss_latest.json")
+            data_to_save = {
+                "feed_updated_raw": feed_parsed.feed.updated,
+                "feed_updated_converted": str(feed_build_dt),
+                "feed_updated_parsed": feed_parsed.feed.updated_parsed,
+                "entries_required": self.items_to_parse,
+                "entries_total": len(feed_parsed.entries),
+                "encoding": feed_parsed.encoding,
+                "latest_offer_id": last_job_offer_id,
+                "status": feed_parsed.status,
+                "version": feed_parsed.version,
+            }
+
+            json_dest = Path(self.CRAWLER_LATEST_METADATA)
             with json_dest.open("w") as json_file:
                 json.dump(data_to_save, json_file, indent=2, sort_keys=True)
 
             return data_to_save
 
-    def parse_new_offers(self) -> Union[int, list]:
-        """Retrieve new offers from RSS feed."""
-        last_id = self.get_previous_item_id() or 0
+    def parse_new_offers(self, ignore_encoding_errors: bool = True) -> list:
+        """Retrieve new offers from RSS feed.
+        
+        :param bool ignore_encoding_errors: option to ignore encoding exceptions. Defaults to: True
+        
+        :return: list
+        :rtype: list
+        """
+        previous_metadata = self.load_previous_crawler_metadata(self.CRAWLER_LATEST_METADATA) or 0
+        last_id = previous_metadata.get("latest_offer_id")
 
         # list to store offers IDs
         li_new_job_offers_id = []
@@ -220,7 +233,7 @@ class GeorezoRssParser:
             # modified=True,
         )
 
-        self.save_parsing_data(feed)
+        self.save_parsing_metadata(feed)
 
         # test if feed is well-formed
         # https://pythonhosted.org/feedparser/bozo.html#bozo-detection
@@ -235,7 +248,8 @@ class GeorezoRssParser:
                     " Parser error: {}."
                     " See: {}".format(feed.bozo_exception, feedparser_related_doc)
                 )
-                return offers_counter
+                if not ignore_encoding_errors:
+                    return li_new_job_offers_id
             elif isinstance(feed.bozo_exception, feedparser.CharacterEncodingUnknown):
                 feedparser_related_doc = "{}character-encoding.html#handling-incorrectly-declared-encodings".format(
                     FEEDPARSER_DOC_BASE_URL
@@ -246,7 +260,8 @@ class GeorezoRssParser:
                     " Parser error: {}."
                     " See: {}".format(feed.bozo_exception, feedparser_related_doc)
                 )
-                return offers_counter
+                if not ignore_encoding_errors:
+                    return li_new_job_offers_id
 
         # test if feed contains entries
         if not feed.entries:
@@ -271,7 +286,7 @@ class GeorezoRssParser:
                     feed_metadata
                 )
             )
-            return offers_counter
+            return li_new_job_offers_id
 
         # looping on feed entries
         for entry in feed.entries:
@@ -317,6 +332,7 @@ if __name__ == "__main__":
     quicky = GeorezoRssParser()
     # print(dir(quicky))
 
-    # quicky.get_previous_item_id()
+    print(quicky.load_previous_crawler_metadata())
+    print(quicky.load_previous_crawler_metadata(quicky.CRAWLER_LATEST_METADATA))
 
     quicky.parse_new_offers()
