@@ -5,7 +5,7 @@
     "python.formatting.provider": "black",
     "python.formatting.blackArgs": ["--target-version=py37"],
     "python.linting.flake8Enabled": true,
-    "python.linting.pylintEnabled": true,
+    "python.linting.pylintEnabled": false,
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django"
     ],
