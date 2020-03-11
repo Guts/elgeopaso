@@ -175,7 +175,7 @@ class Command(BaseCommand):
             items_to_parse=settings.CRAWL_RSS_SIZE, user_agent=settings.USER_AGENT
         )
 
-        li_new_offers_retrieved_from_feed = georezo_rss_parser.parse_new_offers(only_new_offers=False)
+        li_new_offers_retrieved_from_feed = georezo_rss_parser.parse_new_offers()
         li_new_offers_added = []
 
         # looping on feed entries
@@ -208,14 +208,6 @@ class Command(BaseCommand):
                 continue
             except Exception as error_msg:
                 logging.error(error_msg)
-
-        # # if new offers => launch next processes
-        # if compteur > 0:
-        #     logging.info("{} new offers to add.".format(len(li_id)))
-        #     analyzer = Analizer(li_id)
-        #     analyzer.analisis()
-        # else:
-        #     logging.info("No new offer retrieved...")
 
         return len(li_new_offers_added)
 
