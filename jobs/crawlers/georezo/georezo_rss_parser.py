@@ -19,7 +19,6 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 # 3rd party modules
-import arrow
 import feedparser
 
 # ############################################################################
@@ -131,22 +130,14 @@ class GeorezoRssParser:
             )
             with in_source.open("r") as in_json:
                 out_dict = json.load(in_json)
-        elif in_source.exists() and in_source.suffix == ".txt":
-            logging.info(
-                "Reading last parsed item ID from file: {}".format(from_source)
-            )
-            # Get the id of the last offer parsed
-            with in_source.open(mode="r") as in_file:
-                last_id = int(in_file.readline())
-            logging.info("Previous offer ID: {}".format(last_id))
-            out_dict = {"latest_offer_id": last_id}
-
         else:
             logging.warning(
                 "File with the latest ID offer is missing: {}. "
-                "Considering latest ID = 0.".format(in_source.resolve())
+                "Considering latest ID = 0 and updated_parsed = None.".format(
+                    in_source.resolve()
+                )
             )
-            out_dict = {"latest_offer_id": 0}
+            out_dict = {"latest_offer_id": 0, "feed_updated_parsed": None}
 
         return out_dict
 
@@ -192,7 +183,9 @@ class GeorezoRssParser:
         """
         # extract last job offer id
         if len(feed_parsed.entries):
-            last_job_offer_id = self.extract_offer_id_from_url(feed_parsed.entries[0].id)
+            last_job_offer_id = self.extract_offer_id_from_url(
+                feed_parsed.entries[0].id
+            )
         else:
             logging.warning("Unable to retrive latest job offer ID")
             last_job_offer_id = 0
@@ -231,14 +224,20 @@ class GeorezoRssParser:
 
             return data_to_save
 
-    def parse_new_offers(self, ignore_encoding_errors: bool = True) -> list:
-        """Retrieve new offers from RSS feed.
+    def parse_new_offers(
+        self, ignore_encoding_errors: bool = True, only_new_offers: bool = True
+    ) -> list:
+        """Parse RSS feed, handle errors and filter on new offers.
 
         :param bool ignore_encoding_errors: option to ignore encoding exceptions. Defaults to: True
+        :param bool only_new_offers: option to return only new offers basing on the \
+            previous crawler execution. If False, all of the feed items will be returned.
+            Defaults to: True
 
-        :return: list
+        :return: list with offers whose identifier is superior to the latest parsed
         :rtype: list
         """
+        # retrieve informations from previous crawler run
         previous_metadata = (
             self.load_previous_crawler_metadata(self.CRAWLER_LATEST_METADATA) or 0
         )
@@ -246,9 +245,6 @@ class GeorezoRssParser:
 
         # list to store offers IDs
         li_new_job_offers_id = []
-
-        # reset offers counter
-        offers_counter = 0
 
         # RSS parser
         logging.info(
@@ -258,16 +254,15 @@ class GeorezoRssParser:
         )
         feed = feedparser.parse(
             url_file_stream_or_string=self._build_feed_url(),
-            # modified=True,
+            modified=previous_metadata.get("feed_updated_parsed"),
         )
-        self.save_parsing_metadata(feed)
 
         # test if feed is well-formed
         # https://pythonhosted.org/feedparser/bozo.html#bozo-detection
         if feed.bozo:
             logging.warning("Parser raised a non blocking error. Investigating...")
             if isinstance(feed.bozo_exception, feedparser.CharacterEncodingOverride):
-                feedparser_related_doc = "{}character-encoding.html#handling-incorrectly-declared-encodings".format(
+                feedparser_related_doc = "{}character-encoding.html".format(
                     FEEDPARSER_DOC_BASE_URL
                 )
                 logging.error(
@@ -276,9 +271,10 @@ class GeorezoRssParser:
                     " See: {}".format(feed.bozo_exception, feedparser_related_doc)
                 )
                 if not ignore_encoding_errors:
+                    # then return empty list
                     return li_new_job_offers_id
             elif isinstance(feed.bozo_exception, feedparser.CharacterEncodingUnknown):
-                feedparser_related_doc = "{}character-encoding.html#handling-incorrectly-declared-encodings".format(
+                feedparser_related_doc = "{}character-encoding.html".format(
                     FEEDPARSER_DOC_BASE_URL
                 )
                 logging.error(
@@ -288,32 +284,41 @@ class GeorezoRssParser:
                     " See: {}".format(feed.bozo_exception, feedparser_related_doc)
                 )
                 if not ignore_encoding_errors:
+                    # then return empty list
                     return li_new_job_offers_id
+            else:
+                feedparser_related_doc = "{}bozo.html".format(FEEDPARSER_DOC_BASE_URL)
+                logging.error(
+                    "Feed error is not recognized: {}. Aborting...".format(
+                        feed.bozo_exception
+                    )
+                )
+                # then return empty list
+                return li_new_job_offers_id
+        else:
+            logging.info("Feed is well-formed. Everything is fine, go on!")
+
+        # save feed metadata
+        feed_metadata = self.save_parsing_metadata(feed)
 
         # test if feed contains entries
-        if not feed.entries:
-            # build feed metadata
-            feed_metadata = "HTTP status: {}".format(feed.status)
-            # feed title
-            feed_metadata += " - Title: {}".format(
-                feed.feed.get("title", "WARN - Missing title")
-            )
-            feed_metadata += " (subtitle: {})".format(
-                feed.feed.get("subtitle", "no subtitle")
-            )
-            # get last updated info from feed
-            if hasattr(feed.feed, "updated_parsed"):
-                feed_metadata += "Last updated: {}".format(
-                    arrow.get(feed.feed.updated_parsed).format()
-                )
-
+        if not len(feed.entries):
             # log everything
             logging.error(
                 "RSS feed is empty, no entries (items) found. Feed info: {}.".format(
                     feed_metadata
                 )
             )
+            # then return empty list
             return li_new_job_offers_id
+        elif len(feed.entries) != self.items_to_parse:
+            logging.warning(
+                "Number of items ({}) is different from the required: {}.".format(
+                    len(feed.entries), self.items_to_parse
+                )
+            )
+        else:
+            logging.info("{} items retrieved from the feed.".format(len(feed.entries)))
 
         # looping on feed entries
         for entry in feed.entries:
@@ -329,25 +334,21 @@ class GeorezoRssParser:
                 continue
 
             # if entry's ID is greater than ID stored into the file,
-            # that means the offer is more recent and has to be processed
+            # that means the offer is more recent and has to be processed.
+            #  This default behavior can be ignored with 'only_new_offers=False'
             if job_id > last_id:
-                # incrementing counter
-                offers_counter += 1
                 # adding offer's ID to the list of new offers to process
-                li_new_job_offers_id.append(job_id)
-                logging.debug("New offer added: {}".format(job_id))
+                li_new_job_offers_id.append(entry)
+                logging.debug("New offer spotted: {}".format(job_id))
+            elif job_id <= last_id and only_new_offers is False:
+                li_new_job_offers_id.append(entry)
+                logging.debug("Offer is not newer but still added: {}".format(job_id))
             else:
                 logging.debug(
-                    "Offer ID inferior to the last registered: {}".format(job_id)
+                    "Offer older than the latest previous parsed: {}".format(job_id)
                 )
-                continue
 
-        # if new offers => launch next processes
-        if offers_counter > 0:
-            logging.info("{} new offers to add.".format(len(li_new_job_offers_id)))
-        else:
-            logging.info("No new offer retrieved...")
-
+        logging.info("{} new offers to add.".format(len(li_new_job_offers_id)))
         return li_new_job_offers_id
 
 
@@ -356,10 +357,10 @@ class GeorezoRssParser:
 # ##################################
 if __name__ == "__main__":
     """Standalone execution for quick and dirty use or test"""
-    quicky = GeorezoRssParser(items_to_parse=1)
-    # print(dir(quicky))
+    # logging with debug
+    logging.basicConfig(level=logging.DEBUG)
 
-    # print(quicky.load_previous_crawler_metadata())
-    # print(quicky.load_previous_crawler_metadata(quicky.CRAWLER_LATEST_METADATA))
-
-    quicky.parse_new_offers()
+    # use module
+    crawler = GeorezoRssParser(items_to_parse=50)
+    li_offers_to_add = crawler.parse_new_offers(only_new_offers=False)
+    print(isinstance(li_offers_to_add, list))

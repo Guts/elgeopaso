@@ -22,8 +22,9 @@ import arrow
 # ########### Models ###############
 # ##################################
 
-# GeoRezo RAW data tables -----------------------------------------------------
+
 class GeorezoRSS(models.Model):
+    """GeoRezo RAW offers."""
     id_rss = models.IntegerField(
         "Identifiant du flux RSS", db_index=True, primary_key=True
     )

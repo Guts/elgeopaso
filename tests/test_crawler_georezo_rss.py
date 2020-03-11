@@ -44,26 +44,40 @@ class TestCrawlerGeorezo(unittest.TestCase):
     def setUp(self):
         """Executed before each test."""
         # fixtures
-        self.li_fixtures_repo = sorted(Path(r"tests/fixtures").glob(extension_pattern))
+        self.tmp_fixtures_dir = Path("tests/fixtures/tmp/")
+        self.tmp_fixtures_dir.mkdir(exist_ok=True)
+        self.li_fixtures_repo = sorted(Path("tests/fixtures").glob(extension_pattern))
 
     def tearDown(self):
         """Executed after each test."""
-        pass
+        # clean fixtures
+        for tmp_file in self.tmp_fixtures_dir.iterdir():
+            tmp_file.unlink()
 
     # -- TESTS ---------------------------------------------------------
     def test_georezo_parser(self):
         """Test parser module."""
         # instanciate
         georezo_parser = GeorezoRssParser(
-            items_to_parse=10,
+            items_to_parse=200,
             user_agent="ElGeoPaso/{} https://elgeopaso.georezo.net/".format(
                 __version__
             ),
         )
 
+        # enforce different metadata file path to avoid conflicts between tests and real process
+        georezo_parser.CRAWLER_LATEST_METADATA = (
+            "tests/fixtures/tmp/crawler_georezo_rss_latest_test.json"
+        )
+
         # check
         validators.url(georezo_parser._build_feed_url())
-        self.assertIsInstance(georezo_parser.parse_new_offers(), list)
+
+        # parse feed and retrive new offers
+        li_new_offers_to_add = georezo_parser.parse_new_offers()
+        self.assertIsInstance(li_new_offers_to_add, list)
+
+        # parse
 
     def test_load_rss(self):
         """Parse RSS sample"""

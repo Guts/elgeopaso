@@ -8,7 +8,7 @@
 # Standard library
 import logging
 from argparse import RawTextHelpFormatter
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 # 3rd party modules
 import arrow
@@ -175,53 +175,39 @@ class Command(BaseCommand):
             items_to_parse=settings.CRAWL_RSS_SIZE, user_agent=settings.USER_AGENT
         )
 
-        li_new_offers_to_add = georezo_rss_parser.parse_new_offers()
+        li_new_offers_retrieved_from_feed = georezo_rss_parser.parse_new_offers(only_new_offers=False)
+        li_new_offers_added = []
 
         # looping on feed entries
-        for entry in li_new_offers_to_add:
+        for entry in li_new_offers_retrieved_from_feed:
             # get the ID cleaning 'link' markup
+            job_offer_id = georezo_rss_parser.extract_offer_id_from_url(entry.id)
+
+            # formating publication date
+            publication_date_formatted = datetime.strptime(
+                entry.published, georezo_rss_parser.FEED_DATETIME_RAW_FORMAT
+            )
+            # publication_date_formatted = arrow.get(, "ddd, D MMM YYYY HH:mm:ss Z")
+
             try:
-                job_id = georezo_rss_parser.extract_offer_id_from_url(entry.id)
-            except AttributeError as err:
-                logging.error(
-                    "Feed index corrupted: {} - ({})".format(
-                        entry.id, err
-                    )
+                offer = GeorezoRSS(
+                    id_rss=job_offer_id,
+                    title=entry.title,
+                    content=entry.summary,
+                    pub_date=publication_date_formatted,
+                    source=True,
+                    to_update=False,
                 )
+                offer.save()
+                # adding offer's ID to the list of new offers to process
+                li_new_offers_added.append(job_offer_id)
+                logging.debug("New offer added: {}".format(job_offer_id))
+            except IntegrityError:
+                # in case of duplicated offer
+                logging.warning("Offer ID already exists: {}".format(job_offer_id))
                 continue
-
-            # # formating publication date
-            # publication_date = arrow.get(entry.published, "ddd, D MMM YYYY HH:mm:ss Z")
-
-            # # if entry's ID is greater than ID stored into the file,
-            # # that means the offer is more recent and has to be processed
-            # if job_id > last_id:
-            #     try:
-            #         offer = GeorezoRSS(
-            #             id_rss=job_id,
-            #             title=entry.title,
-            #             content=entry.summary,
-            #             pub_date=publication_date.format(),
-            #             source=True,
-            #             to_update=False,
-            #         )
-            #         offer.save()
-            #         # incrementing counter
-            #         compteur += 1
-            #         # adding offer's ID to the list of new offers to process
-            #         li_id.append(job_id)
-            #         logging.debug("New offer added: {}".format(job_id))
-            #     except IntegrityError:
-            #         # in case of duplicated offer
-            #         logging.warning("Offer ID already exists: {}".format(job_id))
-            #         continue
-            #     except Exception as error_msg:
-            #         logging.error(error_msg)
-            # else:
-            #     logging.debug(
-            #         "Offer ID inferior to the last registered: {}".format(job_id)
-            #     )
-            #     continue
+            except Exception as error_msg:
+                logging.error(error_msg)
 
         # # if new offers => launch next processes
         # if compteur > 0:
@@ -231,7 +217,7 @@ class Command(BaseCommand):
         # else:
         #     logging.info("No new offer retrieved...")
 
-        return len(li_new_offers_to_add)
+        return len(li_new_offers_added)
 
     def _update_selected_offers(self, force_create: bool = 0):
         """Perform a new analisis on modified raw offers."""
@@ -325,3 +311,5 @@ class Command(BaseCommand):
 # #################################
 if __name__ == "__main__":
     """standalone execution."""
+    # logging with debug
+    logging.basicConfig(level=logging.DEBUG)
