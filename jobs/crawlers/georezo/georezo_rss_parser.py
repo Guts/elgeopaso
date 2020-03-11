@@ -135,9 +135,8 @@ class GeorezoRssParser:
             logging.info(
                 "Reading last parsed item ID from file: {}".format(from_source)
             )
-            last_id_file = Path(from_source)
             # Get the id of the last offer parsed
-            with last_id_file.open(mode="r") as in_file:
+            with in_source.open(mode="r") as in_file:
                 last_id = int(in_file.readline())
             logging.info("Previous offer ID: {}".format(last_id))
             out_dict = {"latest_offer_id": last_id}
@@ -145,7 +144,7 @@ class GeorezoRssParser:
         else:
             logging.warning(
                 "File with the latest ID offer is missing: {}. "
-                "Considering latest ID = 0.".format(last_id_file.resolve())
+                "Considering latest ID = 0.".format(in_source.resolve())
             )
             out_dict = {"latest_offer_id": 0}
 
