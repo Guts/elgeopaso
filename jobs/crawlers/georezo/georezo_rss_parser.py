@@ -16,6 +16,7 @@ import json
 import logging
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import parse_qs, urlparse
 
 # 3rd party modules
 import arrow
@@ -64,7 +65,10 @@ class GeorezoRssParser:
         self.feed_base_url = feed_base_url
         self.feed_length_param = feed_length_param
         self.items_to_parse = items_to_parse
-        self.user_agent = user_agent
+
+        # set user agent to global feedparser
+        # see: https://pythonhosted.org/feedparser/http-useragent.html
+        feedparser.USER_AGENT = user_agent
 
     def _build_feed_url(self) -> str:
         """Build RSS feed URL from class attributes.
@@ -81,6 +85,30 @@ class GeorezoRssParser:
 
         logging.debug("Feed URL built: {}".format(complete_feed_url))
         return complete_feed_url
+
+    @classmethod
+    def extract_offer_id_from_url(cls, in_url: str) -> int:
+        """Parse input URL to extract RSS item ID = job offer ID.
+
+        :param str in_url: input URL as string. In GeoRezo RSS, it's:
+          - in raw XML: '<guid isPermaLink="true">https://georezo.net/forum/viewtopic.php?pid=331081#p331081</guid>'
+          - parsed by feedparser: entry.id = 'https://georezo.net/forum/viewtopic.php?pid=331144#p331144'
+
+        :return: offer ID
+        :rtype: int
+        """
+        parsed_url = urlparse(in_url)
+        parsed_query = parse_qs(parsed_url.query)
+
+        extracted_offer_id = parsed_query.get("pid")
+        logging.debug(
+            "Offer ID extracted: {} from URL '{}'".format(extracted_offer_id, in_url)
+        )
+
+        # keep only digits
+        extracted_offer_id = "".join(i for i in extracted_offer_id if i.isdigit())
+
+        return int(extracted_offer_id)
 
     @classmethod
     def load_previous_crawler_metadata(
@@ -165,7 +193,7 @@ class GeorezoRssParser:
         """
         # extract last job offer id
         if len(feed_parsed.entries):
-            last_job_offer_id = int(feed_parsed.entries[0].id.split("#")[1].lstrip("p"))
+            last_job_offer_id = self.extract_offer_id_from_url(feed_parsed.entries[0].id)
         else:
             logging.warning("Unable to retrive latest job offer ID")
             last_job_offer_id = 0
@@ -206,13 +234,15 @@ class GeorezoRssParser:
 
     def parse_new_offers(self, ignore_encoding_errors: bool = True) -> list:
         """Retrieve new offers from RSS feed.
-        
+
         :param bool ignore_encoding_errors: option to ignore encoding exceptions. Defaults to: True
-        
+
         :return: list
         :rtype: list
         """
-        previous_metadata = self.load_previous_crawler_metadata(self.CRAWLER_LATEST_METADATA) or 0
+        previous_metadata = (
+            self.load_previous_crawler_metadata(self.CRAWLER_LATEST_METADATA) or 0
+        )
         last_id = previous_metadata.get("latest_offer_id")
 
         # list to store offers IDs
@@ -229,10 +259,8 @@ class GeorezoRssParser:
         )
         feed = feedparser.parse(
             url_file_stream_or_string=self._build_feed_url(),
-            agent=self.user_agent,
             # modified=True,
         )
-
         self.save_parsing_metadata(feed)
 
         # test if feed is well-formed
@@ -292,7 +320,7 @@ class GeorezoRssParser:
         for entry in feed.entries:
             # get the ID cleaning 'link' markup
             try:
-                job_id = int(entry.id.split("#")[1].lstrip("p"))
+                job_id = self.extract_offer_id_from_url(entry.id)
             except AttributeError as err:
                 logging.error(
                     "Feed index corrupted: {} - ({})".format(
@@ -329,10 +357,10 @@ class GeorezoRssParser:
 # ##################################
 if __name__ == "__main__":
     """Standalone execution for quick and dirty use or test"""
-    quicky = GeorezoRssParser()
+    quicky = GeorezoRssParser(items_to_parse=1)
     # print(dir(quicky))
 
-    print(quicky.load_previous_crawler_metadata())
-    print(quicky.load_previous_crawler_metadata(quicky.CRAWLER_LATEST_METADATA))
+    # print(quicky.load_previous_crawler_metadata())
+    # print(quicky.load_previous_crawler_metadata(quicky.CRAWLER_LATEST_METADATA))
 
     quicky.parse_new_offers()
