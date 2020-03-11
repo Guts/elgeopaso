@@ -1,4 +1,4 @@
-name: Python lint and test
+name: Continuous integration and deployment
 
 on:
   push:
@@ -49,3 +49,24 @@ jobs:
 
     - name: Run Unit tests
       run: pytest -c setup.cfg
+
+    - name: Upload coverage to Codecov  
+      uses: codecov/codecov-action@v1
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags')
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # Install Python runtime and dependencies
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+    run: |
+      python -m pip install --upgrade pip
+      pip install -r requirements/local.txt
