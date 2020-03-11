@@ -1,6 +1,7 @@
 # El Géo Paso
 
-![Python lint and test](https://github.com/Guts/elgeopaso/workflows/Python%20lint%20and%20test/badge.svg)
+![Unit tests](https://github.com/Guts/elgeopaso/workflows/Python%20lint%20and%20test/badge.svg)
+[![codecov](https://codecov.io/gh/Guts/elgeopaso/branch/master/graph/badge.svg)](https://codecov.io/gh/Guts/elgeopaso)
 !["Python 3.7.x"](https://img.shields.io/badge/python-3.7-blue.svg)
 [![Build Status](https://travis-ci.org/Guts/elgeopaso.svg?branch=master)](https://travis-ci.org/Guts/elgeopaso)
 
@@ -51,18 +52,3 @@ Du côté de l'interface du site web, on retrouve les classiques :
 * [Django Suit](https://djangosuit.com/) pour l'habillage de l'interface d'administration
 
 Le site est servi sur le Web par [gunicorn](https://gunicorn.org/) et nginx ou Apache selon les plateformes (dév ou production).
-
-### Docker
-
-With Docker installed, launch these commands within the repository folder:
-
-```powershell
-# build the container
-docker build --rm -f Dockerfile -t elgeopaso:latest .
-# launch it in detached mode
-docker run --name elgeopaso --rm -it -d -p 8000:8000 elgeopaso:latest
-```
-
-Then, open your favorite browser to <http://localhost:8000.>
-
-To stop it : ```docker stop elgeopaso```
