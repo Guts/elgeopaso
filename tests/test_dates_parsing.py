@@ -54,7 +54,7 @@ class TestDatetimesParsing(unittest.TestCase):
         datetime.strptime(rss_dt_updated_raw, GeorezoRssParser.FEED_DATETIME_RAW_FORMAT)
 
         # using arrow
-        arrow.get(rss_dt_updated_raw, "ddd, D MMM YYYY HH:mm:ss Z")
+        arrow.get(rss_dt_updated_raw, GeorezoRssParser.FEED_DATETIME_RAW_FORMAT_ARROW)
         arrow.get(rss_dt_updated_parsed)
 
 
