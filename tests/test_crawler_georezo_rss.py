@@ -58,8 +58,8 @@ class TestCrawlerGeorezo(unittest.TestCase):
     def tearDown(self):
         """Executed after each test."""
         # clean fixtures
-        # for tmp_file in self.tmp_fixtures_dir.iterdir():
-        #     tmp_file.unlink()
+        for tmp_file in self.tmp_fixtures_dir.iterdir():
+            tmp_file.unlink()
 
     # -- TESTS ---------------------------------------------------------
     def test_georezo_parser(self):
