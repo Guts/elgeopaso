@@ -8,12 +8,10 @@
 # Standard library
 import logging
 from argparse import RawTextHelpFormatter
-from datetime import timedelta
-from pathlib import Path
+from datetime import datetime, timedelta
 
 # 3rd party modules
 import arrow
-import feedparser
 
 # Django project
 from django.conf import settings
@@ -26,6 +24,7 @@ from accounts.models import Subscription
 from jobs.models import GeorezoRSS, Offer
 
 # submodules
+from jobs.crawlers import GeorezoRssParser
 from .analyseur import Analizer
 
 # ############################################################################
@@ -171,137 +170,46 @@ class Command(BaseCommand):
     # New and updated offers -------------------------------------------
     def _add_new_offers(self):
         """Retrieve new offers from RSS feed."""
-        last_id_file = Path("./last_id_georezo.txt")
-        # Get the id of the last offer parsed
-        if last_id_file.exists():
-            with last_id_file.open(mode="r") as in_file:
-                last_id = int(in_file.readline())
-            logging.info("Previous offer ID: {}".format(last_id))
-        else:
-            logging.warning(
-                "File with the latest ID offer is missing: {}. Considering latest ID = 0.".format(
-                    last_id_file.resolve()
-                )
-            )
-            last_id = 0
-        # list to store offers IDs
-        li_id = []
-
-        # reset offers counter
-        compteur = 0
-
-        # RSS parser
-        logging.info(
-            "Connecting to the RSS. Expecting {} entries as specified in settings.".format(
-                settings.CRAWL_RSS_SIZE
-            )
-        )
-        feed = feedparser.parse(
-            url_file_stream_or_string="https://georezo.net/extern.php?fid=10&show={}".format(
-                settings.CRAWL_RSS_SIZE
-            ),
-            agent=settings.USER_AGENT
-            # modified=True,
+        #  Using new module
+        georezo_rss_parser = GeorezoRssParser(
+            items_to_parse=settings.CRAWL_RSS_SIZE, user_agent=settings.USER_AGENT
         )
 
-        # test if feed is well-formed
-        # https://pythonhosted.org/feedparser/bozo.html#bozo-detection
-        if feed.bozo:
-            logging.error(
-                "RSS feed is badly formed. Parser error: {}.".format(
-                    feed.bozo_exception
-                )
-            )
-            return compteur
-
-        # test if feed contains entries
-        if not feed.entries:
-            # build feed metadata
-            feed_metadata = "HTTP status: {}".format(feed.status)
-            # feed title
-            feed_metadata += " - Title: {}".format(
-                feed.feed.get("title", "WARN - Missing title")
-            )
-            feed_metadata += " (subtitle: {})".format(
-                feed.feed.get("subtitle", "no subtitle")
-            )
-            # get last updated info from feed
-            if hasattr(feed.feed, "updated_parsed"):
-                feed_metadata += "Last updated: {}".format(
-                    arrow.get(feed.feed.updated_parsed).format()
-                )
-
-            # log everything
-            logging.error(
-                "RSS feed is empty, no entries (items) found. Feed info: {}.".format(
-                    feed_metadata
-                )
-            )
-            return compteur
+        li_new_offers_retrieved_from_feed = georezo_rss_parser.parse_new_offers()
+        li_new_offers_added = []
 
         # looping on feed entries
-        for entry in feed.entries:
+        for entry in li_new_offers_retrieved_from_feed:
             # get the ID cleaning 'link' markup
-            try:
-                job_id = int(entry.id.split("#")[1].lstrip("p"))
-            except AttributeError as err:
-                logging.error(
-                    "Feed index corrupted: {} - ({})".format(
-                        feed.entries.index(entry), err
-                    )
-                )
-                continue
-
-            # first offer parsed is the last published, so the biggest ID.
-            # Put the ID in the dedicated text file.
-            if feed.entries.index(entry) == 0:
-                with last_id_file.open(mode="w") as out_file:
-                    out_file.write(str(job_id))
-            else:
-                pass
+            job_offer_id = georezo_rss_parser.extract_offer_id_from_url(entry.id)
 
             # formating publication date
-            publication_date = arrow.get(entry.published, "ddd, D MMM YYYY HH:mm:ss Z")
+            publication_date_formatted = datetime.strptime(
+                entry.published, georezo_rss_parser.FEED_DATETIME_RAW_FORMAT
+            )
+            # publication_date_formatted = arrow.get(, "ddd, D MMM YYYY HH:mm:ss Z")
 
-            # if entry's ID is greater than ID stored into the file,
-            # that means the offer is more recent and has to be processed
-            if job_id > last_id:
-                try:
-                    offer = GeorezoRSS(
-                        id_rss=job_id,
-                        title=entry.title,
-                        content=entry.summary,
-                        pub_date=publication_date.format(),
-                        source=True,
-                        to_update=False,
-                    )
-                    offer.save()
-                    # incrementing counter
-                    compteur += 1
-                    # adding offer's ID to the list of new offers to process
-                    li_id.append(job_id)
-                    logging.debug("New offer added: {}".format(job_id))
-                except IntegrityError:
-                    # in case of duplicated offer
-                    logging.warning("Offer ID already exists: {}".format(job_id))
-                    continue
-                except Exception as error_msg:
-                    logging.error(error_msg)
-            else:
-                logging.debug(
-                    "Offer ID inferior to the last registered: {}".format(job_id)
+            try:
+                offer = GeorezoRSS(
+                    id_rss=job_offer_id,
+                    title=entry.title,
+                    content=entry.summary,
+                    pub_date=publication_date_formatted,
+                    source=True,
+                    to_update=False,
                 )
+                offer.save()
+                # adding offer's ID to the list of new offers to process
+                li_new_offers_added.append(job_offer_id)
+                logging.debug("New offer added: {}".format(job_offer_id))
+            except IntegrityError:
+                # in case of duplicated offer
+                logging.warning("Offer ID already exists: {}".format(job_offer_id))
                 continue
+            except Exception as error_msg:
+                logging.error(error_msg)
 
-        # if new offers => launch next processes
-        if compteur > 0:
-            logging.info("{} new offers to add.".format(len(li_id)))
-            analyzer = Analizer(li_id)
-            analyzer.analisis()
-        else:
-            logging.info("No new offer retrieved...")
-
-        return compteur
+        return len(li_new_offers_added)
 
     def _update_selected_offers(self, force_create: bool = 0):
         """Perform a new analisis on modified raw offers."""
@@ -395,3 +303,5 @@ class Command(BaseCommand):
 # #################################
 if __name__ == "__main__":
     """standalone execution."""
+    # logging with debug
+    logging.basicConfig(level=logging.DEBUG)

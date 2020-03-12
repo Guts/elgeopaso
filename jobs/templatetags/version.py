@@ -31,14 +31,14 @@ register = template.Library()
 def version_date(date_format: str = "%d/%m/%Y") -> str:
     """Return the last modification date based on git. \
         If git folder does not exist, an empty string is returned instead.
-    
+
     :return: last modification date
     :rtype: str
 
     :example:
-    
+
     .. code-block:: html
-    
+
         # from a Django template, first load the custom templatetag
         {% load version %}
 
@@ -59,14 +59,14 @@ def version_date(date_format: str = "%d/%m/%Y") -> str:
 @register.simple_tag
 def version_number() -> str:
     """Return the project version as number.
-    
+
     :return: version number
     :rtype: str
 
     :example:
-    
+
     .. code-block:: html
-    
+
         # from a Django template, first load the custom templatetag
         {% load version %}
 

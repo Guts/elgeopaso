@@ -21,13 +21,16 @@ sphinx-rtd-theme==0.4.*
 pytest==5.3.*  # https://github.com/pytest-dev/pytest
 pytest-cov==2.8.*
 pytest-django==3.8.*  # https://github.com/pytest-dev/pytest-django
+semver==2.9.*         # https://github.com/python-semver/python-semver
+validator-collection== 1.4.*    # https://github.com/insightindustry/validator-collection
 
 # Code quality
 # ----------------------
-black==19.10b0  # https://github.com/ambv/black
-flake8==3.7.*  # https://github.com/PyCQA/flake8
-pylint-django==2.0.*  # https://github.com/PyCQA/pylint-django
-pre-commit==2.1.*  # https://github.com/pre-commit/pre-commit
+black==19.10b0                  # https://github.com/ambv/black
+flake8==3.7.*                   # https://github.com/PyCQA/flake8
+django-coverage-plugin==1.8.*   # https://github.com/nedbat/django_coverage_plugin
+pylint-django==2.0.*            # https://github.com/PyCQA/pylint-django
+pre-commit==2.1.*               # https://github.com/pre-commit/pre-commit
 
 # Django
 # ------------------------------------------------------------------------------
