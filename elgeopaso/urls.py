@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 #! python3  # noqa: E265  # noqa E265
 
 """
@@ -38,9 +38,9 @@ urlpatterns = [
     # administration panel
     path("admin/", admin.site.urls),
     # authentication flow
-    path('accounts/', include('allauth.urls')),
+    path("accounts/", include("allauth.urls")),
     # Jobs analytics
-    path(r"", include("jobs.urls", "index"), name="home"),
+    path("", include("jobs.urls", "index"), name="home"),
     path("jobs/", include("jobs.urls")),
     # CMS
     path("content/", include(("cms.urls", "cms"), namespace="cms")),

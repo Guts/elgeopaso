@@ -10,6 +10,7 @@ repos:
     # files: (^|/)a/.+\.(py|html|sh|css|js)$
   - id: check-yaml
   - id: detect-private-key
+  - id: fix-encoding-pragma
 - repo: https://github.com/python/black
   rev: 19.10b0
   hooks:

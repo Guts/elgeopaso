@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from jobs.models import Contract, JobPosition, Offer, Place, PlaceVariations, Technology
 from rest_framework import serializers
 
