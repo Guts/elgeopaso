@@ -45,34 +45,6 @@ from jobs.models import (
     TechnologyVariations,
 )
 
-# #############################################################################
-# ########## Functions ############
-# #################################
-
-
-# Print iterations progress
-def printProgress(
-    iteration, total, prefix="", suffix="", decimals=1, barLength=100, fill="█"
-):
-    """
-    Call in a loop to create terminal progress bar
-    @params:
-        iteration   - Required  : current iteration (Int)
-        total       - Required  : total iterations (Int)
-        prefix      - Optional  : prefix string (Str)
-        suffix      - Optional  : suffix string (Str)
-        decimals    - Optional  : positive number of decimals in percent complete (Int)
-        barLength   - Optional  : character length of bar (Int)
-    """
-    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
-    filledLength = int(barLength * iteration // total)
-    bar = fill * filledLength + "-" * (barLength - filledLength)
-    sys.stdout.write("\r%s |%s| %s%s %s" % (prefix, bar, percent, "%", suffix)),
-    if iteration == total:
-        sys.stdout.write("\n")
-    sys.stdout.flush()
-
-
 # ############################################################################
 # ########## Classes ##############
 # #################################
@@ -120,37 +92,12 @@ class Analizer(object):
 
     def analisis(self):
         """Perform analisis on offers."""
-        # progress bar ony if debug mode is disabled
-        if not settings.DEBUG:
-            i = 0  # start
-            printProgress(
-                i,
-                total=len(self.offers_ids),
-                prefix="Progress:",
-                suffix="Complete",
-                barLength=50,
-            )
-        else:
-            pass
-
         # parse offers
         for offer_id in self.offers_ids:
             self.offer_id = offer_id
             # chekcs if offer has already been added
             if Offer.objects.filter(id_rss=offer_id).exists() and self.new:
                 logging.error("Offer RSS_ID already exists in DB: {}".format(offer_id))
-                # Update Progress Bar only if debug mode is disabled
-                if not settings.DEBUG:
-                    i += 1
-                    printProgress(
-                        i,
-                        len(self.offers_ids),
-                        prefix="Progress:",
-                        suffix="Complete",
-                        barLength=50,
-                    )
-                else:
-                    pass
                 continue
             else:
                 logging.debug("launch analisis on : {}".format(self.offer_id))
@@ -195,18 +142,6 @@ class Analizer(object):
                             offer_id, err_msg
                         )
                     )
-                    # Update Progress Bar only if debug mode is disabled
-                    if not settings.DEBUG:
-                        i += 1
-                        printProgress(
-                            i,
-                            len(self.offers_ids),
-                            prefix="Progress:",
-                            suffix="Complete",
-                            barLength=50,
-                        )
-                    else:
-                        pass
                     continue
             else:
                 clean_offer = Offer.objects.select_related().filter(id_rss=offer_id)
@@ -234,18 +169,6 @@ class Analizer(object):
             clean_offer.technologies.set(technos)
             clean_offer.jobs_positions.set(jobs_labels)
             logging.debug("Offer analyzed and inserted jobs.offer: {}".format(offer_id))
-            # Update Progress Bar only if debug mode is disabled
-            if not settings.DEBUG:
-                i += 1
-                printProgress(
-                    i,
-                    len(self.offers_ids),
-                    prefix="Progress:",
-                    suffix="Complete",
-                    barLength=50,
-                )
-            else:
-                pass
 
     # PARSERS ----------------------------------------------------------------
 
