@@ -12,7 +12,7 @@ from django.core.management.base import BaseCommand
 from jobs.models import GeorezoRSS, Offer
 
 # submodules
-from .analyseur import Analizer
+from jobs.analyzer import Analizer
 
 # #############################################################################
 # ########### Classes #############

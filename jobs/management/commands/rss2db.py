@@ -24,8 +24,8 @@ from accounts.models import Subscription
 from jobs.models import GeorezoRSS, Offer
 
 # submodules
+from jobs.analyzer import Analizer
 from jobs.crawlers import GeorezoRssParser
-from .analyseur import Analizer
 
 # ############################################################################
 # ########### Classes #############
