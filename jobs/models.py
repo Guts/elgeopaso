@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 #! python3  # noqa: E265  # noqa E265
 
 """
@@ -25,6 +25,7 @@ import arrow
 
 class GeorezoRSS(models.Model):
     """GeoRezo RAW offers."""
+
     id_rss = models.IntegerField(
         "Identifiant du flux RSS", db_index=True, primary_key=True
     )

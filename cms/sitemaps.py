@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from django.contrib.sitemaps import Sitemap
+
 from cms.models import Article
 
 

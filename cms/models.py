@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.validators import MaxLengthValidator

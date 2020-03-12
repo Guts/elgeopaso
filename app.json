@@ -3,6 +3,7 @@
   "description": "A simple web application to display charts about French jobs offers in GIS.",
   "image": "heroku/python",
   "repository": "https://github.com/guts/elgeopaso/",
+  "website": "https://elgeopaso.georezo.net/",
   "keywords": [
     "python",
     "django",
@@ -26,7 +27,7 @@
   "env": {
     "DJANGO_DEBUG": {
       "description": "Debug or not debug",
-      "value": "False"
+      "value": "0"
     },
     "DJANGO_SECRET_KEY": {
       "description": "The secret key for the Django application.",
@@ -42,10 +43,22 @@
     }
   },
   "environments": {
-    "test": {
-      "scripts": {
-        "test-setup": "python manage.py collectstatic --noinput",
-        "test": "python manage.py test"
+    "review": {
+      "env": {
+        "DJANGO_ALLOWED_HOSTS": {
+          "description": "Host/domain names that this Django site can serve",
+          "value": ".herokuapp.com"
+        },
+        "DJANGO_DEBUG": {
+          "description": "Debug or not debug",
+          "value": "1"
+        }
+      },
+      "addons": {
+        "plan": "heroku-postgresql:hobby-dev",
+        "options": {
+          "version": "12"
+        }
       }
     }
   }
