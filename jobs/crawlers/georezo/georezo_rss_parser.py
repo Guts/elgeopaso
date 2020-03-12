@@ -214,7 +214,7 @@ class GeorezoRssParser:
                 "entries_total": len(feed_parsed.entries),
                 "encoding": feed_parsed.encoding,
                 "latest_offer_id": last_job_offer_id,
-                "status": feed_parsed.status,
+                "status": feed_parsed.get("status"),
                 "version": feed_parsed.version,
             }
 
@@ -289,8 +289,8 @@ class GeorezoRssParser:
             else:
                 feedparser_related_doc = "{}bozo.html".format(FEEDPARSER_DOC_BASE_URL)
                 logging.error(
-                    "Feed error is not recognized: {}. Aborting...".format(
-                        feed.bozo_exception
+                    "Feed error is not recognized: {}. Aborting pasring of '{}'".format(
+                        feed.bozo_exception, self._build_feed_url()
                     )
                 )
                 # then return empty list
@@ -311,7 +311,7 @@ class GeorezoRssParser:
             )
             # then return empty list
             return li_new_job_offers_id
-        elif len(feed.entries) != self.items_to_parse:
+        elif self.items_to_parse and (len(feed.entries) != self.items_to_parse):
             logging.warning(
                 "Number of items ({}) is different from the required: {}.".format(
                     len(feed.entries), self.items_to_parse
@@ -361,6 +361,10 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
     # use module
-    crawler = GeorezoRssParser(items_to_parse=50)
+    crawler = GeorezoRssParser(items_to_parse=1)
     li_offers_to_add = crawler.parse_new_offers(only_new_offers=False)
     print(isinstance(li_offers_to_add, list))
+
+    for i in li_offers_to_add:
+        print(i.keys())
+        print(i.summary.encode("latin1"))
