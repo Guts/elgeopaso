@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 #! python3  # noqa: E265
 
+"""
+    Custom Django management command to parse GeoRezo feed and launch analisis.
+    See: https://docs.djangoproject.com/fr/2.2/howto/custom-management-commands/
+"""
+
 # ############################################################################
 # ########## Libraries #############
 # ##################################
