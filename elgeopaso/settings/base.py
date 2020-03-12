@@ -1,4 +1,4 @@
-# -*- coding: UTF-8 -*-
+# -*- coding: utf-8 -*-
 #! python3  # noqa: E265
 
 """
@@ -242,9 +242,11 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-LOGIN_REDIRECT_URL = "home"
+# https://docs.djangoproject.com/fr/2.2/ref/settings/#login-url
+LOGIN_REDIRECT_URL = None  # if None, then the previous page will be used
 
-SITE_ID = 1
+# https://docs.djangoproject.com/fr/2.2/ref/settings/#std:setting-SITE_ID
+SITE_ID = 1  # required by Django AllAuth
 
 # EMAIL
 # ------------------------------------------------------------------------------
