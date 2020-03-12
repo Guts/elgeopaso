@@ -99,13 +99,15 @@ class TestCrawlerGeorezo(unittest.TestCase):
             )
 
             # enforce different metadata file path to avoid conflicts between tests and real process
-            georezo_parser.CRAWLER_LATEST_METADATA = (
-                "tests/fixtures/tmp/{}_{}.json".format(get_test_marker(), i.stem)
+            georezo_parser.CRAWLER_LATEST_METADATA = "tests/fixtures/tmp/{}_{}.json".format(
+                get_test_marker(), i.stem
             )
 
-        # parse feed and retrive new offers
-        li_new_offers_to_add = georezo_parser.parse_new_offers()
-        self.assertIsInstance(li_new_offers_to_add, list)
+            # parse feed and retrive new offers
+            li_new_offers_to_add = georezo_parser.parse_new_offers(
+                ignore_encoding_errors=False, only_new_offers=False
+            )
+            self.assertIsInstance(li_new_offers_to_add, list)
 
     def test_id_extraction(self):
         """Extract ID from entry"""
