@@ -1,17 +1,33 @@
+# -*- coding: UTF-8 -*-
+#! python3  # noqa: E265
+
 """
-With these settings, tests run faster.
+    Settings built upon base for running tests.
 """
 
+
+# #############################################################################
+# ########## Libraries #############
+# ##################################
+
+# standard library
+from os import getenv
+
+# common settings
 from .base import *  # noqa
-from .base import env
+
+# ##############################################################################
+# ########## Globals ###############
+# ##################################
 
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#secret-key
-SECRET_KEY = env(
+SECRET_KEY = getenv(
     "DJANGO_SECRET_KEY",
-    default="3LsdC9qxAi2RiNnJAQUykIvP68aeb0zvpd7lAVInCdYMsRLFytdSFZtefmxecHYr",
+    default="xhaBNHx2NPM3H2xmvn7fV8puVuIYxKr2aODG3Iw1HNxbkKbwV6QtGM2OHiWNPD7f",
 )
+
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#test-runner
 TEST_RUNNER = "django.test.runner.DiscoverRunner"
 
@@ -21,7 +37,7 @@ TEST_RUNNER = "django.test.runner.DiscoverRunner"
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "",
+        "LOCATION": "tests-elgeopaso",
     }
 }
 

@@ -1,15 +1,15 @@
 {
     "editor.rulers": [88],
     "editor.wordWrapColumn": 88,
-    "python.envFile": "${workspaceFolder}/local.env",
+    "python.envFile": "${workspaceFolder}/.env",
     "python.formatting.provider": "black",
     "python.formatting.blackArgs": ["--target-version=py37"],
     "python.linting.flake8Enabled": true,
-    "python.linting.pylintEnabled": true,
+    "python.linting.pylintEnabled": false,
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django"
     ],
-    "python.pythonPath": ".venv\\Scripts\\python.exe",
+    "python.pythonPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
     "python.testing.pytestEnabled": true,
     "python.testing.pytestArgs": [
         "-c",

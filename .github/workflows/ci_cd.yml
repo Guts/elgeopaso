@@ -1,20 +1,28 @@
-name: Python lint and test
+name: Continuous integration and deployment
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7, 3.8]
 
     steps:
-    - uses: actions/checkout@v2
-      name: Get source code
+    - name: Get source code
+      uses: actions/checkout@v2
 
-    - name: Set up Python 3.8
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
-        python-version: 3.7
+        python-version: ${{ matrix.python-version }}
 
     - name: Cache pip
       uses: actions/cache@v1
@@ -38,3 +46,27 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings.
         flake8 . --count --exit-zero --statistics
+
+    - name: Run Unit tests
+      run: pytest -c setup.cfg
+
+    - name: Upload coverage to Codecov  
+      uses: codecov/codecov-action@v1
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags')
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # Install Python runtime and dependencies
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements/local.txt

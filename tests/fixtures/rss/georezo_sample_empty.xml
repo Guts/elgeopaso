@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF8"?>
+<rss version="2.0" 
+	xmlns:atom="http://www.w3.org/2005/Atom" 
+	xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>GeoRezo.net - Job</title>
+		<link>https://georezo.net/forum/viewforum.php?id=10</link>
+		<description><![CDATA[GeoRezo.net, le Portail de la Géomatique et des SIG (Systèmes d'Information Géographique)]]></description>
+		<atom:link href="http://georezo.net/extern.php?fid=10&amp;show=50" rel="self" type="application/rss+xml"/>
+		<language>fr</language>
+		<image>
+			<url>https://georezo.net/img/logo/logo_small_georezo.gif</url>
+			<title>GeoRezo.net - Job</title>
+			<link>https://georezo.net/forum/viewforum.php?id=10</link>
+			<width>120</width>
+			<height>30</height>
+			<description><![CDATA[GeoRezo.net, le Portail de la Géomatique et des SIG (Systèmes d'Information Géographique)]]></description>
+		</image>
+		<lastBuildDate>Mon, 09 Mar 2020 09:42:07 +0100</lastBuildDate>
+		<generator>GeoRezo</generator>
+		<ttl>60</ttl>
+	</channel>
+</rss>
