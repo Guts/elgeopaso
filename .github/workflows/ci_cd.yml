@@ -48,7 +48,7 @@ jobs:
         flake8 . --count --exit-zero --statistics
 
     - name: Run Unit tests
-      run: pytest -c setup.cfg
+      run: python manage.py test
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
