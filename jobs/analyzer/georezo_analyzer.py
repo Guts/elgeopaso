@@ -15,13 +15,11 @@
 import html
 import logging
 import re
-import sys
 from itertools import zip_longest
 from xml.etree import ElementTree as ET
 from xml.sax.saxutils import escape  # '<' -> '&lt;'
 
 # Django
-from django.conf import settings
 from django.db import IntegrityError
 
 # 3rd party modules
