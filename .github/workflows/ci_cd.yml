@@ -38,6 +38,8 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements/local.txt
+        # download NLTK packages - please refer to `ntlk.txt`
+        python -m nltk.downloader punkt stopwords
 
     - name: Lint with flake8
       run: |
@@ -46,6 +48,9 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings.
         flake8 . --count --exit-zero --statistics
+
+    - name: Load fixtures
+      run: python manage.py test
 
     - name: Run Unit tests
       run: python manage.py test
