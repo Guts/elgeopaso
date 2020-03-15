@@ -51,6 +51,9 @@ jobs:
 
     - name: Load fixtures
       run: python manage.py test
+    - name: Run build tasks
+      run: |
+        sh ./.deploy/release-tasks.sh
 
     - name: Run Unit tests
       run: python manage.py test
