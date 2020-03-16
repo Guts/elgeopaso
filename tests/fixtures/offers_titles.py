@@ -42,7 +42,7 @@ LI_FIXTURES_OFFERS_TITLE = [
         expected_place_scale="DEPARTEMENT",
     ),
     OfferFixture(
-        raw_title="[CDD 18 mois] Charge(e) de mission – Base de donnees (22)",
+        raw_title="[CDD 18 mois] Charg&#233;(e) de mission &gt; Base de données (22)",
         well_formed=True,
         expected_contract_type="CDD",
         expected_place_code="22",
