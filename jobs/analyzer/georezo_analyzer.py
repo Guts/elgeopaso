@@ -20,7 +20,6 @@ import re
 from django.db import IntegrityError
 
 # 3rd party modules
-import arrow
 import nltk
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
@@ -55,7 +54,7 @@ _regex_markups = re.compile(r"<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});")
 
 class Analizer:
     """
-    Analyze of last offers published on GeoRezo and stored in the main table.
+    Analyze last offers published on GeoRezo and stored in the main table.
     """
 
     def __init__(
@@ -120,8 +119,6 @@ class Analizer:
             content_title = self.parse_words(raw_offer.title)
             technos = self.parse_technology(content_words)
             jobs_labels = self.parse_jobs_positions(content_title)
-            # determine offer week number YYYYWW
-            week_number = self.define_week_number(raw_offer.pub_date)
 
             # add or update offer
             if self.new:
@@ -133,7 +130,6 @@ class Analizer:
                     content=clean_content,
                     pub_date=raw_offer.pub_date,
                     contract=Contract.objects.get(abbrv=contract_type),
-                    week=week_number,
                     source=Source.objects.get(name=self.source),
                     place=Place.objects.get(name=place),
                 )
@@ -162,7 +158,6 @@ class Analizer:
                     content=clean_content,
                     pub_date=raw_offer.pub_date,
                     contract=Contract.objects.get(abbrv=contract_type),
-                    week=week_number,
                     source=Source.objects.get(name=self.source),
                     place=Place.objects.get(name=place),
                 )
@@ -407,16 +402,6 @@ class Analizer:
                 continue
         logging.debug("Jobs positions identified: {}".format(jobs_positions_matched))
         return jobs_positions_matched
-
-    def define_week_number(self, offer_raw_datetime):
-        """
-        Extracts year and week number from offer publication datetime
-        for more convenience in graphical representation.
-        """
-        return "{}{}".format(
-            arrow.get(offer_raw_datetime).isocalendar()[0],
-            str(arrow.get(offer_raw_datetime).isocalendar()[1]).zfill(2),
-        )
 
     # ------------ UTILITIES -------------------------------------------------
     @classmethod

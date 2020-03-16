@@ -30,6 +30,7 @@ from .models import (
     JobPositionVariations,
 )
 
+
 # #############################################################################
 # ########### Classes ##############
 # ##################################
@@ -58,16 +59,16 @@ class OfferAdmin(admin.ModelAdmin):
         "technologies",
         "title",
         "updated",
-        "week",
+        "yearweek"
     )
     list_display = ("id_rss", "title", "short_content", "contract", "place", "pub_date")
     list_select_related = True
     list_filter = (
+        "raw_offer__to_update",
         "pub_date",
         "contract",
         "technologies",
         "place",
-        "raw_offer__to_update",
     )
     search_fields = ("title", "content")
     date_hierarchy = "pub_date"
@@ -75,7 +76,7 @@ class OfferAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ("Contenu", {"fields": ("title", "content")}),
-        ("Date", {"fields": ("pub_date", "week", "created", "updated")}),
+        ("Date", {"fields": ("pub_date", "yearweek", "created", "updated")}),
         (
             "Informations extraites",
             {"fields": ("contract", "technologies", "place", "jobs_positions")},
