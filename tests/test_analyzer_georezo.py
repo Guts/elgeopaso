@@ -78,7 +78,7 @@ class TestAnalizerGeorezo(TestCase):
         analyser = Analizer(li_offers_ids=["11111",])
 
         for i in LI_FIXTURES_OFFERS_TITLE:
-            clean_title = analyser.remove_tags(i.raw_title)
+            clean_title = analyser.remove_html_markups(i.raw_title)
             self.assertIsInstance(clean_title, str)
 
     def test_place_extraction(self):
