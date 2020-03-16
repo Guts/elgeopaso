@@ -12,6 +12,7 @@
 # Standard library
 from typing import NamedTuple
 
+
 # ##############################################################################
 # ########## Classes ###############
 # ##################################
@@ -52,9 +53,9 @@ LI_FIXTURES_OFFERS_TITLE = [
         raw_title="[CDI] Administrateurˇtrice base donnees spatiales - Besancon (25)",
         well_formed=True,
         expected_contract_type="CDI",
-        expected_place_code="",
-        expected_place_name="",
-        expected_place_scale="",
+        expected_place_code="25",
+        expected_place_name="Doubs",
+        expected_place_scale="DEPARTEMENT",
     ),
     OfferFixture(
         raw_title="[APPRENT] Offre de DRT 'Maquette 3D et usages' - (38)",
@@ -69,8 +70,8 @@ LI_FIXTURES_OFFERS_TITLE = [
         well_formed=False,
         expected_contract_type="CDI",
         expected_place_code="99",
-        expected_place_name="Doubs",
-        expected_place_scale="DEPARTEMENT",
+        expected_place_name="",
+        expected_place_scale="",
     ),
     OfferFixture(
         raw_title="[FP ou contract.] Technicien supérieur géomaticien - STIF (75)",

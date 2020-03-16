@@ -413,13 +413,13 @@ class Analizer(object):
 
     # ------------ UTILITIES -------------------------------------------------
 
-    def remove_tags(self, html_text):
+    def remove_tags(self, html_text) -> str:
         """Very basic cleaner for HTML markups.
 
         :param [type] html_text: [description]
 
         :return: [description]
-        :rtype: [type]
+        :rtype: str
 
         :example:
 
@@ -431,10 +431,10 @@ class Analizer(object):
         try:
             text = " ".join(ET.fromstring(html_text).itertext())
         except Exception as err:
-            logging.debug(
+            logging.warning(
                 "Error cleaning HTML markup: {}. Exception: {}".format(html_text, err)
             )
-            TAG_RE = re.compile(r"<[^>]+>")
+            TAG_RE = re.compile("<[^>]+>")
             return TAG_RE.sub(" ", html_text)
         # end of function
         return text.lower()

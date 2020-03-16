@@ -370,4 +370,4 @@ SWAGGER_SETTINGS = {
 # JOBS
 CRAWL_FREQUENCY = "hourly"
 CRAWL_RSS_SIZE = 100
-FIXTURE_DIRS = ("/jobs/fixtures/",)
+FIXTURE_DIRS = [ROOT_DIR / "jobs/fixtures/"]

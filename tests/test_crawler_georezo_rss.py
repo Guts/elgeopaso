@@ -15,9 +15,11 @@
 # ##################################
 
 # Standard library
-import unittest
 from pathlib import Path
 from sys import _getframe
+
+# Django
+from django.test import TestCase
 
 # 3rd party
 from validator_collection import validators
@@ -44,7 +46,7 @@ def get_test_marker():
 # ##################################
 
 
-class TestCrawlerGeorezo(unittest.TestCase):
+class TestCrawlerGeorezo(TestCase):
     """Test crawler of GeoRezo RSS."""
 
     # -- Standard methods --------------------------------------------------------

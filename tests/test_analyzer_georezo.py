@@ -15,9 +15,12 @@
 # ##################################
 
 # Standard library
-import unittest
 from pathlib import Path
 from sys import _getframe
+
+# Django
+from django.core.management import call_command
+from django.test import TestCase
 
 # module target
 from jobs.analyzer import Analizer
@@ -44,12 +47,19 @@ def get_test_marker():
 # ##################################
 
 
-class TestAnalizerGeorezo(unittest.TestCase):
+class TestAnalizerGeorezo(TestCase):
     """Test crawler of GeoRezo RSS."""
 
     # -- Standard methods --------------------------------------------------------
     def setUp(self):
         """Executed before each test."""
+        # populate database for analisis
+        call_command("loaddata", "jobs/fixtures/contracts.json", verbosity=0)
+        call_command("loaddata", "jobs/fixtures/jobs.json", verbosity=0)
+        call_command("loaddata", "jobs/fixtures/places.json", verbosity=0)
+        call_command("loaddata", "jobs/fixtures/technos.json", verbosity=0)
+        call_command("loaddata", "jobs/fixtures/sources.json", verbosity=0)
+
         # fixtures
         self.tmp_fixtures_dir = Path("tests/fixtures/tmp/")
         self.tmp_fixtures_dir.mkdir(exist_ok=True)
@@ -62,8 +72,17 @@ class TestAnalizerGeorezo(unittest.TestCase):
             tmp_file.unlink()
 
     # -- TESTS ---------------------------------------------------------
+    def test_title_cleaner(self):
+        """Test special characters removal in title."""
+        # instanciate
+        analyser = Analizer(li_offers_ids=["11111",])
+
+        for i in LI_FIXTURES_OFFERS_TITLE:
+            clean_title = analyser.remove_tags(i.raw_title)
+            self.assertIsInstance(clean_title, str)
+
     def test_place_extraction(self):
-        """Test extration of place from title."""
+        """Test extraction of place from title."""
         # instanciate
         analyser = Analizer(li_offers_ids=["11111",])
 
@@ -79,6 +98,24 @@ class TestAnalizerGeorezo(unittest.TestCase):
                 self.assertEqual(result_place.scale, i.expected_place_scale)
             else:
                 self.assertIsInstance(result_place, str)
+
+    # def test_contract_type(self):
+    #     """Test extraction of contract type from title."""
+    #     # instanciate
+    #     analyser = Analizer(li_offers_ids=["11111",])
+
+    #     # fixtures
+    #     for i in LI_FIXTURES_OFFERS_TITLE:
+    #         analyser.offer_id = i.raw_title
+    #         result = analyser.parse_contract_type(i.raw_title)
+
+    #         if i.well_formed:
+    #             self.assertIsInstance(result, Place)
+    #             self.assertEqual(result.code, i.expected_place_code)
+    #             self.assertEqual(result.name, i.expected_place_name)
+    #             self.assertEqual(result.scale, i.expected_place_scale)
+    #         else:
+    #             self.assertIsInstance(result, str)
 
 
 # ##############################################################################

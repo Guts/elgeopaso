@@ -49,12 +49,6 @@ jobs:
         # exit-zero treats all errors as warnings.
         flake8 . --count --exit-zero --statistics
 
-    - name: Load fixtures
-      run: python manage.py test
-    - name: Run build tasks
-      run: |
-        sh ./.deploy/release-tasks.sh
-
     - name: Run Unit tests
       run: python manage.py test
 
