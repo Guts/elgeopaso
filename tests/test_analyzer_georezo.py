@@ -122,4 +122,4 @@ class TestAnalizerGeorezo(TestCase):
 # ##### Stand alone program ########
 # ##################################
 if __name__ == "__main__":
-    unittest.main()
+    pass

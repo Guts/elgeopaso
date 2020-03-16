@@ -20,8 +20,7 @@ from api.serializers import (
 )
 
 # REST API
-from rest_framework import generics, viewsets
-from django_filters import rest_framework as filters
+from rest_framework import viewsets
 
 # #############################################################################
 # ########## Views ################

@@ -6,7 +6,6 @@
 # ##################################
 # Standard library
 import json
-import logging
 from os import path
 
 # Django
