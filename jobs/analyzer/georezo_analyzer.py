@@ -2,7 +2,7 @@
 #! python3  # noqa: E265
 
 """
-    Class to analyze raw offers, extracting contract type,
+    Module in charge of analyzing raw offers from GeoRezo: extracting contract type,
     place, etc. from title and abstract.
 """
 
@@ -15,17 +15,11 @@
 import html
 import logging
 import re
-import sys
-from itertools import zip_longest
-from xml.etree import ElementTree as ET
-from xml.sax.saxutils import escape  # '<' -> '&lt;'
 
 # Django
-from django.conf import settings
 from django.db import IntegrityError
 
 # 3rd party modules
-import arrow
 import nltk
 from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
@@ -45,32 +39,12 @@ from jobs.models import (
     TechnologyVariations,
 )
 
-# #############################################################################
-# ########## Functions ############
-# #################################
+# ##############################################################################
+# ########## Globals ###############
+# ##################################
 
-
-# Print iterations progress
-def printProgress(
-    iteration, total, prefix="", suffix="", decimals=1, barLength=100, fill="█"
-):
-    """
-    Call in a loop to create terminal progress bar
-    @params:
-        iteration   - Required  : current iteration (Int)
-        total       - Required  : total iterations (Int)
-        prefix      - Optional  : prefix string (Str)
-        suffix      - Optional  : suffix string (Str)
-        decimals    - Optional  : positive number of decimals in percent complete (Int)
-        barLength   - Optional  : character length of bar (Int)
-    """
-    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
-    filledLength = int(barLength * iteration // total)
-    bar = fill * filledLength + "-" * (barLength - filledLength)
-    sys.stdout.write("\r%s |%s| %s%s %s" % (prefix, bar, percent, "%", suffix)),
-    if iteration == total:
-        sys.stdout.write("\n")
-    sys.stdout.flush()
+# timestamps format helpers
+_regex_markups = re.compile(r"<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});")
 
 
 # ############################################################################
@@ -78,9 +52,9 @@ def printProgress(
 # #################################
 
 
-class Analizer(object):
+class Analizer:
     """
-    Analyze of last offers published on GeoRezo and stored in the main table.
+    Analyze last offers published on GeoRezo and stored in the main table.
     """
 
     def __init__(
@@ -104,7 +78,6 @@ class Analizer(object):
         :param str source: set offers source
         :param bool new: create or update offer
         """
-        super(Analizer, self).__init__()
         # parameters
         self.offers_ids = li_offers_ids
         self.opt_contracts = opt_contracts
@@ -115,42 +88,18 @@ class Analizer(object):
         self.source = source
         self.new = new
         logging.debug("Launching analisis on {} offers.".format(len(self.offers_ids)))
+        super(Analizer, self).__init__()
 
     # MAIN METHOD ------------------------------------------------------------
 
     def analisis(self):
         """Perform analisis on offers."""
-        # progress bar ony if debug mode is disabled
-        if not settings.DEBUG:
-            i = 0  # start
-            printProgress(
-                i,
-                total=len(self.offers_ids),
-                prefix="Progress:",
-                suffix="Complete",
-                barLength=50,
-            )
-        else:
-            pass
-
         # parse offers
         for offer_id in self.offers_ids:
             self.offer_id = offer_id
             # chekcs if offer has already been added
             if Offer.objects.filter(id_rss=offer_id).exists() and self.new:
                 logging.error("Offer RSS_ID already exists in DB: {}".format(offer_id))
-                # Update Progress Bar only if debug mode is disabled
-                if not settings.DEBUG:
-                    i += 1
-                    printProgress(
-                        i,
-                        len(self.offers_ids),
-                        prefix="Progress:",
-                        suffix="Complete",
-                        barLength=50,
-                    )
-                else:
-                    pass
                 continue
             else:
                 logging.debug("launch analisis on : {}".format(self.offer_id))
@@ -158,20 +107,18 @@ class Analizer(object):
             # get raw offer from georezo_rss table
             raw_offer = GeorezoRSS.objects.get(id_rss=offer_id)
             # clean title
-            clean_title = self.remove_tags(raw_offer.title)
+            clean_title = self.remove_html_markups(raw_offer.title)
             # determine contract type
             contract_type = self.parse_contract_type(clean_title)
             place = self.parse_place(clean_title, mode=0)
             # clean content
-            clean_content = self.remove_tags(raw_offer.content)
+            clean_content = self.remove_html_markups(raw_offer.content)
             # content cleaning and nltk tokenizing
             content_words = self.parse_words(raw_offer.content)
             # print(content_words)
             content_title = self.parse_words(raw_offer.title)
             technos = self.parse_technology(content_words)
             jobs_labels = self.parse_jobs_positions(content_title)
-            # determine offer week number YYYYWW
-            week_number = self.define_week_number(raw_offer.pub_date)
 
             # add or update offer
             if self.new:
@@ -183,7 +130,6 @@ class Analizer(object):
                     content=clean_content,
                     pub_date=raw_offer.pub_date,
                     contract=Contract.objects.get(abbrv=contract_type),
-                    week=week_number,
                     source=Source.objects.get(name=self.source),
                     place=Place.objects.get(name=place),
                 )
@@ -195,18 +141,6 @@ class Analizer(object):
                             offer_id, err_msg
                         )
                     )
-                    # Update Progress Bar only if debug mode is disabled
-                    if not settings.DEBUG:
-                        i += 1
-                        printProgress(
-                            i,
-                            len(self.offers_ids),
-                            prefix="Progress:",
-                            suffix="Complete",
-                            barLength=50,
-                        )
-                    else:
-                        pass
                     continue
             else:
                 clean_offer = Offer.objects.select_related().filter(id_rss=offer_id)
@@ -224,7 +158,6 @@ class Analizer(object):
                     content=clean_content,
                     pub_date=raw_offer.pub_date,
                     contract=Contract.objects.get(abbrv=contract_type),
-                    week=week_number,
                     source=Source.objects.get(name=self.source),
                     place=Place.objects.get(name=place),
                 )
@@ -234,18 +167,6 @@ class Analizer(object):
             clean_offer.technologies.set(technos)
             clean_offer.jobs_positions.set(jobs_labels)
             logging.debug("Offer analyzed and inserted jobs.offer: {}".format(offer_id))
-            # Update Progress Bar only if debug mode is disabled
-            if not settings.DEBUG:
-                i += 1
-                printProgress(
-                    i,
-                    len(self.offers_ids),
-                    prefix="Progress:",
-                    suffix="Complete",
-                    barLength=50,
-                )
-            else:
-                pass
 
     # PARSERS ----------------------------------------------------------------
 
@@ -440,7 +361,7 @@ class Analizer(object):
 
         contenu = BeautifulSoup(offer_raw_content, "html.parser")
         contenu = contenu.get_text("\n")
-        contenu = self.remove_tags(offer_raw_content)
+        contenu = self.remove_html_markups(offer_raw_content)
         # contenu = self.clean_xml(contenu)
         contenu_tokenized = nltk.word_tokenize(contenu)
         # print(len(contenu_tokenized))
@@ -482,84 +403,29 @@ class Analizer(object):
         logging.debug("Jobs positions identified: {}".format(jobs_positions_matched))
         return jobs_positions_matched
 
-    def define_week_number(self, offer_raw_datetime):
-        """
-        Extracts year and week number from offer publication datetime
-        for more convenience in graphical representation.
-        """
-        return "{}{}".format(
-            arrow.get(offer_raw_datetime).isocalendar()[0],
-            str(arrow.get(offer_raw_datetime).isocalendar()[1]).zfill(2),
-        )
-
     # ------------ UTILITIES -------------------------------------------------
-
-    def remove_tags(self, html_text):
+    @classmethod
+    def remove_html_markups(cls, html_text: str, cleaner: str = "bs-lxml") -> str:
         """Very basic cleaner for HTML markups.
 
-        :param [type] html_text: [description]
+        :param str html_text: text to be clean
+        :param str cleaner: Which lib to use to clean the text:
+          - "bs-lxml": Beautifulsoup4 + LXML - Default.
+          - "psl-only": Python Standard Library only (html + regex)
 
-        :return: [description]
-        :rtype: [type]
-
-        :example:
-
-        .. code-block:: python
-
-            # here comes an example in Python
+        :return: clean text
+        :rtype: str
         """
-        html_text = html.unescape(html_text)
-        try:
-            text = " ".join(ET.fromstring(html_text).itertext())
-        except Exception as err:
-            logging.debug(
-                "Error cleaning HTML markup: {}. Exception: {}".format(html_text, err)
-            )
-            TAG_RE = re.compile(r"<[^>]+>")
-            return TAG_RE.sub(" ", html_text)
-        # end of function
-        return text.lower()
+        # with BeautifulSoup + LXML
+        if cleaner == "bs-lxml":
+            cleaned_text = BeautifulSoup(html_text, "lxml").text
+        elif cleaner == "psl-only":
+            # convert HTML5 characters into str.
+            # See: https://docs.python.org/3/library/html.html#html.unescape
+            html_text = html.unescape(html_text)
+            cleaned_text = _regex_markups.sub(" ", html_text)
 
-    def remove_accents(self, input_str, substitute=""):
-        """Clean string from special characters.
-
-        source: http://stackoverflow.com/a/5843560
-        """
-        return substitute.join(char for char in input_str if char.isalnum())
-
-    def clean_xml(self, invalid_xml, mode="soft", substitute="_"):
-        """Clean string of XML invalid characters.
-
-        source: http://stackoverflow.com/a/13322581/2556577
-        """
-        # assumptions:
-        #   doc = *( start_tag / end_tag / text )
-        #   start_tag = '<' name *attr [ '/' ] '>'
-        #   end_tag = '<' '/' name '>'
-        ws = r"[ \t\r\n]*"  # allow ws between any token
-        name = "[a-zA-Z]+"  # note: expand if necessary but the stricter the better
-        attr = '{name} {ws} = {ws} "[^"]*"'  # note: fragile against missing '"'; no "'"
-        start_tag = "< {ws} {name} {ws} (?:{attr} {ws})* /? {ws} >"
-        end_tag = "{ws}".join(["<", "/", "{name}", ">"])
-        tag = "{start_tag} | {end_tag}"
-
-        assert "{{" not in tag
-        while "{" in tag:  # unwrap definitions
-            tag = tag.format(**vars())
-
-        tag_regex = re.compile("(%s)" % tag, flags=re.VERBOSE)
-
-        # escape &, <, > in the text
-        iters = [iter(tag_regex.split(invalid_xml))] * 2
-        pairs = zip_longest(*iters, fillvalue="")  # iterate 2 items at a time
-
-        # get the clean version
-        clean_version = "".join(escape(text) + tag for text, tag in pairs)
-        if mode == "strict":
-            clean_version = re.sub(r"<.*?>", substitute, clean_version)
-        else:
-            pass
-        return clean_version
+        return cleaned_text
 
 
 # ############################################################################
@@ -567,4 +433,4 @@ class Analizer(object):
 # #################################
 if __name__ == "__main__":
     """standalone execution."""
-    print("Stand-alone execution")
+    pass

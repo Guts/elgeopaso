@@ -9,14 +9,13 @@
 # ########## Libraries #############
 # ##################################
 
+# standard library
+from datetime import datetime
 
 # Django
 from django.db import models
 from django.core.validators import MaxLengthValidator
 from django.template.defaultfilters import truncatechars
-
-# 3rd party
-import arrow
 
 # #############################################################################
 # ########### Models ###############
@@ -322,22 +321,28 @@ class Source(models.Model):
 
 
 class Offer(models.Model):
-    id_rss = models.IntegerField(blank=True, db_index=True, unique=True)
 
+    # timestamps
+    created = models.DateTimeField("Ajoutée le", auto_now_add=True)
+    updated = models.DateTimeField("Modifiée le", auto_now=True)
+
+    # relations with raw offer
+    id_rss = models.IntegerField(blank=True, db_index=True, unique=True)
     raw_offer = models.OneToOneField(
         GeorezoRSS, null=True, on_delete=models.SET_NULL, related_name="clean_offer"
     )
+    source = models.ForeignKey(
+        Source, verbose_name="Source", null=True, on_delete=models.SET_NULL
+    )
 
+    # attributes
     title = models.CharField(
         "Titre", max_length=200, validators=[MaxLengthValidator(200)]
     )
     content = models.TextField("Contenu", null=True)
     pub_date = models.DateTimeField("Date de publication sur le RSS", null=True,)
-    week = models.IntegerField(
-        verbose_name="Semaine de publication",
-        null=True,
-        help_text="Format : <em>YYYYSS</em>.",
-    )
+
+    # analisis results
     contract = models.ForeignKey(
         Contract,
         db_index=True,
@@ -346,8 +351,6 @@ class Offer(models.Model):
         default="ND",
         on_delete=models.SET_DEFAULT,
     )
-    technologies = models.ManyToManyField(Technology, verbose_name="Technologies",)
-
     jobs_positions = models.ManyToManyField(JobPosition, verbose_name="Métiers",)
     place = models.ForeignKey(
         Place,
@@ -356,34 +359,34 @@ class Offer(models.Model):
         default="ND",
         on_delete=models.SET_DEFAULT,
     )
-    source = models.ForeignKey(
-        Source, verbose_name="Source", null=True, on_delete=models.SET_NULL
-    )
-    created = models.DateTimeField("Ajoutée le", auto_now_add=True)
-    updated = models.DateTimeField("Modifiée le", auto_now=True)
+    technologies = models.ManyToManyField(Technology, verbose_name="Technologies",)
 
     def __str__(self):
         return self.title
 
-    def get_week_from_date_pub(self):
-        if self.pub_date:
-            return "{}{}".format(
-                arrow.get(self.pub_date).isocalendar()[0],
-                str(arrow.get(self.pub_date).isocalendar()[1]).zfill(2),
-            )
-        else:
-            self.week.help_text
-
     @property
-    def short_content(self):
+    def short_content(self) -> str:
+        """Return the first 300 characters of the offer summary (content).
+
+        :return: 300 first characters of offer.content
+        :rtype: str
+        """
         return truncatechars(self.content, 300)
 
-    short_content.fget.short_description = "Contenu (aperçu)"
-
     @property
-    def offre_brute(self):
-        return GeorezoRSS.objects.get(id_rss=self.id_rss).id_rss
+    def yearweek(self) -> str:
+        """Return the week from the publication date (monday as first day).
+        See: https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior
 
+        :return: year and week (format: 'YYYYWW')
+        :rtype: str
+        """
+        if isinstance(self.pub_date, datetime):
+            return self.pub_date.strftime("%Y%V")
+        else:
+            return None
+
+    # Model metadata
     class Meta:
         verbose_name = "Offre d'emploi"
         verbose_name_plural = "Offres d'emploi"
@@ -391,3 +394,7 @@ class Offer(models.Model):
         ordering = [
             "id_rss",
         ]
+
+    # add helper text on properties
+    short_content.fget.short_description = "Contenu (aperçu)"
+    yearweek.fget.short_description = "Année / Semaine"

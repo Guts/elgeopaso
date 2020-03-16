@@ -20,6 +20,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.decorators.cache import cache_page
 from django.views.decorators.gzip import gzip_page
 from django.views.decorators.http import require_safe
@@ -37,13 +38,69 @@ from .models import Contract, Offer
 # ########## Globals ##############
 # #################################
 
-UTC = arrow.utcnow()
+TZ_NOW = timezone.now()
+
+
+# ############################################################################
+# ######### Functions #############
+# #################################
+def calc_compare_week_by_year() -> int:
+    """Calculate variation in percentage between number of published offers this week \
+        and those published the same week last year.
+
+    :return: variation percentage (can be negative)
+    :rtype: int
+    """
+    # count offers published during actual week
+    week_actual_year = Offer.objects.filter(
+        pub_date__year=TZ_NOW.year, pub_date__week=TZ_NOW.strftime("%V")
+    ).count()
+    # count offers published during the same week but past year
+    week_past_year = Offer.objects.filter(
+        pub_date__year=TZ_NOW.year - 1, pub_date__week=TZ_NOW.strftime("%V")
+    ).count()
+
+    # compare them
+    if week_actual_year == 0:
+        logging.warning(
+            "Still no offer published this week: {}-{}.".format(
+                TZ_NOW.strftime("%V"), TZ_NOW.year
+            )
+        )
+        week_comparison_perc = -100
+    elif week_past_year == 0:
+        logging.warning(
+            "No offers were published the same week last year: {}-{}.".format(
+                TZ_NOW.strftime("%V"), TZ_NOW.year - 1
+            )
+        )
+        week_comparison_perc = 100
+    else:
+        try:
+            week_comparison_perc = round(
+                (week_actual_year - week_past_year) / week_past_year * 100, 2
+            )
+        except ZeroDivisionError as err:
+            logging.error(
+                "Unable to calculate comparison published offers this year ({}-{} = {}) against "
+                "previous year ({}-{} = {}). Traced error: {}.".format(
+                    TZ_NOW.year,
+                    TZ_NOW.strftime("%V"),
+                    week_actual_year,
+                    TZ_NOW.year - 1,
+                    TZ_NOW.strftime("%V"),
+                    week_past_year,
+                    err,
+                )
+            )
+            week_comparison_perc = 0
+
+    return week_comparison_perc
+
 
 # #############################################################################
 # ########## Views ################
 # #################################
-
-
 @require_safe
 @gzip_page
 @cache_page(60 * 60)  # in seconds
@@ -87,15 +144,9 @@ def stats_contrats(request):
         nb_contract_all = Offer.objects.exclude(contract="ND").count()
         nb_place_perc = int(100 * nb_place_all / nb_offers)
         nb_contract_perc = int(100 * nb_contract_all / nb_offers)
-        week_actual_year = Offer.objects.filter(
-            week="{}{}".format(*UTC.shift(weeks=-1).isocalendar()[0:2])
-        ).count()
-        week_last_year = Offer.objects.filter(
-            week="{}{}".format(*UTC.shift(weeks=-1, years=-1).isocalendar()[0:2])
-        ).count()
-        week_comparison_perc = round(
-            (week_actual_year - week_last_year) / week_last_year * 100, 2
-        )
+
+        # compare actual week with same week number of the past year
+        week_comparison_perc = calc_compare_week_by_year()
     else:
         logging.warning("No offers in the database.")
         nb_contract_perc = nb_place_perc = week_comparison_perc = 0

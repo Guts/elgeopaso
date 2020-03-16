@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 #! python3  # noqa: E265
-#!/usr/bin/env python
 
 """
     Command used to import a CSV from a Georezo database export.
 
-    Usage:
+    .. code-block:: python
 
-        ```python
-        python .\manage.py csv2db --input-csv .\georezo\georezo_db_backup_2016-2017.csv
-        ```
+        python manage.py csv2db --input-csv ./georezo/georezo_db_backup_2016-2017.csv
+
 """
 
 # #############################################################################
@@ -26,7 +24,6 @@ import arrow
 
 # Django project
 from django.core.management.base import BaseCommand
-from django.db import IntegrityError
 from jobs.models import GeorezoRSS
 
 # ############################################################################
