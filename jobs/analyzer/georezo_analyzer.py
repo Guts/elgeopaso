@@ -419,8 +419,8 @@ class Analizer:
         )
 
     # ------------ UTILITIES -------------------------------------------------
-
-    def remove_html_markups(self, html_text: str, cleaner: str = "bs-lxml") -> str:
+    @classmethod
+    def remove_html_markups(cls, html_text: str, cleaner: str = "bs-lxml") -> str:
         """Very basic cleaner for HTML markups.
 
         :param str html_text: text to be clean

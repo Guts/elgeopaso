@@ -15,6 +15,7 @@
 # ##################################
 
 # Standard library
+from datetime import datetime
 from pathlib import Path
 from sys import _getframe
 
@@ -74,11 +75,8 @@ class TestAnalizerGeorezo(TestCase):
     # -- TESTS ---------------------------------------------------------
     def test_title_cleaner(self):
         """Test special characters removal in title."""
-        # instanciate
-        analyser = Analizer(li_offers_ids=["11111",])
-
         for i in LI_FIXTURES_OFFERS_TITLE:
-            clean_title = analyser.remove_html_markups(i.raw_title)
+            clean_title = Analizer.remove_html_markups(html_text=i.raw_title)
             self.assertIsInstance(clean_title, str)
 
     def test_place_extraction(self):
