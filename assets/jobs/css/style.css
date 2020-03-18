@@ -1,5 +1,5 @@
 body {
-  padding-top: 50px;
+  padding-top: 5rem;
 }
 #main {
   padding: 40px 15px;
@@ -29,6 +29,25 @@ div.chart svg {
   margin: 0 0 5px;
   color: #777;
 }
+
+#map-container {
+    position: absolute;
+    padding-top: 5rem;
+    top:0; bottom:0; right:0; left:0; 
+    height: 100%;
+    width: 100%;
+}
+
+.mapboxgl-canvas-container {
+
+  height: 100vh;
+
+}
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  }
 
 /*FOOTER*/
 

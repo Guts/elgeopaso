@@ -10,8 +10,8 @@
 # ##################################
 
 # standard
-import pathlib
 from os import getenv
+from pathlib import Path
 
 # Django
 from django.core.exceptions import ImproperlyConfigured
@@ -25,7 +25,7 @@ from elgeopaso import __about__
 # ##############################################################################
 # ########## Globals ###############
 # ##################################
-ROOT_DIR = pathlib.Path(__file__).parents[2].resolve()
+ROOT_DIR = Path(__file__).parents[2].resolve()
 PROJ_DIR = ROOT_DIR / getenv("DJANGO_PROJECT_FOLDER", default="elgeopaso")
 
 # GENERAL
@@ -371,3 +371,8 @@ SWAGGER_SETTINGS = {
 CRAWL_FREQUENCY = "hourly"
 CRAWL_RSS_SIZE = 100
 FIXTURE_DIRS = [ROOT_DIR / "jobs/fixtures/"]
+GEOJSON_FOLDER = STATIC_ROOT / Path("jobs/geojson")
+GEOJSON_TO_DOWLOAD = {
+    "fr_departements": "http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2019/geojson/departements-100m.geojson",
+    # "fr_regions": "http://etalab-datasets.geo.data.gouv.fr/contours-administratifs/2019/geojson/regions-100m.geojson"
+}

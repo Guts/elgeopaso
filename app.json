@@ -25,6 +25,10 @@
     }
   ],
   "env": {
+    "DJANGO_ALLOWED_HOSTS": {
+      "description": "Host/domain names that this Django site can serve",
+      "value": ".herokuapp.com"
+    },
     "DJANGO_DEBUG": {
       "description": "Debug or not debug",
       "value": "0"
@@ -33,9 +37,9 @@
       "description": "The secret key for the Django application.",
       "generator": "secret"
     },
-    "PYTHONHASHSEED": {
-      "description": "Hash randomization",
-      "value": "random"
+    "DJANGO_SETTINGS_MODULE": {
+      "description": "Project settings to use.",
+      "generator": "elgeopaso.settings.production"
     },
     "WEB_CONCURRENCY": {
       "description": "The number of processes to run.",
@@ -52,6 +56,18 @@
         "DJANGO_DEBUG": {
           "description": "Debug or not debug",
           "value": "1"
+        },
+        "DJANGO_SECRET_KEY": {
+          "description": "The secret key for the Django application.",
+          "generator": "secret"
+        },
+        "DJANGO_SETTINGS_MODULE": {
+          "description": "Project settings to use.",
+          "generator": "elgeopaso.settings.production"
+        },
+        "WEB_CONCURRENCY": {
+          "description": "Number of processes to run.",
+          "value": "4"
         }
       },
       "addons": {
