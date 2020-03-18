@@ -50,6 +50,7 @@ class Command(BaseCommand):
             return
         else:
             geojson_dir = settings.GEOJSON_FOLDER
+            geojson_dir.mkdir(parents=True, exist_ok=True)
 
         # download required files
         self.external_downloader()
