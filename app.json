@@ -17,6 +17,9 @@
       "options": {
         "version": "12"
       }
+    },
+    {
+      "plan": "papertrail:choklad"
     }
   ],
   "buildpacks": [
@@ -28,6 +31,10 @@
     "DJANGO_ALLOWED_HOSTS": {
       "description": "Host/domain names that this Django site can serve",
       "value": ".herokuapp.com"
+    },
+    "DJANGO_ADMIN_URL": {
+      "description": "URL to access administration panel.",
+      "value": "admin"
     },
     "DJANGO_DEBUG": {
       "description": "Debug or not debug",
