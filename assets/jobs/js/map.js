@@ -19,7 +19,7 @@ $(document).ready(function () {
     map.on('load', function () {
         map.addSource("departements-fr", {
             "type": "geojson",
-            "data": static_url + "jobs/geojson/dpts_metro_jobs.json"
+            "data": static_url + "jobs/geojson/fr_departements_jobs.geojson"
         });
 
         map.addLayer({
@@ -50,8 +50,8 @@ $(document).ready(function () {
         map.on('click', 'boundaries', function (e) {
             new mapboxgl.Popup()
                 .setLngLat(e.lngLat)
-                .setHTML('</h4>' + e.features[0].properties.NOM_DEPT + '</h4>' +
-                    '(' + e.features[0].properties.NOM_REGION + ')<br />' + e.features[0].properties.JOBS_TOTAL + ' offres')
+                .setHTML('</h4>' + e.features[0].properties.nom + '</h4>' +
+                    ' (' + e.features[0].properties.code + ')<br />' + e.features[0].properties.JOBS_TOTAL + ' offres')
                 .addTo(map);
         });
 
