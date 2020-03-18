@@ -104,3 +104,6 @@ nltk_data/*
 *.whl
 dev_flake8_report.txt
 junit/test-results.xml
+
+# Javascript and NodeJS stuff
+node_modules/*
