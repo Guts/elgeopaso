@@ -79,6 +79,10 @@ class TestAnalizerGeorezo(TestCase):
             clean_title = Analizer.remove_html_markups(html_text=i.raw_title)
             self.assertIsInstance(clean_title, str)
 
+    def test_map_builder(self):
+        """Test map_builder command management"""
+        call_command("map_builder", verbosity=0)
+
     def test_place_extraction(self):
         """Test extraction of place from title."""
         # instanciate
