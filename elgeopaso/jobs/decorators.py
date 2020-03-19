@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-#! python3  # noqa: E265  # noqa E265
+#! python3  # noqa: E265
 
 # #############################################################################
 # ######## Functions ##############
 # #################################
+
 
 # custom cache
 def conditional_cache(decorator):

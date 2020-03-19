@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
-from django.urls import reverse
 from django.core.validators import MaxLengthValidator
 from django.db import models
 from django.template.defaultfilters import truncatechars
-
+from django.urls import reverse
 
 # 3rd party package
 from ckeditor_uploader.fields import RichTextUploadingField
-
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name="Catégorie")
@@ -22,9 +20,10 @@ class Category(models.Model):
         return reverse("view_category", kwargs={"slug": self.slug_name})
 
     class Meta:
+        app_label = "cms"
+        ordering = ["name"]
         verbose_name = "Type de contenu"
         verbose_name_plural = "Types de contenu"
-        ordering = ["name"]
 
 
 class Article(models.Model):
@@ -62,9 +61,10 @@ class Article(models.Model):
         return truncatechars(self.content, 300)
 
     class Meta:
-        verbose_name = "Contenu éditorial"
-        verbose_name_plural = "Contenus éditoriaux"
+        app_label = "cms"
         get_latest_by = "updated"
         ordering = [
             "title",
         ]
+        verbose_name = "Contenu éditorial"
+        verbose_name_plural = "Contenus éditoriaux"

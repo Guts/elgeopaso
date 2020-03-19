@@ -22,4 +22,5 @@ class Subscription(models.Model):
             return "L'utilisateur.rice n'est abonné.e à aucun rapport"
 
     class Meta:
+        app_label = "accounts"
         verbose_name = "Abonnements mail"

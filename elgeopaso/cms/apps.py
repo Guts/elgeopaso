@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#! python3  # noqa: E265  # noqa E265
+#! python3  # noqa: E265
 
 """
     Application settings.
@@ -11,6 +11,7 @@
 
 # Django
 from django.apps import AppConfig
+
 
 # #############################################################################
 # ########### Classes ##############

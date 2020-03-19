@@ -16,7 +16,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 # project
-from jobs import views
+from elgeopaso.jobs import views
 
 # #############################################################################
 # ########### Globals ##############

@@ -22,7 +22,7 @@ from django_filters import rest_framework as filters
 from django_filters.widgets import BooleanWidget, RangeWidget
 
 # Project
-from .models import Offer
+from elgeopaso.jobs.models import Offer
 
 
 # #############################################################################

@@ -24,7 +24,7 @@ import arrow
 
 # Django project
 from django.core.management.base import BaseCommand
-from jobs.models import GeorezoRSS
+from elgeopaso.jobs.models import GeorezoRSS
 
 # ############################################################################
 # ########## Globals #############

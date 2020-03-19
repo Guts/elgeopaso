@@ -25,7 +25,7 @@ from bs4 import BeautifulSoup
 from nltk.corpus import stopwords
 
 # project modules
-from jobs.models import (
+from elgeopaso.jobs.models import (
     Contract,
     ContractVariations,
     GeorezoRSS,

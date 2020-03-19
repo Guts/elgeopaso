@@ -26,7 +26,7 @@ from validator_collection import validators
 
 # module target
 from elgeopaso.__about__ import __version__
-from jobs.crawlers import GeorezoRssParser
+from elgeopaso.jobs.crawlers import GeorezoRssParser
 
 # #############################################################################
 # ######## Globals #################

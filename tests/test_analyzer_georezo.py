@@ -15,7 +15,6 @@
 # ##################################
 
 # Standard library
-from datetime import datetime
 from pathlib import Path
 from sys import _getframe
 
@@ -24,8 +23,8 @@ from django.core.management import call_command
 from django.test import TestCase
 
 # module target
-from jobs.analyzer import Analizer
-from jobs.models import Place
+from elgeopaso.jobs.analyzer import Analizer
+from elgeopaso.jobs.models import Place
 
 # fixtures
 from .fixtures.offers_titles import LI_FIXTURES_OFFERS_TITLE
@@ -55,11 +54,11 @@ class TestAnalizerGeorezo(TestCase):
     def setUp(self):
         """Executed before each test."""
         # populate database for analisis
-        call_command("loaddata", "jobs/fixtures/contracts.json", verbosity=0)
-        call_command("loaddata", "jobs/fixtures/jobs.json", verbosity=0)
-        call_command("loaddata", "jobs/fixtures/places.json", verbosity=0)
-        call_command("loaddata", "jobs/fixtures/technos.json", verbosity=0)
-        call_command("loaddata", "jobs/fixtures/sources.json", verbosity=0)
+        call_command("loaddata", "elgeopaso/jobs/fixtures/contracts.json", verbosity=0)
+        call_command("loaddata", "elgeopaso/jobs/fixtures/jobs.json", verbosity=0)
+        call_command("loaddata", "elgeopaso/jobs/fixtures/places.json", verbosity=0)
+        call_command("loaddata", "elgeopaso/jobs/fixtures/technos.json", verbosity=0)
+        call_command("loaddata", "elgeopaso/jobs/fixtures/sources.json", verbosity=0)
 
         # fixtures
         self.tmp_fixtures_dir = Path("tests/fixtures/tmp/")

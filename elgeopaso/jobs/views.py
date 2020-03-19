@@ -30,9 +30,9 @@ import arrow
 
 # project
 # from cms.models import Article
-from .decorators import conditional_cache
-from .filters import OfferFilter
-from .models import Contract, Offer
+from elgeopaso.jobs.decorators import conditional_cache
+from elgeopaso.jobs.filters import OfferFilter
+from elgeopaso.jobs.models import Contract, Offer
 
 # ############################################################################
 # ########## Globals ##############

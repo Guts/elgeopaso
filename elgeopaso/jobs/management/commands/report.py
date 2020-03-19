@@ -16,8 +16,8 @@ from django.core.management.base import BaseCommand
 import arrow
 
 # Django project
-from accounts.models import Subscription
-from jobs.models import (
+from elgeopaso.accounts.models import Subscription
+from elgeopaso.jobs.models import (
     JobPosition,
     JobPositionVariations,
     Offer,

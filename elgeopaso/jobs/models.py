@@ -54,6 +54,7 @@ class GeorezoRSS(models.Model):
     )
 
     class Meta:
+        app_label = "jobs"
         db_table = "georezo_rss"
         unique_together = (("id_rss", "pub_date", "source"),)
         verbose_name_plural = "Offres d'emploi brutes issues du RSS de GeoRezo"
