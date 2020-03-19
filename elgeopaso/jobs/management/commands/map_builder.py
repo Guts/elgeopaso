@@ -15,14 +15,12 @@ from tempfile import NamedTemporaryFile
 # Django
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from django.templatetags.static import static
 
 # 3rd party
 import requests
 
 # Django project
-from elgeopaso.__about__ import __title_clean__
-from jobs.models import Offer
+from elgeopaso.jobs.models import Offer
 
 # ############################################################################
 # ########### Classes #############

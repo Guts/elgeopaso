@@ -114,10 +114,10 @@ THIRD_PARTY_APPS = [
 ]
 
 PROJECT_APPS = [
-    "accounts.apps.AccountsConfig",
-    "api.apps.ApiConfig",
-    "cms.apps.CmsConfig",
-    "jobs.apps.JobsConfig",
+    "elgeopaso.accounts",
+    "elgeopaso.api",
+    "elgeopaso.cms",
+    "elgeopaso.jobs",
 ]
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS

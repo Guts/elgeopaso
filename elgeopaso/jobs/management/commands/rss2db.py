@@ -25,12 +25,12 @@ from django.core.management.base import BaseCommand, CommandParser
 from django.db import IntegrityError
 from django.db.models import F
 
-from accounts.models import Subscription
-from jobs.models import GeorezoRSS, Offer
+from elgeopaso.accounts.models import Subscription
+from elgeopaso.jobs.models import GeorezoRSS, Offer
 
 # submodules
-from jobs.analyzer import Analizer
-from jobs.crawlers import GeorezoRssParser
+from elgeopaso.jobs.analyzer import Analizer
+from elgeopaso.jobs.crawlers import GeorezoRssParser
 
 # ############################################################################
 # ########### Classes #############

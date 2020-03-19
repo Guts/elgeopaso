@@ -40,13 +40,13 @@ urlpatterns = [
     # authentication flow
     path("accounts/", include("allauth.urls")),
     # Jobs analytics
-    path("", include("jobs.urls", "index"), name="home"),
-    path("jobs/", include("jobs.urls")),
+    path("", include("elgeopaso.jobs.urls", "index"), name="home"),
+    path("jobs/", include("elgeopaso.jobs.urls")),
     # CMS
-    path("content/", include(("cms.urls", "cms"), namespace="cms")),
+    path("content/", include(("elgeopaso.cms.urls", "cms"), namespace="cms")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     # API
-    path("api/", include(("api.urls", "api"), namespace="api")),
+    path("api/", include(("elgeopaso.api.urls", "api"), namespace="api")),
 ]
 
 

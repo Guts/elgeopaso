@@ -16,7 +16,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 
 # application
-from .models import (
+from elgeopaso.jobs.models import (
     GeorezoRSS,
     Offer,
     Source,

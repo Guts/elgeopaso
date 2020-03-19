@@ -22,7 +22,7 @@ import unittest
 import arrow
 
 # module
-from jobs.crawlers import GeorezoRssParser
+from elgeopaso.jobs.crawlers import GeorezoRssParser
 
 # #############################################################################
 # ########## Classes ###############

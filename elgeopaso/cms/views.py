@@ -4,7 +4,7 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.gzip import gzip_page
 from django.views.decorators.http import require_safe
 
-from .models import Article, Category
+from elgeopaso.cms.models import Article, Category
 
 
 @require_safe

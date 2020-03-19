@@ -9,8 +9,8 @@
 # Django
 
 # PROJECT APPS
-from jobs.models import Contract, JobPosition, Offer, Place, PlaceVariations, Technology
-from api.serializers import (
+from elgeopaso.jobs.models import Contract, JobPosition, Offer, Place, PlaceVariations, Technology
+from elgeopaso.api.serializers import (
     ContractSerializer,
     JobSerializer,
     PlaceSerializer,
