@@ -13,3 +13,4 @@ python manage.py loaddata ./jobs/fixtures/sources.json
 # parse rss
 python manage.py rss2db
 python manage.py map_builder
+python manage.py collectstatic --noinput
