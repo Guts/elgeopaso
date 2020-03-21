@@ -8,6 +8,7 @@ from django.urls import reverse
 # 3rd party package
 from ckeditor_uploader.fields import RichTextUploadingField
 
+
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name="Catégorie")
     slug_name = models.SlugField(verbose_name="Alias normé", unique=True, blank=True)
