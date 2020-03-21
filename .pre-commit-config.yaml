@@ -1,7 +1,7 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 exclude: "node_modules|migrations|.venv|tests/dev/|tests/fixtures/"
-fail_fast: true
+# fail_fast: true
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.5.0
@@ -9,7 +9,9 @@ repos:
   - id: trailing-whitespace
     # files: (^|/)a/.+\.(py|html|sh|css|js)$
   - id: check-yaml
+  - id: check-added-large-files
   - id: detect-private-key
+  - id: end-of-file-fixer
   - id: fix-encoding-pragma
 - repo: https://github.com/python/black
   rev: 19.10b0
