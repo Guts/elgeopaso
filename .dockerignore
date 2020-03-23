@@ -1,5 +1,6 @@
 # dev stuff
 .github/*
+.pytest_cache/*
 .venv/*
 .vscode/*
 html_cov/*
@@ -11,5 +12,6 @@ static/*
 *.sqlite*
 *.db
 
-# exceptions
+# ignore all environment files except docker.env
+*.env
 !docker.env

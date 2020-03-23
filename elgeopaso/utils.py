@@ -9,6 +9,7 @@
 
 # Standard library
 import logging
+from os import getenv
 from pathlib import Path
 
 # 3rd party
@@ -22,8 +23,11 @@ from dotenv import find_dotenv, load_dotenv
 def find_and_load_environment_vars(start_dir: Path = "."):
     """Find and load environment files.
 
-    :param Path start_dir: folder where to look for envi files. Defaults to: "." - optional
+    :param Path start_dir: folder where to look for env files. Defaults to: "." - optional
     """
+    # DOCKER
+    USE_DOCKER = int(getenv("USE_DOCKER", default=0))
+
     # look for `.env` files, ignoring example.env
     dotenv_files = [
         env_file
@@ -49,8 +53,13 @@ def find_and_load_environment_vars(start_dir: Path = "."):
             )
         )
         for env_file in dotenv_files:
-            if env_file.name == ".env":
+            if env_file.name == ".env" and not USE_DOCKER:
                 logging.info("Priority given to the pure '.env' file. Using it.")
+                # load environment variables
+                load_dotenv(env_file, override=True)
+                break
+            elif env_file.name == "docker.env" and USE_DOCKER:
+                logging.info("Docker enabled. Priority given to the 'docker.env' file. Using it.")
                 # load environment variables
                 load_dotenv(env_file, override=True)
                 break

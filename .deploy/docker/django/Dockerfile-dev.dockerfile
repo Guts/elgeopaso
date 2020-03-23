@@ -21,6 +21,11 @@ RUN python -m pip install --upgrade pip \
   && python -m pip install -r /requirements/local.txt \
   && python -m nltk.downloader punkt stopwords
 
+# Add release script
+COPY .deploy/release-tasks.sh /release-tasks.sh
+RUN sed -i 's/\r$//g' /release-tasks.sh \
+  && chmod +x /release-tasks.sh
+
 # Add entrypoint script
 COPY ./.deploy/docker/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r$//g' /entrypoint.sh \

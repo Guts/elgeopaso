@@ -13,3 +13,5 @@ python manage.py loaddata ./elgeopaso/jobs/fixtures/sources.json
 # parse rss
 python manage.py rss2db
 python manage.py map_builder
+
+exec "$@"
