@@ -13,6 +13,8 @@ repos:
   - id: detect-private-key
   - id: end-of-file-fixer
   - id: fix-encoding-pragma
+  - id: mixed-line-ending
+    args: [--fix=no]
 - repo: https://github.com/python/black
   rev: 19.10b0
   hooks:
