@@ -59,7 +59,9 @@ def find_and_load_environment_vars(start_dir: Path = "."):
                 load_dotenv(env_file, override=True)
                 break
             elif env_file.name == "docker.env" and USE_DOCKER:
-                logging.info("Docker enabled. Priority given to the 'docker.env' file. Using it.")
+                logging.info(
+                    "Docker enabled. Priority given to the 'docker.env' file. Using it."
+                )
                 # load environment variables
                 load_dotenv(env_file, override=True)
                 break
