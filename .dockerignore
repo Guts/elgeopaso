@@ -1,11 +1,11 @@
 # dev stuff
 .github/*
-.venv
-.vscode
-html_cov
-junit
-node_modules
-static
+.venv/*
+.vscode/*
+html_cov/*
+junit/*
+node_modules/*
+static/*
 
 # SQLite
 *.sqlite*
