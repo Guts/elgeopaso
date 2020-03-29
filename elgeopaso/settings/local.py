@@ -75,7 +75,7 @@ DEBUG_TOOLBAR_CONFIG = {
 INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 
 # Adaptations for Docker usage
-if int(getenv("USE_DOCKER", default=False)):
+if int(getenv("USE_DOCKER", default=0)):
     import socket
 
     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())

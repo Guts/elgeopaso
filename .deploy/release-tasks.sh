@@ -1,9 +1,5 @@
 #!/bin/bash
 
-set -o errexit
-set -o pipefail
-set -o nounset
-
 # apply database migrations
 python manage.py migrate
 
@@ -17,3 +13,5 @@ python manage.py loaddata ./elgeopaso/jobs/fixtures/sources.json
 # parse rss
 python manage.py rss2db
 python manage.py map_builder
+
+exec "$@"

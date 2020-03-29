@@ -1,0 +1,17 @@
+# dev stuff
+.github/*
+.pytest_cache/*
+.venv/*
+.vscode/*
+html_cov/*
+junit/*
+node_modules/*
+static/*
+
+# SQLite
+*.sqlite*
+*.db
+
+# ignore all environment files except docker.env
+*.env
+!docker.env

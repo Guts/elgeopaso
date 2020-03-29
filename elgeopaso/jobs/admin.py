@@ -59,7 +59,7 @@ class OfferAdmin(admin.ModelAdmin):
         "technologies",
         "title",
         "updated",
-        "yearweek"
+        "yearweek",
     )
     list_display = ("id_rss", "title", "short_content", "contract", "place", "pub_date")
     list_select_related = True

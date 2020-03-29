@@ -1,13 +1,26 @@
 # El Géo Paso
 
-![Unit tests](https://github.com/Guts/elgeopaso/workflows/Python%20lint%20and%20test/badge.svg)
+![Continuous integration and deployment](https://github.com/Guts/elgeopaso/workflows/Continuous%20integration%20and%20deployment/badge.svg)
 [![codecov](https://codecov.io/gh/Guts/elgeopaso/branch/master/graph/badge.svg)](https://codecov.io/gh/Guts/elgeopaso)
 !["Python 3.7.x"](https://img.shields.io/badge/python-3.7-blue.svg)
-[![Build Status](https://travis-ci.org/Guts/elgeopaso.svg?branch=master)](https://travis-ci.org/Guts/elgeopaso)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ----
+
+## Développement
+
+### Docker
+
+```shell
+docker-compose -f "docker-compose.dev.yml" up --build
+```
+
+Ouvrir le site sur <http://localhost:8000>.
+
+----
+
+> TO MOVE
 
 ## Description fonctionnelle
 
