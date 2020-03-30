@@ -7,18 +7,63 @@
 <!-- LOCAL STYLESHEET -->
 <link rel="stylesheet" type="text/css" href="{% static "jobs/css/map.css" %}">
 {% endblock %}
+
 {% block content %}
 <div class="container">
+    <div class="jumbotron">
+        <h1>L'offre d'emploi en cartes</h1>
+    </div>
     <div class="row">
-        <div id='map-container'></div>
+        <div class="col-md-6">
+            <p class="lead text-center">Offres d'emploi en Métropole</p>
+            <div id='console'>
+            </div>
+            <div class="big-box" id='map-fr-metro'></div>
+        </div>
+        <div class="col-xs-6">
+            <div class="row">
+                <div class="col-xs-6">
+                    <p class="lead text-center">Île-de-France</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte d'Île-de-France</div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead text-center">La Réunion</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte de La Réunion</div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead text-center">Guadeloupe</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte de Guadeloupe</div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead text-center">Martinique</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte de Martinique</div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead text-center">Guyane</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte de Guyane</div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead text-center">Mayotte</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte de Mayotte</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">Guadeloupe</div>
+        <div class="col-sm-3">Martinique</div>
+        <div class="col-sm-3">Guyane</div>
+        <div class="col-sm-3">La Réunion</div>
     </div>
 </div>
 {% endblock content %}
+
 {% block custom_js %}
 <!-- Mapbox GL JS -->
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js"></script>
 <script type="text/javascript">
     var static_url = "{% get_static_prefix %}";
 </script>
-<script type="text/javascript" src="{% static 'jobs/js/map.js' %}" defer></script>
+<script defer type="text/javascript" src="{% static 'jobs/js/map.js' %}" defer></script>
+<script defer type="text/javascript" src="{% static 'jobs/js/map_idf.js' %}" defer></script>
 {% endblock %}
