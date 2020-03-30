@@ -1,193 +1,212 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block custom_css %}
+<!-- NVD3 -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.css">
+  <!-- SB Admin 2 CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static "jobs/css/sb-admin-2.css" %}">
+{% endblock %}
+
 {% block content %}
-<div id="wrapper">
-      <!-- /.row -->
-      <div class="row">
-        <div class="col-lg-3 col-md-6">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-xs-3">
-                  <i class="fa fa-comments fa-5x"></i>
-                </div>
-                <div class="col-xs-9 text-right">
-                  <div class="huge">{{ global_kpi.0 }}</div>
-                  <div>Offres d'emploi répertoriées</div>
-                </div>
+<div id="main" class="container">
+  <div id="wrapper">
+    <!-- /.row -->
+    <div class="row">
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fa fa-comments fa-5x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge">{{ global_kpi.0 }}</div>
+                <div>Offres d'emploi répertoriées</div>
               </div>
             </div>
-            <a href="{% url 'jobs:timeline' %}">
-              <div class="panel-footer">
-                <span class="pull-left">Voir les 50 plus récentes</span>
-                <span class="pull-right">
-                  <i class="fas fa-arrow-circle-right"></i>
-                </span>
-                <div class="clearfix"></div>
-              </div>
-            </a>
           </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <div class="panel panel-green">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-xs-3">
-                  <i class="fas fa-tasks fa-5x"></i>
-                </div>
-                <div class="col-xs-9 text-right">
-                  <div class="huge">{{ global_kpi.1 }}%</div>
-                  <div>ont un type de contrat reconnu</div>
-                </div>
-              </div>
+          <a href="{% url 'jobs:timeline' %}">
+            <div class="panel-footer">
+              <span class="pull-left">Voir les 50 plus récentes</span>
+              <span class="pull-right">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+              <div class="clearfix"></div>
             </div>
-            <a href="/jobs/search?contract=ND">
-              <div class="panel-footer">
-                <span class="pull-left">Corriger les contrats</span>
-                <span class="pull-right">
-                  <i class="fas fa-arrow-circle-right"></i>
-                </span>
-                <div class="clearfix"></div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <div class="panel panel-yellow">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-xs-3">
-                  <i class="fas fa-map-marked fa-5x"></i>
-                </div>
-                <div class="col-xs-9 text-right">
-                  <div class="huge">{{ global_kpi.2 }}%</div>
-                  <div>sont correctement localisées</div>
-                </div>
-              </div>
-            </div>
-            <a href="{% url 'jobs:map' %}">
-              <div class="panel-footer">
-                <span class="pull-left">Voir la carte</span>
-                <span class="pull-right">
-                  <i class="fas fa-arrow-circle-right"></i>
-                </span>
-                <div class="clearfix"></div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-          <div class="panel panel-red">
-            <div class="panel-heading">
-              <div class="row">
-                <div class="col-xs-3">
-                  <i class="fas fa-chart-line fa-5x"></i>
-                </div>
-                <div class="col-xs-9 text-right">
-                  <div class="huge">{{ global_kpi.3 }}%</div>
-                  <div>d'offres par rapport à la même semaine l'an passé</div>
-                </div>
-              </div>
-            </div>
-            <a href="#title_types_contract_period">
-              <div class="panel-footer">
-                <span class="pull-left">Voir les tendances</span>
-                <span class="pull-right">
-                  <i class="fas fa-arrow-circle-down"></i>
-                </span>
-                <div class="clearfix"></div>
-              </div>
-            </a>
-          </div>
+          </a>
         </div>
       </div>
-      <!-- /.row -->
-      <div class="row">
-        <div class="col-lg-8">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <p id="title_contracts_type_pie"></p>
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-green">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fas fa-tasks fa-5x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge">{{ global_kpi.1 }}%</div>
+                <div>ont un type de contrat reconnu</div>
+              </div>
             </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-              <svg  style="min-height: 450px;" id="chart_contracts_type_pie"></svg>
-            </div>
-            <!-- /.panel-body -->
           </div>
-          <!-- /.panel -->
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <p id="title_offers_period"></p>
+          <a href="/jobs/search?contract=ND">
+            <div class="panel-footer">
+              <span class="pull-left">Corriger les contrats</span>
+              <span class="pull-right">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+              <div class="clearfix"></div>
             </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-              <svg style="min-height: 400px;" id="chart_offers_period"> </svg>
-            </div>
-            <!-- /.panel-body -->
-          </div>
-          <!-- /.panel -->
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <p id="title_types_contract_period"></p>
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-              <svg style="min-height: 400px;" id="chart_types_contract_period"> </svg>
-            </div>
-            <!-- /.panel-body -->
-          </div>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <p id="title_technos_pie"></p>
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-              <svg style="min-height: 400px;" id="chart_technos_pie"> </svg>
-            </div>
-            <!-- /.panel-body -->
-          </div>
-          <!-- /.panel -->
+          </a>
         </div>
-        <!-- /.col-lg-8 -->
-        <div class="col-lg-4">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <p id="title_fr_dpts_toms_pie"></p>
-            </div>
-            <!-- /.panel-heading -->
-            <div class="panel-body">
-              <svg style="min-height: 450px;" id="chart_fr_dpts_toms_pie"></svg>
-            </div>
-            <!-- /.panel-body -->
-          </div>
-          <!-- /.panel -->
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <p id="title_countries_pie"></p>
-            </div>
-            <div class="panel-body">
-              <svg style="min-height: 350px;" id="chart_countries_pie"> </svg>
-            </div>
-            <!-- /.panel-body -->
-          </div>
-        </div>
-        <!-- /.col-lg-4 -->
       </div>
-      <!-- /.row -->
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-yellow">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fas fa-map-marked fa-5x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge">{{ global_kpi.2 }}%</div>
+                <div>sont correctement localisées</div>
+              </div>
+            </div>
+          </div>
+          <a href="{% url 'jobs:map' %}">
+            <div class="panel-footer">
+              <span class="pull-left">Voir la carte</span>
+              <span class="pull-right">
+                <i class="fas fa-arrow-circle-right"></i>
+              </span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="panel panel-red">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-xs-3">
+                <i class="fas fa-chart-line fa-5x"></i>
+              </div>
+              <div class="col-xs-9 text-right">
+                <div class="huge">{{ global_kpi.3 }}%</div>
+                <div>d'offres par rapport à la même semaine l'an passé</div>
+              </div>
+            </div>
+          </div>
+          <a href="#title_types_contract_period">
+            <div class="panel-footer">
+              <span class="pull-left">Voir les tendances</span>
+              <span class="pull-right">
+                <i class="fas fa-arrow-circle-down"></i>
+              </span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <p id="title_contracts_type_pie"></p>
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+            <svg style="min-height: 450px;" id="chart_contracts_type_pie"></svg>
+          </div>
+          <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <p id="title_offers_period"></p>
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+            <svg style="min-height: 400px;" id="chart_offers_period"> </svg>
+          </div>
+          <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <p id="title_types_contract_period"></p>
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+            <svg style="min-height: 400px;" id="chart_types_contract_period"> </svg>
+          </div>
+          <!-- /.panel-body -->
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <p id="title_technos_pie"></p>
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+            <svg style="min-height: 400px;" id="chart_technos_pie"> </svg>
+          </div>
+          <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+      </div>
+      <!-- /.col-lg-8 -->
+      <div class="col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <p id="title_fr_dpts_toms_pie"></p>
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+            <svg style="min-height: 450px;" id="chart_fr_dpts_toms_pie"></svg>
+          </div>
+          <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <p id="title_countries_pie"></p>
+          </div>
+          <div class="panel-body">
+            <svg style="min-height: 350px;" id="chart_countries_pie"> </svg>
+          </div>
+          <!-- /.panel-body -->
+        </div>
+      </div>
+      <!-- /.col-lg-4 -->
+    </div>
+    <!-- /.row -->
     <!-- /#page-wrapper -->
+  </div>
 </div>
+
 {% endblock content %}
+
 {% block custom_js %}
+<!-- CDN DEPENDENCIES -->
+<!-- D3 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<!-- NVD3 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.6/nv.d3.min.js"></script>
+
+<!-- LOCAL DEPENDENCIES -->
 <script src="{% static 'jobs/js/contracts.js' %}"></script>
 <script defer type="text/javascript">
-  $( document ).ready(function() {
+  $(document).ready(function () {
     // When page loads
     types_contract_global({{ contracts_types| safe }});
-    contracts_by_french_dpts_toms();
-    offers_by_period("year");
-    types_contract_by_period("year");
-    contracts_by_technos();
-    contracts_by_countries();
+  contracts_by_french_dpts_toms();
+  offers_by_period("year");
+  types_contract_by_period("year");
+  contracts_by_technos();
+  contracts_by_countries();
   });
 </script>
 {% endblock %}
