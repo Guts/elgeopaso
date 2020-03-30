@@ -191,23 +191,10 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # https://docs.djangoproject.com/fr/2.2/ref/settings/#template-dirs
         "DIRS": [str(PROJ_DIR / "templates")],
+        "APP_DIRS": False,
         "OPTIONS": {
             # https://docs.djangoproject.com/fr/2.2/ref/settings/#template-loaders
             # https://docs.djangoproject.com/fr/2.2/ref/templates/api/#loader-types
-            # "loaders": [
-            #     "django.template.loaders.cached.Loader"
-            #     "django.template.loaders.app_directories.Loader",
-            #     "django.template.loaders.filesystem.Loader",
-            # ],
-            "loaders": [
-                (
-                    "django.template.loaders.cached.Loader",
-                    [
-                        "django.template.loaders.filesystem.Loader",
-                        "django.template.loaders.app_directories.Loader",
-                    ],
-                ),
-            ],
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",

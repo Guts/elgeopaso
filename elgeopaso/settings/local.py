@@ -52,6 +52,10 @@ INSTALLED_APPS += DEVELOPMENT_APPS  # noqa: F405
 # http://whitenoise.evans.io/en/latest/django.html#using-whitenoise-in-development
 INSTALLED_APPS = ["whitenoise.runserver_nostatic"] + INSTALLED_APPS  # noqa F405
 
+# TEMPLATES
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/fr/2.2/ref/settings/#templates
+TEMPLATES[-1]["APP_DIRS"] = True  # noqa: F405
 
 # EMAIL
 # ------------------------------------------------------------------------------
