@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 {% block custom_css %}
-<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+<!-- Mapbox GL JS -->
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css" rel="stylesheet" />
+
+<!-- LOCAL STYLESHEET -->
+<link rel="stylesheet" type="text/css" href="{% static "jobs/css/map.css" %}">
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -11,7 +15,8 @@
 </div>
 {% endblock content %}
 {% block custom_js %}
-<script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+<!-- Mapbox GL JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js"></script>
 <script type="text/javascript">
     var static_url = "{% get_static_prefix %}";
 </script>
