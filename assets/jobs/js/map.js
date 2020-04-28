@@ -24,6 +24,7 @@ $(document).ready(function () {
                 type: 'geojson',
                 data: static_url + "jobs/geojson/fr_departements_jobs_centroids.geojson"
             },
+            // filter: ['>=', ['number', ['get', 'JOBS_TOTAL']], 1],
             paint: {
                 'circle-radius': [
                     'interpolate',
@@ -45,6 +46,19 @@ $(document).ready(function () {
                 ],
                 'circle-opacity': 0.8
             }
+        });
+
+        document.getElementById('slider').addEventListener('input', function (e) {
+            var year = parseInt(e.target.value);
+            console.log("selected year: " + year);
+            console.log("selected property: " + 'JOBS_' + year);
+
+            // update the map
+            // map.setFilter('boundaries', ['==', 'JOBS_' + year, 'JOBS_' + year]);
+            map.setPaintProperty('boundaries', 'circle-radius', ['number', ['get', 'JOBS_' + year]]);
+
+            // update text in the UI
+            document.getElementById('active-year').innerText = year;
         });
 
         // Change the cursor to a pointer when the mouse is over the states layer.
