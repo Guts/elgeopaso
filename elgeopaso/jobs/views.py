@@ -437,7 +437,7 @@ def timeline(request):
 @conditional_cache(decorator=cache_page(60 * 60))
 def search(request):
     """Search form."""
-    offers_qs = Offer.objects.select_related().all()
+    offers_qs = Offer.objects.select_related().all().order_by("-pub_date")
     offers_filtered = OfferFilter(request.GET, queryset=offers_qs)
     paginator = Paginator(offers_filtered.qs, 25)
 
