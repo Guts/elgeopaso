@@ -6,15 +6,17 @@ repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.5.0
   hooks:
-  - id: trailing-whitespace
-    # files: (^|/)a/.+\.(py|html|sh|css|js)$
-  - id: check-yaml
   - id: check-added-large-files
+    args: ['--maxkb=500']
+  - id: check-toml
+  - id: check-yaml
   - id: detect-private-key
   - id: end-of-file-fixer
   - id: fix-encoding-pragma
-  - id: mixed-line-ending
-    args: [--fix=no]
+    args: [--remove]
+  - id: trailing-whitespace
+    args: [--markdown-linebreak-ext=md]
+
 - repo: https://github.com/python/black
   rev: 19.10b0
   hooks:
