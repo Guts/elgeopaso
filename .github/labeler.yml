@@ -3,7 +3,7 @@ ci-cd:
 
 dependencies:
     - ./requirements.txt
-    - ./requirements/*
+    - ./requirements/*.txt
 
 documentation:
     - docs/**/*
