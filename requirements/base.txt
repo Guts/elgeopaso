@@ -29,7 +29,7 @@ beautifulsoup4==4.8.*
 lxml==4.5.*
 Pillow==7.0.*  # https://github.com/python-pillow/Pillow
 python-dotenv==0.13.*   # https://saurabh-kumar.com/python-dotenv/#django
-pytz==2019.3  # https://github.com/stub42/pytz
+pytz==2020.1  # https://github.com/stub42/pytz
 
 # Database
 # -----------------------
