@@ -12,7 +12,6 @@ django-allauth==0.41.*   # https://django-allauth.readthedocs.io
 django-crispy-forms==1.9.*  # https://django-crispy-forms.readthedocs.io
 django-ckeditor==5.9.*
 django-filter==2.2.*
-django-suit==0.2.*
 django-widgets-improved==1.5.*
 whitenoise[brotli]==5.0.*  # https://github.com/evansd/whitenoise
 
