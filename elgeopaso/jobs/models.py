@@ -100,7 +100,7 @@ class ContractVariations(models.Model):
     ND = "UNDEFINED"
     # FIELDS
     label = models.CharField(
-        max_length=200, default=ND, verbose_name="Variante du libellé"
+        max_length=200, null=False, unique=True, verbose_name="Variante du libellé",
     )
     name = models.ForeignKey(
         Contract,
@@ -172,7 +172,11 @@ class TechnologyVariations(models.Model):
     ND = "UNDEFINED"
     # FIELDS
     label = models.CharField(
-        max_length=200, default=ND, verbose_name="Variante du libellé"
+        max_length=200,
+        default=ND,
+        null=False,
+        unique=True,
+        verbose_name="Variante du libellé",
     )
     name = models.ForeignKey(
         Technology,
@@ -240,7 +244,11 @@ class PlaceVariations(models.Model):
     ND = "UNDEFINED"
     # FIELDS
     label = models.CharField(
-        max_length=200, default=ND, verbose_name="Variante du libellé"
+        max_length=200,
+        default=ND,
+        null=False,
+        unique=True,
+        verbose_name="Variante du libellé",
     )
     name = models.ForeignKey(
         Place,
@@ -282,7 +290,11 @@ class JobPositionVariations(models.Model):
     ND = "UNDEFINED"
     # FIELDS
     label = models.CharField(
-        max_length=200, default=ND, verbose_name="Variante du libellé"
+        max_length=200,
+        default=ND,
+        null=False,
+        unique=True,
+        verbose_name="Variante du libellé",
     )
     name = models.ForeignKey(
         JobPosition,
