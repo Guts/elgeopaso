@@ -25,7 +25,7 @@ from django.test import TestCase
 from elgeopaso.utils import TextToolbelt
 from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
 from elgeopaso.jobs.analyzer.georezo.parsers import ContentParser, TitleParser
-from elgeopaso.jobs.models import Place
+from elgeopaso.jobs.models import Contract, Place
 
 # fixtures
 from .fixtures.offers_titles import LI_FIXTURES_OFFERS_TITLE
@@ -108,23 +108,25 @@ class TestAnalizerGeorezo(TestCase):
             else:
                 self.assertIsInstance(result_place, str)
 
-    # def test_contract_type(self):
-    #     """Test extraction of contract type from title."""
-    #     # instanciate
-    #     analyser = GeorezoOfferAnalizer(li_offers_ids=["11111",])
+    def test_contract_type(self):
+        """Test extraction of contract type from title."""
+        # instanciate
+        analyser = GeorezoOfferAnalizer(li_offers_ids=["11111",])
 
-    #     # fixtures
-    #     for i in LI_FIXTURES_OFFERS_TITLE:
-    #         analyser.offer_id = i.raw_title
-    #         result = analyser.parse_contract_type(i.raw_title)
+        # fixtures
+        for i in LI_FIXTURES_OFFERS_TITLE:
+            # clean title
+            analyser.offer_id = LI_FIXTURES_OFFERS_TITLE.index(i)
+            clean_title = txt_toolbelt.remove_html_markups(i.raw_title)
 
-    #         if i.well_formed:
-    #             self.assertIsInstance(result, Place)
-    #             self.assertEqual(result.code, i.expected_place_code)
-    #             self.assertEqual(result.name, i.expected_place_name)
-    #             self.assertEqual(result.scale, i.expected_place_scale)
-    #         else:
-    #             self.assertIsInstance(result, str)
+            # title parser
+            title_parser = TitleParser(analyser.offer_id, clean_title)
+
+            # get contract type
+            result_contract = title_parser.parse_contract_type()
+
+            # check
+            self.assertIsInstance(result_contract, Contract)
 
 
 # ##############################################################################

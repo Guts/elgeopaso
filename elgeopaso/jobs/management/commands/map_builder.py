@@ -1,16 +1,13 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265
 
 # ############################################################################
 # ########## Libraries #############
 # ##################################
 # Standard library
-import gzip
 import json
 import logging
 from concurrent.futures import as_completed, ThreadPoolExecutor
 from pathlib import Path
-from tempfile import NamedTemporaryFile
 
 # Django
 from django.conf import settings

@@ -61,7 +61,7 @@ class TitleParser:
         self.tokenized_title = txt_toolbelt.tokenize(self.input_title)
 
     # PARSERS ----------------------------------------------------------------
-    def parse_contract_type(self):
+    def parse_contract_type(self) -> Contract:
         """Extraction of types of contracts: CDI, CDD, mission, volontariat, etc.
 
         In theory, offer's title is formatted to contain the type between []...
@@ -102,7 +102,7 @@ class TitleParser:
         logger.debug("Jobs positions identified: {}".format(jobs_positions_matched))
         return jobs_positions_matched
 
-    def parse_place(self, mode: int = 0):
+    def parse_place(self, mode: int = 0) -> Place:
         """
         Extraction of types of contracts: CDI, CDD, mission, volontariat, etc.
         In theory, place information is wihtin parenthesis '()'.
