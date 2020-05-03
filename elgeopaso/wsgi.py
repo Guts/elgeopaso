@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     WSGI config for elgeopaso project.
 
@@ -18,7 +17,7 @@ from pathlib import Path
 from django.core.wsgi import get_wsgi_application  # noqa: E402
 
 # modules
-from elgeopaso import utils
+from elgeopaso.utils.env_loader import find_and_load_environment_vars
 
 # ############################################################################
 # ########## Globals ###############
@@ -37,7 +36,7 @@ sys.path.append(str(APP_DIR_PATH.resolve()))  # must be a string
 logging.warning("Application path added to the PATH: {}".format(APP_DIR_PATH))
 
 # find and load environment vars from .env file
-utils.find_and_load_environment_vars(APP_DIR_PATH)
+find_and_load_environment_vars(APP_DIR_PATH)
 
 # We defer to a DJANGO_SETTINGS_MODULE already in the environment. This breaks
 # if running multiple sites in the same mod_wsgi process. To fix this, use
