@@ -31,7 +31,7 @@ __summary__ = (
 __title__ = "El Géo Paso"
 __title_clean__ = "".join(e for e in __title__ if e.isalnum())
 __uri__ = "https://github.com/Guts/elgeopaso/"
-__version__ = "1.5.0-beta2"
+__version__ = "1.5.0"
 __version_info__ = tuple(
     [
         int(num) if num.isdigit() else num
