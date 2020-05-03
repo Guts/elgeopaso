@@ -1,5 +1,5 @@
 #! python3  # noqa: E265
-# -*- coding: utf-8 -*-
+
 
 """
     Title parser.
