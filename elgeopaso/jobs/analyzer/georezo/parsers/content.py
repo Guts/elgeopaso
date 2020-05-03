@@ -34,6 +34,9 @@ from .custom_stopwords import TUP_CUSTOM_STOPWORDS
 # ########## Globals ###############
 # ##################################
 
+# logs
+logger = logging.getLogger(__name__)
+
 # timestamps format helpers
 _regex_markups = re.compile(r"<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});")
 
@@ -46,18 +49,21 @@ _regex_markups = re.compile(r"<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});")
 class ContentParser:
     """Parse content of offers published on GeoRezo to extract informations.
 
+    :param int offer_id: offer ID (for tracing purposes)
     :param str input_content: content to parse
-    :param bool new: create or update offer. Defaults to: 1 - optional
     """
 
-    def __init__(self, input_content: str, new: bool = 1):
+    def __init__(self, offer_id: int, input_content: str):
         """Instanciate content parser module."""
         # parameters
+        self.offer_id = offer_id
         self.input_content = input_content
-        self.new = new
+
+        # tokenize content
+        self.tokenized_content = self.parse_words()
 
     # PARSERS ----------------------------------------------------------------
-    def parse_words(self, offer_raw_content):
+    def parse_words(self):
         """
         Extraction of words mentioned into the offers. The goal is to perform
         a semantic analysis.
@@ -69,19 +75,17 @@ class ContentParser:
         # custom list
         contenu = BeautifulSoup(self.input_content, "html.parser")
         contenu = contenu.get_text("\n")
-        contenu = self.remove_html_markups(offer_raw_content)
+        contenu = self.remove_html_markups(self.input_content)
         # contenu = self.clean_xml(contenu)
         contenu_tokenized = nltk.word_tokenize(contenu)
-        # print(len(contenu_tokenized))
 
         # stop words filter
         for mot in contenu_tokenized:
-            if mot in stop_fr or mot in li_stop_custom:
+            if mot in stop_fr or mot in TUP_CUSTOM_STOPWORDS:
                 contenu_tokenized = list(filter((mot).__ne__, contenu_tokenized))
 
         logging.debug("Words parsed: {}".format(len(contenu_tokenized)))
 
-        # print(len(contenu_tokenized))
         return contenu_tokenized
 
     def parse_technology(self, offer_content_tokenized):

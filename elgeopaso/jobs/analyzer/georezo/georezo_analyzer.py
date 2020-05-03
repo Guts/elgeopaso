@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265
 
 """
@@ -116,13 +115,13 @@ class GeorezoOfferAnalizer:
             place = title_parser.parse_place(mode=0)
 
             # -- Content analisis ----------------------
-            # clean content
             clean_content = self.remove_html_markups(raw_offer.content)
-            # content cleaning and nltk tokenizing
-            content_words = self.parse_words(raw_offer.content)
-            # print(content_words)
+
+            content_parser = ContentParser(
+                offer_id=offer_id, input_content=clean_content
+            )
             content_title = self.parse_words(raw_offer.title)
-            technos = self.parse_technology(content_words)
+            technos = content_parser.parse_technology()
             jobs_labels = self.parse_jobs_positions(content_title)
 
             # add or update offer
