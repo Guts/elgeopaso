@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265  # noqa: E265
 
 """
@@ -20,7 +19,7 @@ __all__ = [
 ]
 
 
-__author__ = "Julien M. (guts@github)"
+__author__ = "Julien M. (guts@github, geojulien@twitter)"
 __copyright__ = "2018 - {0}, {1}".format(date.today().year, __author__)
 __email__ = "elpaso@georezo.net"
 __license__ = "GNU Lesser General Public License v3.0"
