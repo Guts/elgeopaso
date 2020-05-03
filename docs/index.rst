@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Documentation technique pour El Géo Paso
-========================================
+El Géo Paso - Documentation
+===========================
 
 .. |date| date::
 
@@ -17,10 +17,53 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Global
+
+   global/index
+   global/history
+   global/product_life
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Développement
+
+   development/index
+   development/code
+   development/build
+   development/settings
+   development/tests
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Déployer
+
+   deployment/preproduction
+   deployment/production
+   deployment/git_flow
+   deployment/server_apache
+   deployment/scheduled_tasks
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Base de données
+
+   database/index
+   database/backup
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Autres
+
+   misc/miscellaneous
+   misc/resources
+
+
 ----
 
 .. toctree::
    :maxdepth: 3
-   :caption: Package
+   :caption: Code source
 
    _apidoc/modules

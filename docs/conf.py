@@ -17,6 +17,8 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # 3rd party
 import django
+import recommonmark
+from recommonmark.transform import AutoStructify
 
 # Project
 from elgeopaso import __about__
@@ -43,6 +45,7 @@ version = release = __about__.__version__
 # ones.
 extensions = [
     "recommonmark",
+    "sphinx_copybutton",
     "sphinx.ext.autodoc",
     "sphinx_autodoc_typehints",
     "sphinx_markdown_tables",
@@ -85,15 +88,27 @@ html_sidebars = {
     "**": ["globaltoc.html", "relations.html", "sourcelink.html", "searchbox.html"]
 }
 
+# Language to be used for generating the HTML full-text search index.
+# Sphinx supports the following languages:
+#   'da', 'de', 'en', 'es', 'fi', 'fr', 'hu', 'it', 'ja'
+#   'nl', 'no', 'pt', 'ro', 'ru', 'sv', 'tr'
+html_search_language = "fr"
+
+# The master toctree document.
+master_doc = "index"
+
 # -- Options for extensions -------------------------------------------------
 
-# Example configuration for intersphinx: refer to the Python standard library.
+# -- intersphinx: refer to others sphinx docs
 intersphinx_mapping = {
     "python": ("https://python.readthedocs.io/en/latest/", None),
     "django": ("https://django.readthedocs.org/en/stable/", None),
 }
 
-# -- Options for Sphinx API doc ----------------------------------------------
+# -- recommonmark
+github_doc_root = __about__.__uri__ + "tree/master/docs"
+
+# -- API autodoc
 # run api doc
 def run_apidoc(_):
     from sphinx.ext.apidoc import main
@@ -107,4 +122,18 @@ def run_apidoc(_):
 
 # launch setup
 def setup(app):
+    # api autodoc
     app.connect("builder-inited", run_apidoc)
+
+    # structify
+    app.add_config_value(
+        "recommonmark_config",
+        {
+            "url_resolver": lambda url: github_doc_root + url,
+            "auto_toc_tree_section": "Contents",
+            "enable_auto_toc_tree": True,
+            "enable_eval_rst": True,
+        },
+        True,
+    )
+    app.add_transform(AutoStructify)
