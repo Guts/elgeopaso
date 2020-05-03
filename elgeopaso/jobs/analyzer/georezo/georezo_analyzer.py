@@ -11,29 +11,19 @@
 # #################################
 
 # Standard library
-import html
 import logging
 import re
 
 # Django
 from django.db import IntegrityError
 
-# 3rd party modules
-import nltk
-from bs4 import BeautifulSoup
-from nltk.corpus import stopwords
-
 # project modules
 from elgeopaso.jobs.models import (
     Contract,
     GeorezoRSS,
-    JobPosition,
-    JobPositionVariations,
     Offer,
     Place,
     Source,
-    Technology,
-    TechnologyVariations,
 )
 from elgeopaso.utils import TextToolbelt
 
@@ -42,6 +32,9 @@ from .parsers import ContentParser, TitleParser
 # ##############################################################################
 # ########## Globals ###############
 # ##################################
+
+# logs
+logger = logging.getLogger(__name__)
 
 # timestamps format helpers
 _regex_markups = re.compile(r"<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});")
@@ -89,7 +82,7 @@ class GeorezoOfferAnalizer:
         self.opt_words = opt_words
         self.source = source
         self.new = new
-        logging.debug("Launching analisis on {} offers.".format(len(self.offers_ids)))
+        logger.debug("Launching analisis on {} offers.".format(len(self.offers_ids)))
         super(GeorezoOfferAnalizer, self).__init__()
 
     # MAIN METHOD ------------------------------------------------------------
@@ -101,10 +94,10 @@ class GeorezoOfferAnalizer:
             self.offer_id = offer_id
             # chekcs if offer has already been added
             if Offer.objects.filter(id_rss=offer_id).exists() and self.new:
-                logging.error("Offer RSS_ID already exists in DB: {}".format(offer_id))
+                logger.error("Offer RSS_ID already exists in DB: {}".format(offer_id))
                 continue
             else:
-                logging.debug("launch analisis on : {}".format(self.offer_id))
+                logger.debug("launch analisis on : {}".format(self.offer_id))
                 pass
             # get raw offer from georezo_rss table
             raw_offer = GeorezoRSS.objects.get(id_rss=offer_id)
@@ -142,7 +135,7 @@ class GeorezoOfferAnalizer:
                 try:
                     clean_offer.save()
                 except IntegrityError as err_msg:
-                    logging.error(
+                    logger.error(
                         "Offer RSS_ID ({}) already exists in DB: {}".format(
                             offer_id, err_msg
                         )
@@ -151,7 +144,7 @@ class GeorezoOfferAnalizer:
             else:
                 clean_offer = Offer.objects.select_related().filter(id_rss=offer_id)
                 if not clean_offer.exists():
-                    logging.info(
+                    logger.info(
                         "Offer to update no longer exists and won't be created: {}".format(
                             offer_id
                         )
@@ -172,7 +165,7 @@ class GeorezoOfferAnalizer:
             # associate ManyToMany relationships
             clean_offer.technologies.set(technos)
             clean_offer.jobs_positions.set(jobs_labels)
-            logging.debug("Offer analyzed and inserted jobs.offer: {}".format(offer_id))
+            logger.debug("Offer analyzed and inserted jobs.offer: {}".format(offer_id))
 
 
 # ############################################################################

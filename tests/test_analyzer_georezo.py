@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa E265
 
 """Usage from the repo root folder:
@@ -23,6 +22,7 @@ from django.core.management import call_command
 from django.test import TestCase
 
 # module target
+from elgeopaso.utils import TextToolbelt
 from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
 from elgeopaso.jobs.analyzer.georezo.parsers import ContentParser, TitleParser
 from elgeopaso.jobs.models import Place
@@ -34,8 +34,9 @@ from .fixtures.offers_titles import LI_FIXTURES_OFFERS_TITLE
 # ######## Globals #################
 # ##################################
 
-
+# vars
 extension_pattern = "**/*.xml"
+txt_toolbelt = TextToolbelt()
 
 
 def get_test_marker():
@@ -76,9 +77,7 @@ class TestAnalizerGeorezo(TestCase):
     def test_title_cleaner(self):
         """Test special characters removal in title."""
         for i in LI_FIXTURES_OFFERS_TITLE:
-            clean_title = GeorezoOfferAnalizer.remove_html_markups(
-                html_text=i.raw_title
-            )
+            clean_title = txt_toolbelt.remove_html_markups(html_text=i.raw_title)
             self.assertIsInstance(clean_title, str)
 
     def test_map_builder(self):
@@ -94,7 +93,7 @@ class TestAnalizerGeorezo(TestCase):
         for i in LI_FIXTURES_OFFERS_TITLE:
             # clean title
             analyser.offer_id = LI_FIXTURES_OFFERS_TITLE.index(i)
-            clean_title = analyser.remove_html_markups(i.raw_title)
+            clean_title = txt_toolbelt.remove_html_markups(i.raw_title)
 
             # title parser
             title_parser = TitleParser(analyser.offer_id, clean_title)
