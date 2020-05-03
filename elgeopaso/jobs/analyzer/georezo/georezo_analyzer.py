@@ -109,7 +109,7 @@ class GeorezoOfferAnalizer:
 
             # -- Title analisis ----------------------
             clean_title = self.remove_html_markups(raw_offer.title)
-            title_parser = TitleParser(clean_title)
+            title_parser = TitleParser(offer_id=offer_id, input_title=clean_title)
 
             # determine contract type
             contract_type = title_parser.parse_contract_type()

@@ -45,17 +45,15 @@ _regex_markups = re.compile(r"<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});")
 class TitleParser:
     """Parse title of offers published on GeoRezo to extract informations.
 
+    :param int offer_id: offer ID (for tracing purposes)
     :param str input_title: title to parse
-    :param bool new: create or update offer. Defaults to: 1 - optional
     """
 
-    def __init__(
-        self, input_title: str, new: bool = 1,
-    ):
+    def __init__(self, offer_id: int, input_title: str):
         """Instanciate title parser module."""
         # parameters
+        self.offer_id = offer_id
         self.input_title = input_title
-        self.new = new
 
     # PARSERS ----------------------------------------------------------------
     def parse_contract_type(self):
@@ -103,13 +101,13 @@ class TitleParser:
 
         # extract with regex
         if not mode:
-            dpt_code = re.findall("\((\d+)\)", title)
+            dpt_code = re.findall(r"\((\d+)\)", title)
             logging.debug("STRICT regex applied: {}".format(dpt_code))
         elif mode == 1:
-            dpt_code = re.findall("\((2[AB]|[0-9]+)\)", title)
+            dpt_code = re.findall(r"\((2[AB]|[0-9]+)\)", title)
             logging.debug("MEDIUM regex applied: {}".format(dpt_code))
         elif mode == 2:
-            dpt_code = re.findall("(2[AB]|[0-9]+)", title)
+            dpt_code = re.findall(r"(2[AB]|[0-9]+)", title)
             logging.debug("SOFT regex applied: {}".format(dpt_code))
         else:
             raise TypeError("'mode' parameter only accepts an integer [0-2]")
@@ -124,7 +122,7 @@ class TitleParser:
                 logging.debug("Place code MATCHED in title: {}".format(title))
                 # try again
                 if mode < 2:
-                    return self.parse_place(title, mode=mode + 1)
+                    return self.parse_place(mode=mode + 1)
                 else:
                     pass
         elif len(dpt_code) > 1:
@@ -135,7 +133,7 @@ class TitleParser:
             )
             # try again
             if mode < 2:
-                return self.parse_place(title, mode=mode + 1)
+                return self.parse_place(mode=mode + 1)
             else:
                 pass
         elif not len(dpt_code):
@@ -158,7 +156,7 @@ class TitleParser:
                     logging.debug("No place found in: {}".format(i))
             # try again
             if mode < 2:
-                return self.parse_place(title, mode=mode + 1)
+                return self.parse_place(mode=mode + 1)
             else:
                 logging.warning("No place found in title: {}".format(self.input_title))
                 pass

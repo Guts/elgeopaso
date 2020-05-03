@@ -24,6 +24,7 @@ from django.test import TestCase
 
 # module target
 from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
+from elgeopaso.jobs.analyzer.georezo.parsers import ContentParser, TitleParser
 from elgeopaso.jobs.models import Place
 
 # fixtures
@@ -91,8 +92,14 @@ class TestAnalizerGeorezo(TestCase):
 
         # fixtures
         for i in LI_FIXTURES_OFFERS_TITLE:
-            analyser.offer_id = i.raw_title
-            result_place = analyser.parse_place(i.raw_title)
+            # clean title
+            analyser.offer_id = LI_FIXTURES_OFFERS_TITLE.index(i)
+            clean_title = analyser.remove_html_markups(i.raw_title)
+
+            # title parser
+            title_parser = TitleParser(analyser.offer_id, clean_title)
+
+            result_place = title_parser.parse_place()
 
             if i.well_formed:
                 self.assertIsInstance(result_place, Place)
