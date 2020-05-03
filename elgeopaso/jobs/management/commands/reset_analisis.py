@@ -12,7 +12,7 @@ from django.core.management.base import BaseCommand
 from elgeopaso.jobs.models import GeorezoRSS, Offer
 
 # submodules
-from elgeopaso.jobs.analyzer import Analizer
+from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
 
 # #############################################################################
 # ########### Classes #############
@@ -21,7 +21,9 @@ from elgeopaso.jobs.analyzer import Analizer
 
 class Command(BaseCommand):
     args = "<foo bar ...>"
-    help = "Empty tables and launch Analizer from the whole georezo_rss table."
+    help = (
+        "Empty tables and launch GeorezoOfferAnalizer from the whole georezo_rss table."
+    )
 
     # Parsing options ------------------------------------------------------
 
@@ -53,8 +55,8 @@ class Command(BaseCommand):
 
         # reset whole DB or just the specified quantity
         if quantity == -1:
-            analyzer = Analizer(li_raw_offers_rss)
+            analyzer = GeorezoOfferAnalizer(li_raw_offers_rss)
             analyzer.analisis()
         else:
-            analyzer = Analizer(li_raw_offers_rss[:quantity])
+            analyzer = GeorezoOfferAnalizer(li_raw_offers_rss[:quantity])
             analyzer.analisis()

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa E265
 
 """Usage from the repo root folder:
@@ -23,8 +22,10 @@ from django.core.management import call_command
 from django.test import TestCase
 
 # module target
-from elgeopaso.jobs.analyzer import Analizer
-from elgeopaso.jobs.models import Place
+from elgeopaso.utils import TextToolbelt
+from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
+from elgeopaso.jobs.analyzer.georezo.parsers import ContentParser, TitleParser
+from elgeopaso.jobs.models import Contract, Place
 
 # fixtures
 from .fixtures.offers_titles import LI_FIXTURES_OFFERS_TITLE
@@ -33,8 +34,9 @@ from .fixtures.offers_titles import LI_FIXTURES_OFFERS_TITLE
 # ######## Globals #################
 # ##################################
 
-
+# vars
 extension_pattern = "**/*.xml"
+txt_toolbelt = TextToolbelt()
 
 
 def get_test_marker():
@@ -75,7 +77,7 @@ class TestAnalizerGeorezo(TestCase):
     def test_title_cleaner(self):
         """Test special characters removal in title."""
         for i in LI_FIXTURES_OFFERS_TITLE:
-            clean_title = Analizer.remove_html_markups(html_text=i.raw_title)
+            clean_title = txt_toolbelt.remove_html_markups(html_text=i.raw_title)
             self.assertIsInstance(clean_title, str)
 
     def test_map_builder(self):
@@ -85,12 +87,18 @@ class TestAnalizerGeorezo(TestCase):
     def test_place_extraction(self):
         """Test extraction of place from title."""
         # instanciate
-        analyser = Analizer(li_offers_ids=["11111",])
+        analyser = GeorezoOfferAnalizer(li_offers_ids=["11111",])
 
         # fixtures
         for i in LI_FIXTURES_OFFERS_TITLE:
-            analyser.offer_id = i.raw_title
-            result_place = analyser.parse_place(i.raw_title)
+            # clean title
+            analyser.offer_id = LI_FIXTURES_OFFERS_TITLE.index(i)
+            clean_title = txt_toolbelt.remove_html_markups(i.raw_title)
+
+            # title parser
+            title_parser = TitleParser(analyser.offer_id, clean_title)
+
+            result_place = title_parser.parse_place()
 
             if i.well_formed:
                 self.assertIsInstance(result_place, Place)
@@ -100,23 +108,25 @@ class TestAnalizerGeorezo(TestCase):
             else:
                 self.assertIsInstance(result_place, str)
 
-    # def test_contract_type(self):
-    #     """Test extraction of contract type from title."""
-    #     # instanciate
-    #     analyser = Analizer(li_offers_ids=["11111",])
+    def test_contract_type(self):
+        """Test extraction of contract type from title."""
+        # instanciate
+        analyser = GeorezoOfferAnalizer(li_offers_ids=["11111",])
 
-    #     # fixtures
-    #     for i in LI_FIXTURES_OFFERS_TITLE:
-    #         analyser.offer_id = i.raw_title
-    #         result = analyser.parse_contract_type(i.raw_title)
+        # fixtures
+        for i in LI_FIXTURES_OFFERS_TITLE:
+            # clean title
+            analyser.offer_id = LI_FIXTURES_OFFERS_TITLE.index(i)
+            clean_title = txt_toolbelt.remove_html_markups(i.raw_title)
 
-    #         if i.well_formed:
-    #             self.assertIsInstance(result, Place)
-    #             self.assertEqual(result.code, i.expected_place_code)
-    #             self.assertEqual(result.name, i.expected_place_name)
-    #             self.assertEqual(result.scale, i.expected_place_scale)
-    #         else:
-    #             self.assertIsInstance(result, str)
+            # title parser
+            title_parser = TitleParser(analyser.offer_id, clean_title)
+
+            # get contract type
+            result_contract = title_parser.parse_contract_type()
+
+            # check
+            self.assertIsInstance(result_contract, Contract)
 
 
 # ##############################################################################

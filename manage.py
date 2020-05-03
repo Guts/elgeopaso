@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265
 
 """Django's command-line utility for administrative tasks."""
@@ -13,14 +12,14 @@ from os import environ, path
 from pathlib import Path
 
 # modules
-from elgeopaso import utils
+from elgeopaso.utils.env_loader import find_and_load_environment_vars
 
 # ############################################################################
 # ########## Globals ###############
 # ##################################
 
 # find and load environment vars from .env file
-utils.find_and_load_environment_vars(Path("."))
+find_and_load_environment_vars(Path("."))
 
 
 # ############################################################################
