@@ -1,5 +1,4 @@
 #! python3  # noqa: E265
-# -*- coding: utf-8 -*-
 
 """
     Content parser.
@@ -28,6 +27,8 @@ from elgeopaso.jobs.models import (
     Technology,
     TechnologyVariations,
 )
+
+from .custom_stopwords import TUP_CUSTOM_STOPWORDS
 
 # ##############################################################################
 # ########## Globals ###############
@@ -66,75 +67,7 @@ class ContentParser:
         stop_fr = set(stopwords.words("french"))  # add specific French
 
         # custom list
-        li_stop_custom = (
-            "(",
-            ")",
-            "...",
-            ".",
-            ":",
-            ";",
-            "/",
-            "nbsp",
-            "&",
-            "#",
-            ",",
-            "-",
-            ":",
-            "http",
-            "img",
-            "br",
-            "amp",
-            "<",
-            ">",
-            "%",
-            "border",
-            "*",
-            "border=",
-            "les",
-            "leurs",
-            "&",
-            "#",
-            "-",
-            "+",
-            ":",
-            ".",
-            ";",
-            "à",
-            "où",
-            "des",
-            ",",
-            "nbsp",
-            "De",
-            "Des",
-            "et",
-            "en",
-            "(",
-            ")",
-            "pour",
-            "plus",
-            "sein",
-            "sous",
-            "Les",
-            "auprès",
-            "etc",
-            "the",
-            "for",
-            "ème",
-            "via",
-            "Vos",
-            "dès",
-            "plein",
-            "tel",
-            "etc.",
-            "etc..",
-            "Ces",
-            "tél",
-            "cela",
-            "ceci",
-            "cet",
-        )
-
-        contenu = BeautifulSoup(offer_raw_content, "html.parser")
+        contenu = BeautifulSoup(self.input_content, "html.parser")
         contenu = contenu.get_text("\n")
         contenu = self.remove_html_markups(offer_raw_content)
         # contenu = self.clean_xml(contenu)
