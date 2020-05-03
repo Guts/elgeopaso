@@ -29,7 +29,7 @@ from elgeopaso.accounts.models import Subscription
 from elgeopaso.jobs.models import GeorezoRSS, Offer
 
 # submodules
-from elgeopaso.jobs.analyzer import Analizer
+from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
 from elgeopaso.jobs.crawlers import GeorezoRssParser
 
 # ############################################################################
@@ -103,7 +103,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # analyze specific offer or whole things
         if options.get("offer_id"):
-            analyzer = Analizer(options.get("offer_id"), new=options.get("new"))
+            analyzer = GeorezoOfferAnalizer(
+                options.get("offer_id"), new=options.get("new")
+            )
             analyzer.analisis()
             return
 
@@ -225,7 +227,7 @@ class Command(BaseCommand):
             logging.debug(
                 "{} offers selected to be re-analyzed.".format(selected.count())
             )
-            analyzer = Analizer(list(selected), new=force_create)
+            analyzer = GeorezoOfferAnalizer(list(selected), new=force_create)
             analyzer.analisis()
             # remove to_update status
             return selected.update(to_update=False)
@@ -244,7 +246,7 @@ class Command(BaseCommand):
             logging.debug(
                 "{} offers manually updated since last parse".format(updated.count())
             )
-            analyzer = Analizer(list(updated), new=0)
+            analyzer = GeorezoOfferAnalizer(list(updated), new=0)
             analyzer.analisis()
         else:
             logging.debug("No offer updated.")
@@ -260,7 +262,7 @@ class Command(BaseCommand):
             logging.debug(
                 "{} orphans (in GeorezoRSS but not in Offer).".format(orphans.count())
             )
-            analyzer = Analizer(list(orphans))
+            analyzer = GeorezoOfferAnalizer(list(orphans))
             analyzer.analisis()
         else:
             logging.debug("No orphan offer found.")
@@ -279,7 +281,7 @@ class Command(BaseCommand):
                     raw_orphans.count()
                 )
             )
-            analyzer = Analizer(list(raw_orphans))
+            analyzer = GeorezoOfferAnalizer(list(raw_orphans))
             analyzer.analisis()
         else:
             logging.debug("No raw_orphan offer found.")
