@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265
+# -*- coding: utf-8 -*-
 
-from .georezo_analyzer import Analizer  # noqa: F401
+from .georezo.georezo_analyzer import GeorezoOfferAnalizer  # noqa: F401

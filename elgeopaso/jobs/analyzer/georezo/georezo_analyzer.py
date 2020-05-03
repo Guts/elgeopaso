@@ -52,7 +52,7 @@ _regex_markups = re.compile(r"<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});")
 # #################################
 
 
-class Analizer:
+class GeorezoOfferAnalizer:
     """
     Analyze last offers published on GeoRezo and stored in the main table.
     """
@@ -88,7 +88,7 @@ class Analizer:
         self.source = source
         self.new = new
         logging.debug("Launching analisis on {} offers.".format(len(self.offers_ids)))
-        super(Analizer, self).__init__()
+        super(GeorezoOfferAnalizer, self).__init__()
 
     # MAIN METHOD ------------------------------------------------------------
 

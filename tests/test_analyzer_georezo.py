@@ -23,7 +23,7 @@ from django.core.management import call_command
 from django.test import TestCase
 
 # module target
-from elgeopaso.jobs.analyzer import Analizer
+from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
 from elgeopaso.jobs.models import Place
 
 # fixtures
@@ -75,7 +75,9 @@ class TestAnalizerGeorezo(TestCase):
     def test_title_cleaner(self):
         """Test special characters removal in title."""
         for i in LI_FIXTURES_OFFERS_TITLE:
-            clean_title = Analizer.remove_html_markups(html_text=i.raw_title)
+            clean_title = GeorezoOfferAnalizer.remove_html_markups(
+                html_text=i.raw_title
+            )
             self.assertIsInstance(clean_title, str)
 
     def test_map_builder(self):
@@ -85,7 +87,7 @@ class TestAnalizerGeorezo(TestCase):
     def test_place_extraction(self):
         """Test extraction of place from title."""
         # instanciate
-        analyser = Analizer(li_offers_ids=["11111",])
+        analyser = GeorezoOfferAnalizer(li_offers_ids=["11111",])
 
         # fixtures
         for i in LI_FIXTURES_OFFERS_TITLE:
@@ -103,7 +105,7 @@ class TestAnalizerGeorezo(TestCase):
     # def test_contract_type(self):
     #     """Test extraction of contract type from title."""
     #     # instanciate
-    #     analyser = Analizer(li_offers_ids=["11111",])
+    #     analyser = GeorezoOfferAnalizer(li_offers_ids=["11111",])
 
     #     # fixtures
     #     for i in LI_FIXTURES_OFFERS_TITLE:
