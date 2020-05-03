@@ -11,20 +11,20 @@
 # #################################
 
 # Standard library
-import html
 import logging
 import re
-
-# 3rd party modules
-from bs4 import BeautifulSoup
 
 # project modules
 from elgeopaso.jobs.models import (
     Contract,
     ContractVariations,
+    JobPosition,
+    JobPositionVariations,
     Place,
     PlaceVariations,
 )
+
+from elgeopaso.utils import TextToolbelt
 
 # ##############################################################################
 # ########## Globals ###############
@@ -36,6 +36,8 @@ logger = logging.getLogger(__name__)
 # timestamps format helpers
 _regex_markups = re.compile(r"<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});")
 
+# shortcuts
+txt_toolbelt = TextToolbelt()
 
 # ############################################################################
 # ########## Classes ##############
@@ -54,6 +56,9 @@ class TitleParser:
         # parameters
         self.offer_id = offer_id
         self.input_title = input_title
+
+        # tokenize content
+        self.tokenized_title = txt_toolbelt.tokenize(self.input_title)
 
     # PARSERS ----------------------------------------------------------------
     def parse_contract_type(self):
@@ -81,6 +86,21 @@ class TitleParser:
             return Contract.objects.get(abbrv=contract_var)
         else:
             return Contract.objects.get(abbrv="ND")
+
+    def parse_jobs_positions(self) -> list:
+        """Identify job position ('métier') from passed string."""
+        jobs_positions_matched = []
+
+        # parse tokenized
+        for word in self.tokenized_title:
+            if JobPositionVariations.objects.filter(label=word.lower()).exists():
+                job_label = JobPositionVariations.objects.get(label=word.lower()).name
+                jobs_positions_matched.append(JobPosition.objects.get(name=job_label))
+            else:
+                continue
+
+        logger.debug("Jobs positions identified: {}".format(jobs_positions_matched))
+        return jobs_positions_matched
 
     def parse_place(self, mode: int = 0):
         """
@@ -163,30 +183,6 @@ class TitleParser:
 
         # method ending if no place found during various attempts
         return "ND"
-
-    # ------------ UTILITIES -------------------------------------------------
-    @classmethod
-    def remove_html_markups(cls, html_text: str, cleaner: str = "bs-lxml") -> str:
-        """Very basic cleaner for HTML markups.
-
-        :param str html_text: text to be clean
-        :param str cleaner: Which lib to use to clean the text:
-          - "bs-lxml": Beautifulsoup4 + LXML - Default.
-          - "psl-only": Python Standard Library only (html + regex)
-
-        :return: clean text
-        :rtype: str
-        """
-        # with BeautifulSoup + LXML
-        if cleaner == "bs-lxml":
-            cleaned_text = BeautifulSoup(html_text, "lxml").text
-        elif cleaner == "psl-only":
-            # convert HTML5 characters into str.
-            # See: https://docs.python.org/3/library/html.html#html.unescape
-            html_text = html.unescape(html_text)
-            cleaned_text = _regex_markups.sub(" ", html_text)
-
-        return cleaned_text
 
 
 # ############################################################################
