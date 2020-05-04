@@ -10,8 +10,8 @@ El Géo Paso - Documentation
 
 Mise à jour : |date|
 
-Indices and tables
-==================
+Raccourcis
+++++++++++
 
 * :ref:`genindex`
 * :ref:`modindex`
