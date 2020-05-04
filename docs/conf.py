@@ -44,10 +44,15 @@ version = release = __about__.__version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    # markdown
     "recommonmark",
-    "sphinx_copybutton",
+    # Sphinx included
     "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.viewcode",
+    # 3rd party
     "sphinx_autodoc_typehints",
+    "sphinx_copybutton",
     "sphinx_markdown_tables",
     "sphinx_rtd_theme",
 ]
