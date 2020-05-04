@@ -7,8 +7,8 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-Envie d'en savoir plus ? Tout (enfin presque) est dans la documentation :
+Envie d'en savoir plus ? Tout (enfin presque) est dans la documentation : <https://elgeopaso.rtfd.io/>
 
-[![](docs/_static/icon_doc.png)](http://elgeopaso.rtfd.io/)
+[![](docs/_static/icon_doc.png)](https://elgeopaso.rtfd.io/)
 
 > Source icône : Book by Smalllike from the Noun Project
