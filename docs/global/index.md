@@ -1,4 +1,4 @@
-# El Géo Paso - Wiki
+# Introduction
 
 Documentation technique du projet El Géo Paso, statistiques dynamiques sur les offres d'emploi en géomatique publiées sur le forum francophone de géomatique [GeoRezo](https://georezo.net/forum/viewforum.php?id=10).
 
