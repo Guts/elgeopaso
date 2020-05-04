@@ -101,7 +101,7 @@ master_doc = "index"
 
 # -- intersphinx: refer to others sphinx docs
 intersphinx_mapping = {
-    "python": ("https://python.readthedocs.io/en/latest/", None),
+    "python": ("https://docs.python.org/fr/3/", None),
     "django": ("https://django.readthedocs.org/en/stable/", None),
 }
 
