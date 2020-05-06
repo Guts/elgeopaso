@@ -14,7 +14,7 @@ Werkzeug==1.0.*     # https://github.com/pallets/werkzeug
 recommonmark==0.6.*
 Sphinx==3.0.*  # https://github.com/sphinx-doc/sphinx
 sphinx-autodoc-typehints==1.10.*
-sphinx-copybutton==0.2.11
+sphinx-copybutton==0.2.*
 sphinx-markdown-tables==0.0.14  # to render markdown tables
 sphinx-rtd-theme==0.4.*
 
@@ -36,5 +36,5 @@ pylint-django==2.0.*            # https://github.com/PyCQA/pylint-django
 
 # Django
 # ------------------------------------------------------------------------------
-django-debug-toolbar==2.2.*  # https://github.com/jazzband/django-debug-toolbar
+django-debug-toolbar==2.2  # https://github.com/jazzband/django-debug-toolbar
 django-extensions==2.2.*  # https://github.com/django-extensions/django-extensions
