@@ -5,6 +5,7 @@ python manage.py migrate
 
 # load fixtures
 python manage.py loaddata ./elgeopaso/fixtures/sites.json
+python manage.py loaddata ./elgeopaso/cms/fixtures/content.json
 python manage.py loaddata ./elgeopaso/jobs/fixtures/contracts.json
 python manage.py loaddata ./elgeopaso/jobs/fixtures/jobs.json
 python manage.py loaddata ./elgeopaso/jobs/fixtures/places.json
