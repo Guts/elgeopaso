@@ -81,9 +81,7 @@
           <li><a href="/jobs/search/"><i class="fas fa-search"></i> Archives</a></li>
           <li><a href="/api/docs"><i class="fab fa-connectdevelop"></i> API</a></li>
           </li>
-          {% if user.is_authenticated %}
           <li><a href="{% url 'cms:view_category' slug='help' %}"><i class="fas fa-question"></i> Aide</a></li>
-          {% endif %}
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}

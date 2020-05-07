@@ -1,4 +1,6 @@
-from django.contrib.auth.models import User
+#! python3  # noqa: E265
+
+# django
 from django.core.validators import MaxLengthValidator
 from django.db import models
 from django.template.defaultfilters import truncatechars
@@ -51,7 +53,6 @@ class Article(models.Model):
             "cms:view_article",
             kwargs={"slug": self.slug_title, "category": self.category.slug_name},
         )
-        # return "/content/{}/{}".format(self.category.slug_name, self.slug_title)
 
     @property
     def short_content(self):
