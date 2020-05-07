@@ -72,6 +72,7 @@ python manage.py dumpdata jobs.Place jobs.PlaceVariations > elgeopaso/jobs/fixtu
 python manage.py dumpdata jobs.Source > elgeopaso/jobs/fixtures/sources.json
 python manage.py dumpdata jobs.Technology jobs.TechnologyVariations > elgeopaso/jobs/fixtures/technos.json
 python manage.py dumpdata --exclude auth.permission --exclude contenttypes cms.Article cms.Category > elgeopaso/cms/fixtures/content.json
+python manage.py dumpdata sites > elgeopaso/fixtures/sites.json
 ```
 
 #### Restaurer
@@ -83,4 +84,5 @@ python manage.py loaddata elgeopaso/jobs/fixtures/places.json
 python manage.py loaddata elgeopaso/jobs/fixtures/sources.json
 python manage.py loaddata elgeopaso/jobs/fixtures/technos.json
 python manage.py loaddata elgeopaso/cms/fixtures/content.json
+python manage.py loaddata elgeopaso/fixtures/sites.json
 ```
