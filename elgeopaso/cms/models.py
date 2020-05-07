@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
@@ -29,9 +28,6 @@ class Category(models.Model):
 
 class Article(models.Model):
     # meta
-    author = models.ForeignKey(
-        User, verbose_name="Auteur.e", null=True, on_delete=models.SET_NULL
-    )
     category = models.ForeignKey(
         Category, verbose_name="Catégorie", null=True, on_delete=models.SET_NULL
     )

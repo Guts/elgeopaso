@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.contrib import admin
 from elgeopaso.cms.models import Article, Category
 
@@ -6,13 +5,13 @@ from elgeopaso.cms.models import Article, Category
 class ArticleAdmin(admin.ModelAdmin):
     # FIELDS DISPLAY and FILTERS
     list_display = ("title", "slug_title", "category", "created", "updated")
-    list_filter = ("category", "author", "published")
+    list_filter = ("category", "published")
     prepopulated_fields = {"slug_title": ("title",)}
     search_fields = ("title", "content")
     ordering = ("created",)
 
     fieldsets = (
-        ("Métadonnées", {"fields": ("category", "author",)}),
+        ("Métadonnées", {"fields": ("category",)}),
         ("Titre", {"fields": ("title", "slug_title",)}),
         ("Contenu", {"classes": ("full-width",), "fields": ("content",)}),
         ("Divers", {"fields": ("ext_url",)}),
