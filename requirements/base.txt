@@ -24,7 +24,7 @@ drf-yasg[validation]==1.17.*
 
 # Utils
 # --------------------------
-argon2-cffi==19.2.0  # https://github.com/hynek/argon2_cffi
+argon2-cffi==20.1.0  # https://github.com/hynek/argon2_cffi
 arrow==0.12.*
 beautifulsoup4==4.9.*
 lxml==4.5.*
