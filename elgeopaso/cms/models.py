@@ -40,7 +40,10 @@ class Article(models.Model):
     slug_title = models.SlugField(verbose_name="Alias normé", unique=True, blank=True)
     content = RichTextUploadingField("Corps de texte")
     ext_url = models.URLField("Lien externe", blank=True)
+
+    # status
     published = models.BooleanField("Publié", blank=False, default=False)
+
     # dates
     created = models.DateTimeField("Créé le", auto_now_add=True)
     updated = models.DateTimeField("Modifié le", auto_now=True)
@@ -49,10 +52,11 @@ class Article(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse(
-            "cms:view_article",
-            kwargs={"slug": self.slug_title, "category": self.category.slug_name},
-        )
+        return reverse("cms:article_detail", kwargs={"slug": str(self.slug_title)})
+        # return reverse(
+        #     "cms:view_article",
+        #     kwargs={"slug": self.slug_title, "category": self.category.slug_name},
+        # )
 
     @property
     def short_content(self):

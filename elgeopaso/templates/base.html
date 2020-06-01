@@ -47,11 +47,11 @@
     integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
     crossorigin="" />
   <!-- Timeline CSS -->
-  <link rel="stylesheet" type="text/css" href="{% static "libs/timeline/timeline.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'libs/timeline/timeline.css' %}">
   <!-- Custom CSS -->
-  <link rel="stylesheet" type="text/css" href="{% static "jobs/css/style.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'jobs/css/style.css' %}">
   <!-- SB Admin 2 CSS -->
-  <link rel="stylesheet" type="text/css" href="{% static "jobs/css/sb-admin-2.css" %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'jobs/css/sb-admin-2.css' %}">
   {% endblock %}
   {% block custom_css %}
   {% endblock %}
@@ -81,7 +81,7 @@
           <li><a href="/jobs/search/"><i class="fas fa-search"></i> Archives</a></li>
           <li><a href="/api/docs"><i class="fab fa-connectdevelop"></i> API</a></li>
           </li>
-          <li><a href="{% url 'cms:view_category' slug='help' %}"><i class="fas fa-question"></i> Aide</a></li>
+          <!-- <li><a href="{% url 'cms:view_category' slug='help' %}"><i class="fas fa-question"></i> Aide</a></li> -->
         </ul>
         <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
