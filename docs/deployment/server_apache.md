@@ -3,7 +3,7 @@
 Pour servir l'application avec Apache, retenir ces quelques points de vigilance :
 
 - par défaut, Apache ne support pas [WSGI](https://wsgi.readthedocs.io/en/latest/what.html). Il faut donc utiliser le module `mod_wsgi` pour Apache.
-- par défaut sur Ubuntu 16.04, ce module est compilé ave Python 3.5. **Or, il faut utiliser la version compilée avec la même version de Python que celle utilisée par l'application**.
+- par défaut sur Ubuntu 18.04, ce module est compilé ave Python 3.6. **Or, il faut utiliser la version compilée avec la même version de Python que celle utilisée par l'application**.
 
 ## Prérequis
 
@@ -106,7 +106,7 @@ sudo add-apt-repository ppa:certbot/certbot
 sudo apt update
 
 # installer le certbot
-sudo apt-get install certbot python-certbot-apache
+sudo apt-get install certbot python3-certbot-apache
 
 # lancer le processus en choisiasant elgeopaso.georezo.net
 sudo certbot --apache
