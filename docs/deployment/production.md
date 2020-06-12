@@ -1,11 +1,36 @@
-# Deployment
+# Déploiement
 
-## Ubuntu Server 16.04
+## Configuration du système
 
-### OS setup
+> Ce guide se base sur Ubuntu Server 18.04
+
+Avant, tout mettre à jour la liste des paquets
 
 ```bash
-# dependencies
+sudo apt update
+```
+
+### Installer Python
+
+```bash
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:deadsnakes/ppa
+sudo apt update
+sudo apt install python3.7
+```
+
+### Installer git
+
+```bash
+sudo add-apt-repository ppa:git-core/ppa
+sudo apt update
+sudo apt install git
+```
+
+
+### Dépendances
+
+```
 sudo apt install curl build-essential python3-software-properties python3-venv python3-dev python3-pip python-software-properties python-dev python-pip libsqlite3-dev sqlite3 bzip2 libbz2-dev gunicorn nginx git build-essential tcl
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
 sudo apt install git-lfs
