@@ -91,7 +91,7 @@ sudo service apache2 restart
 
 ### 4. Générer le certificat SSL avec Let's Encrypt
 
-Il s'agit principalement de la reproduction de la doc officielle : <https://certbot.eff.org/lets-encrypt/ubuntuxenial-apache>.
+Il s'agit principalement de la reproduction de la doc officielle : <https://certbot.eff.org/lets-encrypt/ubuntubionic-apache>.
 
 ```sh
 # travailler dans home
@@ -133,7 +133,6 @@ apache2ctl -h
 apache2ctl -M
 
 ```
-
 
 ----
 
