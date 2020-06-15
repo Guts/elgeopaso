@@ -12,7 +12,7 @@ Werkzeug==1.0.*     # https://github.com/pallets/werkzeug
 # Documentation
 # -----------------------
 recommonmark==0.6.*
-Sphinx==3.0.*  # https://github.com/sphinx-doc/sphinx
+Sphinx==3.1.*  # https://github.com/sphinx-doc/sphinx
 sphinx-autodoc-typehints==1.10.*
 sphinx-copybutton==0.2.*
 sphinx-markdown-tables==0.0.14  # to render markdown tables
@@ -31,7 +31,7 @@ validator-collection== 1.4.*    # https://github.com/insightindustry/validator-c
 black==19.10b0                  # https://github.com/ambv/black
 django-coverage-plugin==1.8.*   # https://github.com/nedbat/django_coverage_plugin
 flake8==3.8.*                   # https://github.com/PyCQA/flake8
-pre-commit==2.4.*               # https://github.com/pre-commit/pre-commit
+pre-commit==2.5.*               # https://github.com/pre-commit/pre-commit
 pylint-django==2.0.*            # https://github.com/PyCQA/pylint-django
 
 # Django
