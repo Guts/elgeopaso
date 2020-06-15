@@ -11,7 +11,7 @@ Pour servir l'application avec Apache, retenir ces quelques points de vigilance 
 # add repo with latest Apache version
 sudo add-apt-repository ppa:ondrej/apache2
 # install apache and dependencies
-sudo apt install apache2 apache2-dev broli
+sudo apt install apache2 apache2-dev brotli
 ```
 
 ## Déployer l'application Django avec le module Apache WSGI
