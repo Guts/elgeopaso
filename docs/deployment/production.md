@@ -35,7 +35,7 @@ nano ~/.bashrc
 
 Ajouter les lignes en fin de fichier :
 
-```rc
+```config
 # Custom python3 alias
 alias python='/usr/bin/python3.7'
 ```
@@ -60,26 +60,4 @@ sudo apt install git
 
 ## Configurer un serveur web
 
-Choisir :
-
 - [servir avec Apache](apache)
-- [servir avec Gunicorn](gunicorn)
-- [utiliser nginx](nginx)
-
-### Service
-
-- [utiliser supervisor](supervisor)
-
-----
-
-## Launch analisis
-
-```python
-python manage.py rss2db
-```
-
-## SSL - Let's Encrypt
-
-```bash
-sudo certbot certonly --nginx -w /webapps/elpaso -d elgeopaso.georezo.net -d www.elgeopaso.georezo.net
-```
