@@ -12,7 +12,7 @@ Werkzeug==1.0.*     # https://github.com/pallets/werkzeug
 # Documentation
 # -----------------------
 recommonmark==0.6.*
-Sphinx==3.0.*  # https://github.com/sphinx-doc/sphinx
+Sphinx==3.1.*  # https://github.com/sphinx-doc/sphinx
 sphinx-autodoc-typehints==1.10.*
 sphinx-copybutton==0.2.*
 sphinx-markdown-tables==0.0.14  # to render markdown tables
