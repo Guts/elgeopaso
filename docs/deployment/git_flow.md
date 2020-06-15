@@ -30,9 +30,9 @@ Le projet s'appuie sur l'intégration d'Heroku avec Github pour déployer des ve
 
 3. Une fois les changements achevés et validés, ils sont fusionnés dans la branche principale (*merged*) qui est automatiquement déployée sur Heroku : <https://elgeopaso-dev.herokuapp.com/>
 
-4. Lorsqu'une nouvelle version est finalisée, un [numéro de version](product_life.md) est ajouté via un `git tag`.
+4. Lorsqu'une nouvelle version est finalisée, un [numéro de version](../global/product_life.md) est ajouté via un `git tag`.
 
-> Pour comprendre l'étiquetage des commits, voir <https://git-scm.com/book/en/v2/Git-Basics-Tagging> ou [Divers - Utilitaires](miscellaneous.md).
+> Pour comprendre l'étiquetage des commits, voir <https://git-scm.com/book/en/v2/Git-Basics-Tagging> ou [Divers - Utilitaires](../misc/miscellaneous.md).
 
 ----
 

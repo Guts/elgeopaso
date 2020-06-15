@@ -42,7 +42,7 @@ Raccourcis
    deployment/preproduction
    deployment/production
    deployment/git_flow
-   deployment/server_apache
+   deployment/apache
    deployment/scheduled_tasks
 
 .. toctree::
