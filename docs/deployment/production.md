@@ -23,8 +23,27 @@ sudo apt install software-properties-common
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt update
 sudo apt install python3.7 python3-pip
-# remplacer l'alias python 3
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1
+```
+
+#### Personnaliser bash
+
+Configurer `bash` pour faire correspondre `python3` à Python 3.7 :
+
+```bash
+nano ~/.bashrc
+```
+
+Ajouter les lignes en fin de fichier :
+
+```rc
+# Custom python3 alias
+alias python='/usr/bin/python3.7'
+```
+
+Charger la configuration :
+
+```bash
+. ~/.bashrc
 ```
 
 ### Installer git
