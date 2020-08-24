@@ -14,7 +14,7 @@ django-crispy-forms==1.9.*  # https://django-crispy-forms.readthedocs.io
 django-ckeditor==5.9.*
 django-filter==2.3.*
 django-widgets-improved==1.5.*
-whitenoise[brotli]==5.1.*  # https://github.com/evansd/whitenoise
+whitenoise[brotli]==5.2.*  # https://github.com/evansd/whitenoise
 
 # Django REST Framework (DRF)
 # --------------------------
