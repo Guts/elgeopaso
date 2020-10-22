@@ -1,0 +1,12 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/requirements"
+  schedule:
+    interval: weekly
+    time: "04:00"
+    timezone: Europe/Paris
+  reviewers:
+  - Guts
+  labels:
+  - dependencies
