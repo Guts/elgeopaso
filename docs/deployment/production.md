@@ -22,7 +22,7 @@ Par défaut c'est Python 3.6 qui est livré avec Ubuntu 18.04 Bionic. Il nous fa
 sudo apt install software-properties-common
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt update
-sudo apt install libpq-dev python3-pip python3.7 python3.7-dev
+sudo apt install libpq-dev python3-pip python3.7 python3.7-dev python3.7-venv
 ```
 
 Au passage, on installe tout ce qu'il faut pour builder [psycopg2](https://tekshinobi.com/install-psycopg2-on-ubuntu-18-04/).
