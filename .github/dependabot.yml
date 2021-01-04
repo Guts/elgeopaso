@@ -1,32 +1,34 @@
 version: 2
 updates:
-- package-ecosystem: pip
-  directory: "/"
-  schedule:
-    interval: weekly
-    time: "04:00"
-    timezone: Europe/Paris
-  reviewers:
-  - Guts
-  labels:
-  - dependencies
-- package-ecosystem: pip
-  directory: ".deploy/apache/"
-  schedule:
-    interval: monthly
-    time: "04:00"
-    timezone: Europe/Paris
-  reviewers:
-  - Guts
-  labels:
-  - dependencies
-- package-ecosystem: pip
-  directory: "/requirements"
-  schedule:
-    interval: weekly
-    time: "04:00"
-    timezone: Europe/Paris
-  reviewers:
-  - Guts
-  labels:
-  - dependencies
+
+  - package-ecosystem: pip
+    directory: ".deploy/apache/"
+    schedule:
+      interval: monthly
+      time: "04:00"
+      timezone: Europe/Paris
+    reviewers:
+      - Guts
+    labels:
+      - dependencies
+
+  - package-ecosystem: pip
+    directory: "/requirements"
+    schedule:
+      interval: monthly
+      time: "04:00"
+      timezone: Europe/Paris
+    reviewers:
+      - Guts
+    labels:
+      - dependencies
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    reviewers:
+      - Guts
+    labels:
+      - ci-cd
+      - dependencies
