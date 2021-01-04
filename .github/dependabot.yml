@@ -13,7 +13,7 @@ updates:
       - dependencies
 
   - package-ecosystem: pip
-    directory: "/requirements"
+    directory: "requirements/"
     schedule:
       interval: monthly
       time: "04:00"
@@ -22,6 +22,7 @@ updates:
       - Guts
     labels:
       - dependencies
+    open-pull-requests-limit: 10
 
   - package-ecosystem: "github-actions"
     directory: "/"
