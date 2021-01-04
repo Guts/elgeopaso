@@ -38,6 +38,11 @@ copyright = __about__.__copyright__
 # The full version, including alpha/beta/rc tags
 version = release = __about__.__version__
 
+# replacement variables
+rst_epilog = ".. |title| replace:: %s" % project
+rst_epilog += "\n.. |author| replace:: %s" % author
+rst_epilog += "\n.. |repo_url| replace:: %s" % __about__.__uri__
+
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
@@ -48,6 +53,7 @@ extensions = [
     "recommonmark",
     # Sphinx included
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosectionlabel",
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
     # 3rd party
@@ -78,20 +84,30 @@ exclude_patterns = ["_build", "samples/*", "Thumbs.db", ".DS_Store", "*env*", "l
 
 # -- Options for HTML output -------------------------------------------------
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-html_theme = "sphinx_rtd_theme"
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+# html_favicon = "static/img/sqlitetoairtable_logo.svg"
+# html_logo = "static/img/sqlitetoairtable_logo.svg"
 
 # Ensure sidebar is the same along the pages
 html_sidebars = {
     "**": ["globaltoc.html", "relations.html", "sourcelink.html", "searchbox.html"]
 }
+html_static_path = ["_static"]
+html_theme = "sphinx_rtd_theme"
+html_theme_options = {
+    # "canonical_url": __about__.__uri_homepage__,
+    "display_version": True,
+    "logo_only": False,
+    "prev_next_buttons_location": "both",
+    "style_external_links": True,
+    "style_nav_header_background": "SteelBlue",
+    # Toc options
+    "collapse_navigation": False,
+    "includehidden": False,
+    "navigation_depth": 4,
+    "sticky_navigation": False,
+    "titles_only": False,
+}
+
 
 # Language to be used for generating the HTML full-text search index.
 # Sphinx supports the following languages:
@@ -142,3 +158,4 @@ def setup(app):
         True,
     )
     app.add_transform(AutoStructify)
+    app.connect("builder-inited", run_apidoc)

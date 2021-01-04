@@ -8,7 +8,10 @@ El Géo Paso - Documentation
 
 .. |date| date::
 
-Mise à jour : |date|
+:Author: |author|
+:Source code: |repo_url|
+:Package version: |version|
+:Documentation update: |date|
 
 Raccourcis
 ++++++++++
@@ -31,6 +34,7 @@ Raccourcis
 
    development/index
    development/code
+   development/documentation
    development/build
    development/settings
    development/tests
@@ -42,7 +46,7 @@ Raccourcis
    deployment/preproduction
    deployment/production
    deployment/git_flow
-   deployment/server_apache
+   deployment/apache
    deployment/scheduled_tasks
 
 .. toctree::
