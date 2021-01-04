@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265
 
 """
@@ -193,7 +192,8 @@ class GeorezoRssParser:
         # convert datetime to str
         try:
             feed_build_dt = datetime.strptime(
-                feed_parsed.feed.updated, self.FEED_DATETIME_RAW_FORMAT,
+                feed_parsed.feed.updated,
+                self.FEED_DATETIME_RAW_FORMAT,
             )
         except Exception as err:
             logging.error(
@@ -289,7 +289,7 @@ class GeorezoRssParser:
             else:
                 feedparser_related_doc = "{}bozo.html".format(FEEDPARSER_DOC_BASE_URL)
                 logging.error(
-                    "Feed error is not recognized: {}. Aborting pasring of '{}'".format(
+                    "Feed error is not recognized: {}. Aborting parsing of '{}'".format(
                         feed.bozo_exception, self._build_feed_url()
                     )
                 )
