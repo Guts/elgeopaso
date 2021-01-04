@@ -8,9 +8,9 @@ wheel
 
 # Django
 # -----------------------
-django>=2.2,<3   # pyup: < 3.0
-django-allauth==0.42.*          # https://django-allauth.readthedocs.io
-django-crispy-forms==1.9.*      # https://django-crispy-forms.readthedocs.io
+django>=2.2,<3
+django-allauth>=0.42,<0.45         # https://django-allauth.readthedocs.io
+django-crispy-forms==1.10.*      # https://django-crispy-forms.readthedocs.io
 django-ckeditor>=6.0,<6.1
 django-filter==2.4.*
 django-widgets-improved==1.5.*
@@ -18,7 +18,7 @@ whitenoise[brotli]>=5.1,<5.3    # https://github.com/evansd/whitenoise
 
 # Django REST Framework (DRF)
 # --------------------------
-djangorestframework==3.11.*
+djangorestframework==3.12.*
 djangorestframework-filters==1.0.*
 drf-yasg[validation]==1.20.*
 
