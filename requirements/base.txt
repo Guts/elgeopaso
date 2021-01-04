@@ -9,27 +9,27 @@ wheel
 # Django
 # -----------------------
 django==2.2.*   # pyup: < 3.0
-django-allauth==0.41.*   # https://django-allauth.readthedocs.io
+django-allauth==0.42.*   # https://django-allauth.readthedocs.io
 django-crispy-forms==1.9.*  # https://django-crispy-forms.readthedocs.io
 django-ckeditor==5.9.*
-django-filter==2.2.*
+django-filter==2.3.*
 django-widgets-improved==1.5.*
-whitenoise[brotli]==5.0.*  # https://github.com/evansd/whitenoise
+whitenoise[brotli]==5.1.*  # https://github.com/evansd/whitenoise
 
 # Django REST Framework (DRF)
 # --------------------------
 djangorestframework==3.11.*
 djangorestframework-filters==1.0.*
-drf-yasg[validation]==1.17.*
+drf-yasg[validation]==1.20.*
 
 # Utils
 # --------------------------
-argon2-cffi==19.2.0  # https://github.com/hynek/argon2_cffi
+argon2-cffi==20.1.0  # https://github.com/hynek/argon2_cffi
 arrow==0.12.*
-beautifulsoup4==4.8.*
+beautifulsoup4==4.9.*
 lxml==4.5.*
-Pillow==7.1.*  # https://github.com/python-pillow/Pillow
-python-dotenv==0.13.*   # https://saurabh-kumar.com/python-dotenv/#django
+Pillow==7.2.*  # https://github.com/python-pillow/Pillow
+python-dotenv==0.14.*   # https://saurabh-kumar.com/python-dotenv/#django
 pytz==2020.1  # https://github.com/stub42/pytz
 
 # Database
