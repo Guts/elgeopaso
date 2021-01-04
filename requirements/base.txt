@@ -18,7 +18,7 @@ whitenoise[brotli]>=5.1,<5.3    # https://github.com/evansd/whitenoise
 
 # Django REST Framework (DRF)
 # --------------------------
-djangorestframework==3.11.*
+djangorestframework==3.12.*
 djangorestframework-filters==1.0.*
 drf-yasg[validation]==1.20.*
 
