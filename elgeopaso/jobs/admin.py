@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-#! python3  # noqa: E265  # noqa E265
+#! python3  # noqa: E265
 
 """
     Application in administration panel.

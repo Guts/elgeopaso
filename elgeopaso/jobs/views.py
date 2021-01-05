@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265
 
 """
@@ -29,7 +28,7 @@ from django.views.decorators.http import require_safe
 import arrow
 
 # project
-# from cms.models import Article
+from elgeopaso.cms.models import Article
 from elgeopaso.jobs.decorators import conditional_cache
 from elgeopaso.jobs.filters import OfferFilter
 from elgeopaso.jobs.models import Contract, Offer
@@ -117,8 +116,7 @@ def stats_home(request):
         last_date = first_date = ""
 
     # content
-    # presentation = Article.objects.get(slug_title="homepage-presentation")
-    presentation = "Héhé"
+    presentation = Article.objects.get(slug_title="homepage-presentation")
 
     # values to replace within the template
     context = {

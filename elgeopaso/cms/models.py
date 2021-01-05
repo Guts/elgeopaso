@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
-from django.contrib.auth.models import User
+#! python3  # noqa: E265
+
+# django
 from django.core.validators import MaxLengthValidator
 from django.db import models
 from django.template.defaultfilters import truncatechars
@@ -29,9 +30,6 @@ class Category(models.Model):
 
 class Article(models.Model):
     # meta
-    author = models.ForeignKey(
-        User, verbose_name="Auteur.e", null=True, on_delete=models.SET_NULL
-    )
     category = models.ForeignKey(
         Category, verbose_name="Catégorie", null=True, on_delete=models.SET_NULL
     )
@@ -42,7 +40,10 @@ class Article(models.Model):
     slug_title = models.SlugField(verbose_name="Alias normé", unique=True, blank=True)
     content = RichTextUploadingField("Corps de texte")
     ext_url = models.URLField("Lien externe", blank=True)
+
+    # status
     published = models.BooleanField("Publié", blank=False, default=False)
+
     # dates
     created = models.DateTimeField("Créé le", auto_now_add=True)
     updated = models.DateTimeField("Modifié le", auto_now=True)
@@ -51,11 +52,11 @@ class Article(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse(
-            "cms:view_article",
-            kwargs={"slug": self.slug_title, "category": self.category.slug_name},
-        )
-        # return "/content/{}/{}".format(self.category.slug_name, self.slug_title)
+        return reverse("cms:article_detail", kwargs={"slug": str(self.slug_title)})
+        # return reverse(
+        #     "cms:view_article",
+        #     kwargs={"slug": self.slug_title, "category": self.category.slug_name},
+        # )
 
     @property
     def short_content(self):
