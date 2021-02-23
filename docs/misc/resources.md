@@ -16,7 +16,7 @@
 
 ### Heroku
 
-- [`app.json` et déploiement automatique](https://devcenter.heroku.com/articles/heroku-butto)
+- [`app.json` et déploiement automatique](https://devcenter.heroku.com/articles/heroku-button)
 
 ### Serveur
 
