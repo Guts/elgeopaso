@@ -87,7 +87,11 @@ class TestAnalizerGeorezo(TestCase):
     def test_place_extraction(self):
         """Test extraction of place from title."""
         # instanciate
-        analyser = GeorezoOfferAnalizer(li_offers_ids=["11111",])
+        analyser = GeorezoOfferAnalizer(
+            li_offers_ids=[
+                "11111",
+            ]
+        )
 
         # fixtures
         for i in LI_FIXTURES_OFFERS_TITLE:
@@ -111,7 +115,11 @@ class TestAnalizerGeorezo(TestCase):
     def test_contract_type(self):
         """Test extraction of contract type from title."""
         # instanciate
-        analyser = GeorezoOfferAnalizer(li_offers_ids=["11111",])
+        analyser = GeorezoOfferAnalizer(
+            li_offers_ids=[
+                "11111",
+            ]
+        )
 
         # fixtures
         for i in LI_FIXTURES_OFFERS_TITLE:

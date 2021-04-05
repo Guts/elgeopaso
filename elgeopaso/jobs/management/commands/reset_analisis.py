@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265
 
 # #############################################################################
@@ -37,13 +36,24 @@ class Command(BaseCommand):
             "--quantity",
             nargs="+",
             type=int,
-            default=[100,],
+            default=[
+                100,
+            ],
             help="Quantity of offers to compute." " To compute the whole DB, use '-1'",
         )
 
     def handle(self, *args, **options):
         """List commands to launch."""
-        self._reset_analisis(quantity=int(options.get("quantity", [100,])[0]))
+        self._reset_analisis(
+            quantity=int(
+                options.get(
+                    "quantity",
+                    [
+                        100,
+                    ],
+                )[0]
+            )
+        )
 
     # New and updated offers -------------------------------------------
     def _reset_analisis(self, quantity: int = 100):

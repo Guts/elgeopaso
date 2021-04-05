@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from elgeopaso.jobs.models import (
     Contract,
     JobPosition,

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.views.decorators.cache import cache_page
 from django.views.decorators.gzip import gzip_page

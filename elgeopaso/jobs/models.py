@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265  # noqa E265
 
 """
@@ -100,7 +99,10 @@ class ContractVariations(models.Model):
     ND = "UNDEFINED"
     # FIELDS
     label = models.CharField(
-        max_length=200, null=False, unique=True, verbose_name="Variante du libellé",
+        max_length=200,
+        null=False,
+        unique=True,
+        verbose_name="Variante du libellé",
     )
     name = models.ForeignKey(
         Contract,
@@ -353,7 +355,10 @@ class Offer(models.Model):
         "Titre", max_length=200, validators=[MaxLengthValidator(200)]
     )
     content = models.TextField("Contenu", null=True)
-    pub_date = models.DateTimeField("Date de publication sur le RSS", null=True,)
+    pub_date = models.DateTimeField(
+        "Date de publication sur le RSS",
+        null=True,
+    )
 
     # analisis results
     contract = models.ForeignKey(
@@ -364,7 +369,10 @@ class Offer(models.Model):
         default="ND",
         on_delete=models.SET_DEFAULT,
     )
-    jobs_positions = models.ManyToManyField(JobPosition, verbose_name="Métiers",)
+    jobs_positions = models.ManyToManyField(
+        JobPosition,
+        verbose_name="Métiers",
+    )
     place = models.ForeignKey(
         Place,
         verbose_name="Lieu",
@@ -372,7 +380,10 @@ class Offer(models.Model):
         default="ND",
         on_delete=models.SET_DEFAULT,
     )
-    technologies = models.ManyToManyField(Technology, verbose_name="Technologies",)
+    technologies = models.ManyToManyField(
+        Technology,
+        verbose_name="Technologies",
+    )
 
     def __str__(self):
         return self.title
