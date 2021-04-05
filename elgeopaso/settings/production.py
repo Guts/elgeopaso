@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265
 
 """
@@ -100,7 +99,8 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = getenv(
-    "DJANGO_DEFAULT_FROM_EMAIL", default="El Géo Paso <elpaso@georezo.net>",
+    "DJANGO_DEFAULT_FROM_EMAIL",
+    default="El Géo Paso <elpaso@georezo.net>",
 )
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#server-email
 SERVER_EMAIL = getenv("DJANGO_SERVER_EMAIL", default=DEFAULT_FROM_EMAIL)

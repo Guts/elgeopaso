@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa: E265
 
 # ############################################################################
@@ -45,7 +44,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """
-            TO DO
+        TO DO
         """
         # self.dt_prev = self.now.shift(days=-1).datetime
         self.dt_prev = self.now.shift(weeks=-1).datetime

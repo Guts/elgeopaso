@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #! python3  # noqa E265
 
 """Usage from the repo root folder:
@@ -101,8 +100,8 @@ class TestCrawlerGeorezo(TestCase):
             )
 
             # enforce different metadata file path to avoid conflicts between tests and real process
-            georezo_parser.CRAWLER_LATEST_METADATA = "tests/fixtures/tmp/{}_{}.json".format(
-                get_test_marker(), i.stem
+            georezo_parser.CRAWLER_LATEST_METADATA = (
+                "tests/fixtures/tmp/{}_{}.json".format(get_test_marker(), i.stem)
             )
 
             # parse feed and retrive new offers
