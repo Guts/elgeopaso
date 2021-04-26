@@ -7,7 +7,7 @@
 
 # custom cache
 def conditional_cache(decorator):
-    """ Returns decorated view if user is not admin. Un-decorated otherwise """
+    """Returns decorated view if user is not admin. Un-decorated otherwise"""
 
     def _decorator(view):
 
