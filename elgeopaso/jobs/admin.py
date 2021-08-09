@@ -8,25 +8,26 @@
 # ########## Libraries #############
 # ##################################
 
+from django.contrib import admin
+
 # Django
 from django.db import models
-from django.forms import TextInput, Textarea
-from django.contrib import admin
+from django.forms import Textarea, TextInput
 from django.utils.html import format_html
 
 # application
 from elgeopaso.jobs.models import (
-    GeorezoRSS,
-    Offer,
-    Source,
     Contract,
     ContractVariations,
-    Technology,
-    TechnologyVariations,
-    Place,
-    PlaceVariations,
+    GeorezoRSS,
     JobPosition,
     JobPositionVariations,
+    Offer,
+    Place,
+    PlaceVariations,
+    Source,
+    Technology,
+    TechnologyVariations,
 )
 
 

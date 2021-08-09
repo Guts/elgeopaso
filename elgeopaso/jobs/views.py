@@ -14,6 +14,9 @@
 import json
 import logging
 
+# 3rd party modules
+import arrow
+
 # Django
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, Q
@@ -23,9 +26,6 @@ from django.utils import timezone
 from django.views.decorators.cache import cache_page
 from django.views.decorators.gzip import gzip_page
 from django.views.decorators.http import require_safe
-
-# 3rd party modules
-import arrow
 
 # project
 # from cms.models import Article

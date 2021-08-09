@@ -9,13 +9,14 @@
 
 """
 
+import csv
+import logging
+
 # #############################################################################
 # ######### Libraries #############
 # #################################
 # Standard library
 from argparse import RawTextHelpFormatter
-import csv
-import logging
 from os import path
 
 # 3rd party modules
@@ -23,6 +24,7 @@ import arrow
 
 # Django project
 from django.core.management.base import BaseCommand
+
 from elgeopaso.jobs.models import GeorezoRSS
 
 # ############################################################################

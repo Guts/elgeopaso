@@ -23,7 +23,6 @@ from recommonmark.transform import AutoStructify
 # Project
 from elgeopaso import __about__
 
-
 # -- Build environment -----------------------------------------------------
 on_rtd = os.environ.get("READTHEDOCS", None) == "True"
 os.environ["DJANGO_SETTINGS_MODULE"] = "elgeopaso.settings.local"

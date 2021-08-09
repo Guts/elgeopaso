@@ -8,10 +8,10 @@ from argparse import RawTextHelpFormatter
 
 # Django project
 from django.core.management.base import BaseCommand
-from elgeopaso.jobs.models import GeorezoRSS, Offer
 
 # submodules
 from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
+from elgeopaso.jobs.models import GeorezoRSS, Offer
 
 # #############################################################################
 # ########### Classes #############

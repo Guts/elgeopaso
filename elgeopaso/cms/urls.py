@@ -10,6 +10,7 @@
 
 # Django
 from django.conf.urls import url
+
 from elgeopaso.cms import views
 
 # #############################################################################

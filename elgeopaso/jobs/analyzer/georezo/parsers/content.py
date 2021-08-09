@@ -14,11 +14,7 @@ import logging
 import re
 
 # project modules
-from elgeopaso.jobs.models import (
-    Technology,
-    TechnologyVariations,
-)
-
+from elgeopaso.jobs.models import Technology, TechnologyVariations
 from elgeopaso.utils import TextToolbelt
 
 # ##############################################################################

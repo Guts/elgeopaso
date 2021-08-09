@@ -1,3 +1,5 @@
+from rest_framework import serializers
+
 from elgeopaso.jobs.models import (
     Contract,
     JobPosition,
@@ -6,7 +8,6 @@ from elgeopaso.jobs.models import (
     PlaceVariations,
     Technology,
 )
-from rest_framework import serializers
 
 
 class ContractSerializer(serializers.ModelSerializer):

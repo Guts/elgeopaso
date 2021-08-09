@@ -21,11 +21,12 @@ from sys import _getframe
 from django.core.management import call_command
 from django.test import TestCase
 
-# module target
-from elgeopaso.utils import TextToolbelt
 from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
 from elgeopaso.jobs.analyzer.georezo.parsers import ContentParser, TitleParser
 from elgeopaso.jobs.models import Contract, Place
+
+# module target
+from elgeopaso.utils import TextToolbelt
 
 # fixtures
 from .fixtures.offers_titles import LI_FIXTURES_OFFERS_TITLE

@@ -7,6 +7,18 @@
 
 # Django
 
+# REST API
+from rest_framework import viewsets
+
+from elgeopaso.api.serializers import (
+    ContractSerializer,
+    JobSerializer,
+    OfferSerializer,
+    PlaceSerializer,
+    PlaceVariationsSerializer,
+    TechnoSerializer,
+)
+
 # PROJECT APPS
 from elgeopaso.jobs.models import (
     Contract,
@@ -16,17 +28,6 @@ from elgeopaso.jobs.models import (
     PlaceVariations,
     Technology,
 )
-from elgeopaso.api.serializers import (
-    ContractSerializer,
-    JobSerializer,
-    PlaceSerializer,
-    PlaceVariationsSerializer,
-    OfferSerializer,
-    TechnoSerializer,
-)
-
-# REST API
-from rest_framework import viewsets
 
 # #############################################################################
 # ########## Views ################

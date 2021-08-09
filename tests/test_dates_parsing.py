@@ -13,9 +13,10 @@
 # ########## Libraries #############
 # ##################################
 
+import unittest
+
 # Standard library
 from datetime import datetime
-import unittest
 
 # 3rd party
 import arrow

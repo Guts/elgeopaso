@@ -12,11 +12,11 @@
 from os import getenv
 from pathlib import Path
 
-# Django
-from django.core.exceptions import ImproperlyConfigured
-
 # 3rd party
 import dj_database_url
+
+# Django
+from django.core.exceptions import ImproperlyConfigured
 
 # project
 from elgeopaso import __about__

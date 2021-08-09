@@ -23,7 +23,6 @@ from elgeopaso.jobs.models import (
     Place,
     PlaceVariations,
 )
-
 from elgeopaso.utils import TextToolbelt
 
 # ##############################################################################

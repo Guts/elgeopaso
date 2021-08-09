@@ -1,11 +1,10 @@
+# 3rd party package
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
 from django.template.defaultfilters import truncatechars
 from django.urls import reverse
-
-# 3rd party package
-from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Category(models.Model):

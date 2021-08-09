@@ -25,11 +25,11 @@ from django.db import IntegrityError
 from django.db.models import F
 
 from elgeopaso.accounts.models import Subscription
-from elgeopaso.jobs.models import GeorezoRSS, Offer
 
 # submodules
 from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
 from elgeopaso.jobs.crawlers import GeorezoRssParser
+from elgeopaso.jobs.models import GeorezoRSS, Offer
 
 # ############################################################################
 # ########### Classes #############

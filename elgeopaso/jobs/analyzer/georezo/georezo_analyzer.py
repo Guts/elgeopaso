@@ -18,13 +18,7 @@ import re
 from django.db import IntegrityError
 
 # project modules
-from elgeopaso.jobs.models import (
-    Contract,
-    GeorezoRSS,
-    Offer,
-    Place,
-    Source,
-)
+from elgeopaso.jobs.models import Contract, GeorezoRSS, Offer, Place, Source
 from elgeopaso.utils import TextToolbelt
 
 from .parsers import ContentParser, TitleParser

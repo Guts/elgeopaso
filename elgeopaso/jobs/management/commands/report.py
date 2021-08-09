@@ -6,13 +6,13 @@
 # Standard library
 import logging
 
+# 3rd party modules
+import arrow
+
 # Django
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
-
-# 3rd party modules
-import arrow
 
 # Django project
 from elgeopaso.accounts.models import Subscription

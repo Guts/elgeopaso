@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from elgeopaso.cms.models import Article, Category
 
 
