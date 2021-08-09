@@ -16,10 +16,8 @@ updates:
     directory: "requirements/"
     schedule:
       interval: monthly
-      time: "04:00"
+      time: "20:00"
       timezone: Europe/Paris
-    reviewers:
-      - Guts
     labels:
       - dependencies
     open-pull-requests-limit: 10
@@ -28,8 +26,6 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-    reviewers:
-      - Guts
     labels:
       - ci-cd
       - dependencies
