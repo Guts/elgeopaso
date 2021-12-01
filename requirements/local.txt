@@ -22,7 +22,7 @@ sphinx-rtd-theme==0.5.*
 # ----------------------
 pytest>=6.2,<6.3                # https://github.com/pytest-dev/pytest
 pytest-cov>=2.12,<2.13
-pytest-django>=4.1,<4.4         # https://github.com/pytest-dev/pytest-django
+pytest-django>=4.1,<4.6         # https://github.com/pytest-dev/pytest-django
 semver>=2.13,<2.14                  # https://github.com/python-semver/python-semver
 validator-collection== 1.5.*    # https://github.com/insightindustry/validator-collection
 
