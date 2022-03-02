@@ -27,7 +27,7 @@ drf-yasg[validation]==1.20.*
 argon2-cffi==20.1.0  # https://github.com/hynek/argon2_cffi
 arrow>=0.12,<0.18
 beautifulsoup4>=4.9,<4.10
-lxml>=4.5,<4.7
+lxml>=4.5,<4.9
 Pillow>=7.2,<8.2  # https://github.com/python-pillow/Pillow
 python-dotenv>=0.14,<0.17   # https://saurabh-kumar.com/python-dotenv/#django
 pytz>=2020.1,<2022  # https://github.com/stub42/pytz
