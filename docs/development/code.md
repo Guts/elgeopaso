@@ -38,6 +38,5 @@ Tests unitaires et leurs éventuelles [*fixtures*](https://fr.wikipedia.org/wiki
 
 ## Divers
 
-* `.coveragerc`: configuration pour le calcul de la couverture des tests (_coverage_ / _codecov_)
 * `example.env`: modèle de fichier d'environnement
 * `setup.cfg` : configuration de l'environnement Python
