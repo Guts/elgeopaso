@@ -1,23 +1,41 @@
 {
-    "editor.rulers": [88],
-    "editor.wordWrapColumn": 88,
     "python.envFile": "${workspaceFolder}/.env",
+    // Editor
+    "editor.bracketPairColorization.enabled": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "editor.formatOnSave": true,
+    "editor.guides.bracketPairs": "active",
+    "editor.rulers": [
+        88
+    ],
+    "editor.wordWrapColumn": 88,
+    "files.associations": {
+        "./requirements/*.txt": "pip-requirements"
+    },
+    // Formatter
     "python.formatting.provider": "black",
-    "python.formatting.blackArgs": ["--target-version=py37"],
+    "python.formatting.blackArgs": [
+        "--target-version=py38"
+    ],
+    // Linter
+    "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--config=setup.cfg",
+        "--verbose"
+    ],
     "python.linting.pylintEnabled": false,
     "python.linting.pylintArgs": [
         "--load-plugins=pylint_django"
     ],
-    "python.pythonPath": ".venv/bin/python3.8",
     "python.testing.pytestEnabled": true,
     "python.testing.pytestArgs": [
         "-c",
         "setup.cfg"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.nosetestsEnabled": false,
-    "autoDocstring.customTemplatePath": ".vscode\\docstring-config.mustache",
+    "autoDocstring.docstringFormat": "sphinx",
     "autoDocstring.generateDocstringOnEnter": false,
-    "restructuredtext.confPath": "${workspaceFolder}\\docs",
 }
