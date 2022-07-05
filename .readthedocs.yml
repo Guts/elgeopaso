@@ -25,3 +25,4 @@ formats: all
 python:
   install:
     - requirements: requirements/local.txt
+    - requirements: requirements/documentation.txt
