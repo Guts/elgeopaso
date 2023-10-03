@@ -337,7 +337,6 @@ class Source(models.Model):
 
 
 class Offer(models.Model):
-
     # timestamps
     created = models.DateTimeField("Ajoutée le", auto_now_add=True)
     updated = models.DateTimeField("Modifiée le", auto_now=True)
