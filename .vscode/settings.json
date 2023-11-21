@@ -26,7 +26,7 @@
     "python.testing.pytestEnabled": true,
     // extensions
     "autoDocstring.guessTypes": true,
-    "autoDocstring.docstringFormat": "google",
+    "autoDocstring.docstringFormat": "sphinx",
     "autoDocstring.generateDocstringOnEnter": false,
     "flake8.args": [
         "--config=setup.cfg",
