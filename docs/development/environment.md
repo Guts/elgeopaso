@@ -159,7 +159,7 @@ DATABASE_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:
 #### Lancer l'application
 
 ```shell
-docker-compose -f docker-compose.dev.yml up -d
+docker compose -f docker-compose.dev.yml up -d
 ```
 
 Ouvrir le navigateur sur <http://localhost:8000>.
@@ -169,5 +169,5 @@ Ouvrir le navigateur sur <http://localhost:8000>.
 Après que l'application soit lancée :
 
 ```shell
-docker-compose -f docker-compose.dev.yml run --rm webapp sh .deploy/release-tasks.sh
+docker compose -f docker-compose.dev.yml run --rm webapp sh .deploy/release-tasks.sh
 ```
