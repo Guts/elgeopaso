@@ -3,7 +3,7 @@
 """
     Name:         GeoRezo Jobs RSS Parser
     Purpose:      Parse GeoRezo RSS
-    Python:       3.7+
+    Python:       3.10+
 """
 
 # ##############################################################################

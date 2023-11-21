@@ -24,7 +24,7 @@ Distributions compatibles :
 ### Logiciels
 
 * Docker (Engine et Compose a minima)
-* Python 3.7 64 bits
+* Python 3.10 64 bits
 * PostgreSQL 12
 
 ----
@@ -37,8 +37,8 @@ Distributions compatibles :
 
 ```powershell
 # create virtual env
-# on Linux: python3.7 -m venv .venv
-py -3.7 -m venv .venv
+# on Linux: python3.10 -m venv .venv
+py -3.10 -m venv .venv
 
 # enter into
 .\.venv\Scripts\activate

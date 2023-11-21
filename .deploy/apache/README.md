@@ -24,7 +24,7 @@ python -m pip install mod-wsgi==4.7.*
 
 # run the config command to get the directives values
 mod_wsgi-express module-config
-> LoadModule wsgi_module "/var/www/elgeopaso/.venv/lib/python3.7/site-packages/mod_wsgi/server/mod_wsgi-py37.cpython-37m-x86_64-linux-gnu.so"
+> LoadModule wsgi_module "/var/www/elgeopaso/.venv/lib/python3.10/site-packages/mod_wsgi/server/mod_wsgi-py37.cpython-37m-x86_64-linux-gnu.so"
 > WSGIPythonHome "/var/www/elgeopaso/.venv"
 ```
 

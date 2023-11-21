@@ -39,7 +39,7 @@ mv $TMP $WWW
 cd $WWW || exit
 
 # Create virtualenv and update pip
-virtualenv -p /usr/bin/python3.7 .venv
+virtualenv -p /usr/bin/python3.10 .venv
 source ./.venv/bin/activate
 python -m pip install -U pip setuptools wheel
 
