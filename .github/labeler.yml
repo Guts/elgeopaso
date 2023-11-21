@@ -2,7 +2,15 @@ ci-cd:
   - .github/**/*
 
 dependencies:
-  - any: ["requirements.txt", "requirements/*.txt"]
+  - requirements.txt
+  - requirements/*.txt
 
 documentation:
   - docs/**/*
+
+quality:
+  - tests/**/*
+
+tooling:
+  - setup.cfg
+  - .vscode/**/*
