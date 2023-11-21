@@ -72,7 +72,7 @@ class Command(BaseCommand):
         :return: [description]
         :rtype: CommandParser
         """
-        parser = super(Command, self).create_parser(*args, **kwargs)
+        parser = super().create_parser(*args, **kwargs)
         parser.formatter_class = RawTextHelpFormatter
         return parser
 
@@ -207,10 +207,10 @@ class Command(BaseCommand):
                 offer.save()
                 # adding offer's ID to the list of new offers to process
                 li_new_offers_added.append(job_offer_id)
-                logging.debug("New offer added: {}".format(job_offer_id))
+                logging.debug(f"New offer added: {job_offer_id}")
             except IntegrityError:
                 # in case of duplicated offer
-                logging.warning("Offer ID already exists: {}".format(job_offer_id))
+                logging.warning(f"Offer ID already exists: {job_offer_id}")
                 continue
             except Exception as error_msg:
                 logging.error(error_msg)
@@ -223,9 +223,7 @@ class Command(BaseCommand):
             "id_rss", flat=True
         )
         if selected.count():
-            logging.debug(
-                "{} offers selected to be re-analyzed.".format(selected.count())
-            )
+            logging.debug(f"{selected.count()} offers selected to be re-analyzed.")
             analyzer = GeorezoOfferAnalizer(list(selected), new=force_create)
             analyzer.analisis()
             # remove to_update status
@@ -242,9 +240,7 @@ class Command(BaseCommand):
             .values_list("id_rss", flat=True)
         )
         if updated.count():
-            logging.debug(
-                "{} offers manually updated since last parse".format(updated.count())
-            )
+            logging.debug(f"{updated.count()} offers manually updated since last parse")
             analyzer = GeorezoOfferAnalizer(list(updated), new=0)
             analyzer.analisis()
         else:
@@ -259,7 +255,7 @@ class Command(BaseCommand):
         )
         if orphans.count():
             logging.debug(
-                "{} orphans (in GeorezoRSS but not in Offer).".format(orphans.count())
+                f"{orphans.count()} orphans (in GeorezoRSS but not in Offer)."
             )
             analyzer = GeorezoOfferAnalizer(list(orphans))
             analyzer.analisis()
@@ -296,7 +292,7 @@ class Command(BaseCommand):
                 raw_offer = GeorezoRSS.objects.get(id_rss=i.id_rss)
                 o.update(raw_offer=raw_offer)
             logging.debug(
-                "{} clean offers were missing their raw offer.".format(no_raw.count())
+                f"{no_raw.count()} clean offers were missing their raw offer."
             )
         else:
             logging.debug("All clean offers have a related raw offer.")

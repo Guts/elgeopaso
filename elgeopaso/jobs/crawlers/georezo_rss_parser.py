@@ -81,7 +81,7 @@ class GeorezoRssParser:
         else:
             complete_feed_url = self.feed_base_url
 
-        logging.debug("Feed URL built: {}".format(complete_feed_url))
+        logging.debug(f"Feed URL built: {complete_feed_url}")
         return complete_feed_url
 
     @classmethod
@@ -99,9 +99,7 @@ class GeorezoRssParser:
         parsed_query = parse_qs(parsed_url.query)
 
         extracted_offer_id = parsed_query.get("pid")
-        logging.debug(
-            "Offer ID extracted: {} from URL '{}'".format(extracted_offer_id, in_url)
-        )
+        logging.debug(f"Offer ID extracted: {extracted_offer_id} from URL '{in_url}'")
 
         # keep only digits
         extracted_offer_id = "".join(i for i in extracted_offer_id if i.isdigit())
@@ -124,9 +122,7 @@ class GeorezoRssParser:
         """
         in_source = Path(from_source)
         if in_source.exists() and in_source.suffix == ".json":
-            logging.info(
-                "Reading last parsed item ID from file: {}".format(from_source)
-            )
+            logging.info(f"Reading last parsed item ID from file: {from_source}")
             with in_source.open("r") as in_json:
                 out_dict = json.load(in_json)
         else:
@@ -287,7 +283,7 @@ class GeorezoRssParser:
                     # then return empty list
                     return li_new_job_offers_id
             else:
-                feedparser_related_doc = "{}bozo.html".format(FEEDPARSER_DOC_BASE_URL)
+                feedparser_related_doc = f"{FEEDPARSER_DOC_BASE_URL}bozo.html"
                 logging.error(
                     "Feed error is not recognized: {}. Aborting parsing of '{}'".format(
                         feed.bozo_exception, self._build_feed_url()
@@ -318,7 +314,7 @@ class GeorezoRssParser:
                 )
             )
         else:
-            logging.info("{} items retrieved from the feed.".format(len(feed.entries)))
+            logging.info(f"{len(feed.entries)} items retrieved from the feed.")
 
         # looping on feed entries
         for entry in feed.entries:
@@ -339,16 +335,14 @@ class GeorezoRssParser:
             if job_id > last_id:
                 # adding offer's ID to the list of new offers to process
                 li_new_job_offers_id.append(entry)
-                logging.debug("New offer spotted: {}".format(job_id))
+                logging.debug(f"New offer spotted: {job_id}")
             elif job_id <= last_id and only_new_offers is False:
                 li_new_job_offers_id.append(entry)
-                logging.debug("Offer is not newer but still added: {}".format(job_id))
+                logging.debug(f"Offer is not newer but still added: {job_id}")
             else:
-                logging.debug(
-                    "Offer older than the latest previous parsed: {}".format(job_id)
-                )
+                logging.debug(f"Offer older than the latest previous parsed: {job_id}")
 
-        logging.info("{} new offers to add.".format(len(li_new_job_offers_id)))
+        logging.info(f"{len(li_new_job_offers_id)} new offers to add.")
         return li_new_job_offers_id
 
 

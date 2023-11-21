@@ -69,12 +69,10 @@ class TitleParser:
         try:
             contract = self.input_title.split("[")[1].split("]")[0]
         except IndexError:
-            logging.warning(
-                "Title bad formatted. Offer RSS ID: {}".format(self.offer_id)
-            )
+            logging.warning(f"Title bad formatted. Offer RSS ID: {self.offer_id}")
             contract = self.input_title.split("]")[0].lstrip("[")
 
-        logging.debug("Contract extracted from title: {}".format(contract))
+        logging.debug(f"Contract extracted from title: {contract}")
         contract = contract.lower()
 
         # find a contract match
@@ -98,7 +96,7 @@ class TitleParser:
             else:
                 continue
 
-        logger.debug("Jobs positions identified: {}".format(jobs_positions_matched))
+        logger.debug(f"Jobs positions identified: {jobs_positions_matched}")
         return jobs_positions_matched
 
     def parse_place(self, mode: int = 0) -> Place:
@@ -113,21 +111,21 @@ class TitleParser:
         # removing contract type between []
         try:
             title = self.input_title.split("[")[1].split("]")[1]
-            logging.debug("Title without contract: {}".format(title))
+            logging.debug(f"Title without contract: {title}")
         except IndexError:
-            logging.error("Title bad formatted. Offer RSS ID: {}".format(self.offer_id))
+            logging.error(f"Title bad formatted. Offer RSS ID: {self.offer_id}")
             title = self.input_title
 
         # extract with regex
         if not mode:
             dpt_code = re.findall(r"\((\d+)\)", title)
-            logging.debug("STRICT regex applied: {}".format(dpt_code))
+            logging.debug(f"STRICT regex applied: {dpt_code}")
         elif mode == 1:
             dpt_code = re.findall(r"\((2[AB]|[0-9]+)\)", title)
-            logging.debug("MEDIUM regex applied: {}".format(dpt_code))
+            logging.debug(f"MEDIUM regex applied: {dpt_code}")
         elif mode == 2:
             dpt_code = re.findall(r"(2[AB]|[0-9]+)", title)
-            logging.debug("SOFT regex applied: {}".format(dpt_code))
+            logging.debug(f"SOFT regex applied: {dpt_code}")
         else:
             raise TypeError("'mode' parameter only accepts an integer [0-2]")
 
@@ -135,10 +133,10 @@ class TitleParser:
         if len(dpt_code) == 1:
             if Place.objects.filter(code=dpt_code[0]).exists():
                 place_name = Place.objects.get(code=dpt_code[0]).name
-                logging.debug("Place code MATCHED in title: {}".format(dpt_code))
+                logging.debug(f"Place code MATCHED in title: {dpt_code}")
                 return Place.objects.get(name=place_name)
             else:
-                logging.debug("Place code MATCHED in title: {}".format(title))
+                logging.debug(f"Place code MATCHED in title: {title}")
                 # try again
                 if mode < 2:
                     return self.parse_place(mode=mode + 1)
@@ -169,15 +167,15 @@ class TitleParser:
             for i in t_place:
                 if PlaceVariations.objects.filter(label=i).exists():
                     pv = PlaceVariations.objects.get(label=i).name
-                    logging.debug("Place found: {}".format(i))
+                    logging.debug(f"Place found: {i}")
                     return Place.objects.get(name=pv)
                 else:
-                    logging.debug("No place found in: {}".format(i))
+                    logging.debug(f"No place found in: {i}")
             # try again
             if mode < 2:
                 return self.parse_place(mode=mode + 1)
             else:
-                logging.warning("No place found in title: {}".format(self.input_title))
+                logging.warning(f"No place found in title: {self.input_title}")
                 pass
 
         # method ending if no place found during various attempts

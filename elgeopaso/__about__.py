@@ -20,7 +20,7 @@ __all__ = [
 
 
 __author__ = "Julien M. (guts@github, geojulien@twitter)"
-__copyright__ = "2018 - {0}, {1}".format(date.today().year, __author__)
+__copyright__ = f"2018 - {date.today().year}, {__author__}"
 __email__ = "elpaso@georezo.net"
 __license__ = "GNU Lesser General Public License v3.0"
 __summary__ = (

@@ -44,7 +44,7 @@ class TextToolbelt:
 
     def __init__(self):
         """Instanciate module."""
-        super(TextToolbelt, self).__init__()
+        super().__init__()
 
     @classmethod
     def remove_html_markups(cls, html_text: str, cleaner: str = "bs-lxml") -> str:
@@ -94,7 +94,7 @@ class TextToolbelt:
             if mot in stop_fr or mot in TUP_CUSTOM_STOPWORDS:
                 contenu_tokenized = list(filter((mot).__ne__, contenu_tokenized))
 
-        logger.debug("Words parsed: {}".format(len(contenu_tokenized)))
+        logger.debug(f"Words parsed: {len(contenu_tokenized)}")
 
         return contenu_tokenized
 

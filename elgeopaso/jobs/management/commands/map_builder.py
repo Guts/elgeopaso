@@ -65,7 +65,7 @@ class Command(BaseCommand):
         years = [i.year for i in Offer.objects.dates("pub_date", "year")]
         # load input geojson
         if not in_geojson.exists():
-            logging.error("Input GeoJSON doesn't exists: {}".format(in_geojson))
+            logging.error(f"Input GeoJSON doesn't exists: {in_geojson}")
             return in_geojson
 
         with in_geojson.open("r", encoding="utf8") as data_file:
@@ -80,7 +80,7 @@ class Command(BaseCommand):
             dpt_offers = offers_dpts.filter(place__code=props.get("code"))
             props["JOBS_TOTAL"] = dpt_offers.count()
             for y in years:
-                props["JOBS_{}".format(y)] = dpt_offers.filter(pub_date__year=y).count()
+                props[f"JOBS_{y}"] = dpt_offers.filter(pub_date__year=y).count()
                 props["histo"] = [
                     {
                         "values": [
@@ -123,10 +123,10 @@ class Command(BaseCommand):
 
         # filter on files to download
         for k, v in settings.GEOJSON_TO_DOWLOAD.items():
-            final_path = geojson_dir / "{}.geojson".format(k)
+            final_path = geojson_dir / f"{k}.geojson"
             if final_path.exists() and not overwrite:
                 logging.info(
-                    "File already exists: {}. Ignoring the download.".format(final_path)
+                    f"File already exists: {final_path}. Ignoring the download."
                 )
             else:
                 logging.info(
@@ -154,9 +154,9 @@ class Command(BaseCommand):
                 try:
                     data = future.result()
                 except Exception as exc:
-                    logging.error("%r generated an exception: %s" % (url, exc))
+                    logging.error(f"{url!r} generated an exception: {exc}")
                 else:
-                    logging.info("%r page is %s bytes" % (url, data))
+                    logging.info(f"{url!r} page is {data} bytes")
 
     def url_to_file(self, url: str, final_file: Path, timeout: int = 60):
         """Download file from URL to local storage.

@@ -210,9 +210,7 @@ class GeorezoRSSAdmin(admin.ModelAdmin):
             message_bit = "1 offre a été"
         else:
             message_bit = "%s offres ont été" % rows_updated
-        self.message_user(
-            request, "{} programmées à une nouvelle analyse.".format(message_bit)
-        )
+        self.message_user(request, f"{message_bit} programmées à une nouvelle analyse.")
 
     offers_to_update.short_description = "Programmer une nouvelle analyse"
 

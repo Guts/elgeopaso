@@ -63,7 +63,7 @@ class ContentParser:
                 technos_matched.append(Technology.objects.get(name=techno_name))
             else:
                 continue
-        logger.debug("Technologies identified: {}".format(technos_matched))
+        logger.debug(f"Technologies identified: {technos_matched}")
         return technos_matched
 
 

@@ -37,7 +37,7 @@ extension_pattern = "**/*.xml"
 
 def get_test_marker():
     """Returns the module + function name to get a discriminator value."""
-    return "{}__{}".format(Path(__file__).stem.upper(), _getframe(1).f_code.co_name)
+    return f"{Path(__file__).stem.upper()}__{_getframe(1).f_code.co_name}"
 
 
 # #############################################################################
@@ -101,7 +101,7 @@ class TestCrawlerGeorezo(TestCase):
 
             # enforce different metadata file path to avoid conflicts between tests and real process
             georezo_parser.CRAWLER_LATEST_METADATA = (
-                "tests/fixtures/tmp/{}_{}.json".format(get_test_marker(), i.stem)
+                f"tests/fixtures/tmp/{get_test_marker()}_{i.stem}.json"
             )
 
             # parse feed and retrive new offers

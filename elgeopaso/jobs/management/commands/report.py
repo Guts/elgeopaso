@@ -73,7 +73,7 @@ class Command(BaseCommand):
         no_place = new_offers.filter(place="ND")
         if no_place.count():
             edit_url = [
-                "- {}/admin/jobs/georezorss/{}/change/".format(settings.BASE_URL, i)
+                f"- {settings.BASE_URL}/admin/jobs/georezorss/{i}/change/"
                 for i in no_place.values_list("id_rss", flat=True)
             ]
             place_msg = "{} offre(s) sans lieu : \n\t{}".format(
@@ -88,7 +88,7 @@ class Command(BaseCommand):
         no_contract = new_offers.filter(contract="ND")
         if no_contract.count():
             edit_url = [
-                "- {}/admin/jobs/georezorss/{}/change/".format(settings.BASE_URL, i)
+                f"- {settings.BASE_URL}/admin/jobs/georezorss/{i}/change/"
                 for i in no_contract.values_list("id_rss", flat=True)
             ]
             contract_msg = "{} offre(s) sans contrat : \n\t{}".format(

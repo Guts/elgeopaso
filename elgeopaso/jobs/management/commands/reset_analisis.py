@@ -27,7 +27,7 @@ class Command(BaseCommand):
     # Parsing options ------------------------------------------------------
 
     def create_parser(self, *args, **kwargs):
-        parser = super(Command, self).create_parser(*args, **kwargs)
+        parser = super().create_parser(*args, **kwargs)
         parser.formatter_class = RawTextHelpFormatter
         return parser
 

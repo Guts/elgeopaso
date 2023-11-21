@@ -53,7 +53,7 @@ class Command(BaseCommand):
 
     # Parsing options ------------------------------------------------------
     def create_parser(self, *args, **kwargs):
-        parser = super(Command, self).create_parser(*args, **kwargs)
+        parser = super().create_parser(*args, **kwargs)
         parser.formatter_class = RawTextHelpFormatter
         return parser
 
@@ -86,7 +86,7 @@ class Command(BaseCommand):
         # normalize and tests CSV path
         in_csv = path.normpath(input_csv_path)
         if not path.isfile(in_csv):
-            raise IOError("Path to the input CSV is not correct.")
+            raise OSError("Path to the input CSV is not correct.")
         else:
             pass
         # open it an dread it
@@ -114,6 +114,6 @@ class Command(BaseCommand):
                         to_update=True,
                     )
                     offer.save()
-            logging.info("{} new offer inserted.".format(ct_new_offers))
+            logging.info(f"{ct_new_offers} new offer inserted.")
         # end of method
         return ct_new_offers

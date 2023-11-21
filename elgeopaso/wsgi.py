@@ -33,7 +33,7 @@ APP_DIR_PATH = Path(__file__).parents[2].resolve() / getenv(
 #     os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
 # )
 sys.path.append(str(APP_DIR_PATH.resolve()))  # must be a string
-logging.warning("Application path added to the PATH: {}".format(APP_DIR_PATH))
+logging.warning(f"Application path added to the PATH: {APP_DIR_PATH}")
 
 # find and load environment vars from .env file
 find_and_load_environment_vars(APP_DIR_PATH)

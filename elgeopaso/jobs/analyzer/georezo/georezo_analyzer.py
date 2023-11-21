@@ -76,8 +76,8 @@ class GeorezoOfferAnalizer:
         self.opt_words = opt_words
         self.source = source
         self.new = new
-        logger.debug("Launching analisis on {} offers.".format(len(self.offers_ids)))
-        super(GeorezoOfferAnalizer, self).__init__()
+        logger.debug(f"Launching analisis on {len(self.offers_ids)} offers.")
+        super().__init__()
 
     # MAIN METHOD ------------------------------------------------------------
 
@@ -88,10 +88,10 @@ class GeorezoOfferAnalizer:
             self.offer_id = offer_id
             # chekcs if offer has already been added
             if Offer.objects.filter(id_rss=offer_id).exists() and self.new:
-                logger.error("Offer RSS_ID already exists in DB: {}".format(offer_id))
+                logger.error(f"Offer RSS_ID already exists in DB: {offer_id}")
                 continue
             else:
-                logger.debug("launch analisis on : {}".format(self.offer_id))
+                logger.debug(f"launch analisis on : {self.offer_id}")
                 pass
             # get raw offer from georezo_rss table
             raw_offer = GeorezoRSS.objects.get(id_rss=offer_id)
@@ -159,7 +159,7 @@ class GeorezoOfferAnalizer:
             # associate ManyToMany relationships
             clean_offer.technologies.set(technos)
             clean_offer.jobs_positions.set(jobs_labels)
-            logger.debug("Offer analyzed and inserted jobs.offer: {}".format(offer_id))
+            logger.debug(f"Offer analyzed and inserted jobs.offer: {offer_id}")
 
 
 # ############################################################################

@@ -415,11 +415,11 @@ def timeline(request):
             "badge": dico_styles.get(i.contract.abbrv, "Stage")[0],
             "id_rss": i.id_rss,
             "kind": dico_styles.get(i.contract.abbrv, "Stage")[1],
-            "link": "https://georezo.net/forum/viewtopic.php?pid={}".format(i.id_rss),
+            "link": f"https://georezo.net/forum/viewtopic.php?pid={i.id_rss}",
             "technos": i.technologies.values("name", "license", "type_soft"),
             "place": i.place.name,
             "jobs": i.jobs_positions.values("name"),
-            "osm": "https://www.openstreetmap.org/search?query={}".format(i.place.name),
+            "osm": f"https://www.openstreetmap.org/search?query={i.place.name}",
         }
         for i in last50
     ]

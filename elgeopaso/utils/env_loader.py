@@ -42,7 +42,7 @@ def find_and_load_environment_vars(start_dir: Path = "."):
             )
         )
     elif len(dotenv_files) == 1:
-        logging.info("Environment file found: {}".format(dotenv_files[0].resolve()))
+        logging.info(f"Environment file found: {dotenv_files[0].resolve()}")
         # load environment variables
         load_dotenv(find_dotenv(dotenv_files[0]), override=True)
     else:

@@ -22,7 +22,7 @@ from django.core.management import call_command
 from django.test import TestCase
 
 from elgeopaso.jobs.analyzer import GeorezoOfferAnalizer
-from elgeopaso.jobs.analyzer.georezo.parsers import ContentParser, TitleParser
+from elgeopaso.jobs.analyzer.georezo.parsers import TitleParser
 from elgeopaso.jobs.models import Contract, Place
 
 # module target
@@ -42,7 +42,7 @@ txt_toolbelt = TextToolbelt()
 
 def get_test_marker():
     """Returns the module + function name to get a discriminator value."""
-    return "{}__{}".format(Path(__file__).stem.upper(), _getframe(1).f_code.co_name)
+    return f"{Path(__file__).stem.upper()}__{_getframe(1).f_code.co_name}"
 
 
 # #############################################################################
