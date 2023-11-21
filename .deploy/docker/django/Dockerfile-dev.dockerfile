@@ -1,18 +1,18 @@
-FROM python:3.10-slim-buster
+FROM python:3.10-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Upgrade distrib
-RUN apt-get update \
+RUN apt update \
   # dependencies for building Python packages
-  && apt-get install -y build-essential \
+  && apt install -y build-essential \
   # psycopg2 dependencies
-  && apt-get install -y libpq-dev musl-dev \
+  && apt install -y libpq-dev musl-dev \
   # Translations dependencies
-  && apt-get install -y gettext \
+  && apt install -y gettext \
   # cleaning up unused files
-  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && apt purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
 # Application requirements
