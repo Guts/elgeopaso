@@ -1,4 +1,4 @@
-FROM postgres:12.2-alpine
+FROM postgres:15-alpine
 
 # COPY ./compose/production/postgres/maintenance /usr/local/bin/maintenance
 
