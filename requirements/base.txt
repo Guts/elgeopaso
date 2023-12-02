@@ -34,7 +34,7 @@ pytz>=2020.1,<2022  # https://github.com/stub42/pytz
 
 # Database
 # -----------------------
-dj-database-url==0.5.*
+dj-database-url==2.1.*
 
 # Project
 # -----------------------
