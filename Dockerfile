@@ -18,7 +18,7 @@ RUN apt update \
 # Application requirements
 COPY ./requirements /requirements
 RUN python -m pip install --upgrade pip \
-  && python -m pip install -r /requirements/local.txt \
+  && python -m pip install -r /requirements/production.txt \
   && python -m nltk.downloader punkt stopwords \
   && python -m pip install pyopenssl --upgrade
 
