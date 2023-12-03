@@ -34,6 +34,7 @@ ALLOWED_HOSTS = getenv("DJANGO_ALLOWED_HOSTS", default="elgeopaso.georezo.net, "
 
 # DATABASES
 # ------------------------------------------------------------------------------
+DATABASE_URL = "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
 DATABASES["default"] = dj_database_url.config(env="DATABASE_URL")  # noqa F405
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
 DATABASES["default"]["CONN_MAX_AGE"] = int(  # noqa F405
