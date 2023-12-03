@@ -1,4 +1,5 @@
 FROM python:3.10-slim-bookworm
+MAINTAINER Yves Jacolin
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -35,5 +36,6 @@ RUN sed -i 's/\r$//g' /entrypoint.sh \
 COPY ./ /app
 # Move application files after requirements
 WORKDIR /app
+EXPOSE 8000
 
 ENTRYPOINT ["/entrypoint.sh"]
