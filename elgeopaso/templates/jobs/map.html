@@ -1,19 +1,80 @@
 {% extends "base.html" %}
 {% load static %}
 {% block custom_css %}
-<link href='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css' rel='stylesheet' />
+<!-- Mapbox GL JS -->
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.css" rel="stylesheet" />
+
+<!-- LOCAL STYLESHEET -->
+<link rel="stylesheet" type="text/css" href="{% static "jobs/css/map.css" %}">
 {% endblock %}
+
 {% block content %}
-<div class="container">
+<div id="main" class="container">
+    <div class="row" id="console">
+        <div class='col-md-4 legend'>
+            <h3>Offres</h3>
+            <div class='lgd-row colors'>
+            </div>
+            <div class='lgd-row labels'>
+                <div class='label'>0</div>
+                <div class='label'>1</div>
+                <div class='label'>2</div>
+                <div class='label'>3</div>
+                <div class='label'>4</div>
+                <div class='label'>5+</div>
+            </div>
+        </div>
+        <div class='col-sm-3 map-slider'>
+            <h3>Année : <label id='active-year'>2007</label></h3>
+            <input id='slider' class='row' type='range' min='2007' max='2020' step='1' value='TOTAL' />
+        </div>
+    </div>
+    <hr>
     <div class="row">
-        <div id='map-container'></div>
+        <div class="col-md-6">
+            <p class="lead text-center">Offres d'emploi en Métropole</p>
+            <div class="big-box" id='map-fr-metro'></div>
+        </div>
+        <div class="col-xs-6">
+            <div class="row">
+                <div class="col-xs-6">
+                    <p class="lead text-center">Île-de-France</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte d'Île-de-France</div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead text-center">La Réunion</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte de La Réunion</div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead text-center">Guadeloupe</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte de Guadeloupe</div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead text-center">Martinique</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte de Martinique</div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead text-center">Guyane</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte de Guyane</div>
+                </div>
+                <div class="col-xs-6">
+                    <p class="lead text-center">Mayotte</p>
+                    <div class="mini-box" id='map-fr-idf'>Carte de Mayotte</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}
+
 {% block custom_js %}
-<script src='https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js'></script>
+<!-- Mapbox GL JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.9.0/mapbox-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.bundle.min.js"
+    integrity="sha256-TQq84xX6vkwR0Qs1qH5ADkP+MvH0W+9E7TdHJsoIQiM=" crossorigin="anonymous"></script>
 <script type="text/javascript">
     var static_url = "{% get_static_prefix %}";
 </script>
-<script type="text/javascript" src="{% static 'jobs/js/map.js' %}" defer></script>
+<script defer type="text/javascript" src="{% static 'jobs/js/map.js' %}" defer></script>
+<!-- <script defer type="text/javascript" src="{% static 'jobs/js/map_idf.js' %}" defer></script> -->
 {% endblock %}
