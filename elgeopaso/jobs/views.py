@@ -1,9 +1,9 @@
 #! python3  # noqa: E265
 
 """
-    Application views.
+Application views.
 
-    Learn more here: https://docs.djangoproject.com/fr/2.2/topics/http/views/
+Learn more here: https://docs.djangoproject.com/fr/2.2/topics/http/views/
 """
 
 # ###########################################################################

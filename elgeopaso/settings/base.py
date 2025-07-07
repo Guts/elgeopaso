@@ -1,7 +1,7 @@
 #! python3  # noqa: E265
 
 """
-    Base settings to build other settings files upon.
+Base settings to build other settings files upon.
 """
 
 # #############################################################################

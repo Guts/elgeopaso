@@ -1,9 +1,9 @@
 #! python3  # noqa: E265
 
 """
-    Filters.
+Filters.
 
-    Learn more here: https://django-filter.readthedocs.io/en/master/
+Learn more here: https://django-filter.readthedocs.io/en/master/
 """
 
 # ###########################################################################

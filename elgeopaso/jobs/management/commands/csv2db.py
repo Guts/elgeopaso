@@ -1,11 +1,11 @@
 #! python3  # noqa: E265
 
 """
-    Command used to import a CSV from a Georezo database export.
+Command used to import a CSV from a Georezo database export.
 
-    .. code-block:: python
+.. code-block:: python
 
-        python manage.py csv2db --input-csv ./georezo/georezo_db_backup_2016-2017.csv
+    python manage.py csv2db --input-csv ./georezo/georezo_db_backup_2016-2017.csv
 
 """
 

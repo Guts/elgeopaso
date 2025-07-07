@@ -1,7 +1,7 @@
 #! python3  # noqa: E265
 
 """
-    Settings built upon base for local development.
+Settings built upon base for local development.
 """
 
 # #############################################################################

@@ -1,8 +1,8 @@
 #! python3  # noqa: E265
 
 """
-    Module in charge of analyzing raw offers from GeoRezo: extracting contract type,
-    place, etc. from title and abstract.
+Module in charge of analyzing raw offers from GeoRezo: extracting contract type,
+place, etc. from title and abstract.
 """
 
 
