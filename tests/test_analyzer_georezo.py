@@ -2,10 +2,10 @@
 
 """Usage from the repo root folder:
 
-    .. code-block:: python
+.. code-block:: python
 
-        # for whole test
-        python manage.py test tests.test_analyzer_georezo
+    # for whole test
+    python manage.py test tests.test_analyzer_georezo
 
 """
 

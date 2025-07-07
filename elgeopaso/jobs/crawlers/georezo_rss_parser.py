@@ -1,9 +1,9 @@
 #! python3  # noqa: E265
 
 """
-    Name:         GeoRezo Jobs RSS Parser
-    Purpose:      Parse GeoRezo RSS
-    Python:       3.10+
+Name:         GeoRezo Jobs RSS Parser
+Purpose:      Parse GeoRezo RSS
+Python:       3.10+
 """
 
 # ##############################################################################

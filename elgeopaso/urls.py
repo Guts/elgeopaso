@@ -1,19 +1,19 @@
 #! python3  # noqa: E265  # noqa E265
 
 """
-    Project URLs settings.
+Project URLs settings.
 
-    Learn more here: https://docs.djangoproject.com/fr/2.2/topics/http/urls/
+Learn more here: https://docs.djangoproject.com/fr/2.2/topics/http/urls/
 
-    To add a new path:
+To add a new path:
 
-    .. code-block:: python
+.. code-block:: python
 
-        # first import the app
-        import jobs
+    # first import the app
+    import jobs
 
-        # then add the new path:
-        path('jobs/', jobs.urls, name="Jobs offers")
+    # then add the new path:
+    path('jobs/', jobs.urls, name="Jobs offers")
 
 """
 

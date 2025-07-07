@@ -1,12 +1,12 @@
 #! python3  # noqa: E265  # noqa E265
 
 """
-    Application URLs settings.
+Application URLs settings.
 
-    Learn more here:
+Learn more here:
 
-    - https://docs.djangoproject.com/fr/2.2/topics/http/urls/
-    - https://docs.djangoproject.com/fr/2.2/ref/urls/
+- https://docs.djangoproject.com/fr/2.2/topics/http/urls/
+- https://docs.djangoproject.com/fr/2.2/ref/urls/
 """
 
 # #############################################################################

@@ -1,7 +1,7 @@
 #! python3  # noqa: E265  # noqa E265
 
 """
-    Application URLs settings.
+Application URLs settings.
 """
 
 # #############################################################################
