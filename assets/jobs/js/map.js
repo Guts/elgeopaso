@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var map = new mapboxgl.Map({
-        container: 'map-container',
+        container: 'map-fr-metro',
         style: 'https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json',
         center: [2.6, 45.5],
         zoom: 4.7
@@ -17,22 +17,48 @@ $(document).ready(function () {
 
     // ADD DATA
     map.on('load', function () {
-        map.addSource("departements-fr", {
-            "type": "geojson",
-            "data": static_url + "jobs/geojson/fr_departements_jobs.geojson"
+        map.addLayer({
+            id: "boundaries",
+            type: 'circle',
+            source: {
+                type: 'geojson',
+                data: static_url + "jobs/geojson/fr_departements_jobs_centroids.geojson"
+            },
+            // filter: ['>=', ['number', ['get', 'JOBS_TOTAL']], 1],
+            paint: {
+                'circle-radius': [
+                    'interpolate',
+                    ['linear'],
+                    ['number', ['get', 'JOBS_TOTAL']],
+                    0, 4,
+                    5, 24
+                ],
+                'circle-color': [
+                    'interpolate',
+                    ['linear'],
+                    ['number', ['get', 'JOBS_TOTAL']],
+                    0, '#2DC4B2',
+                    1, '#3BB3C3',
+                    2, '#669EC4',
+                    3, '#8B88B6',
+                    4, '#A2719B',
+                    5, '#AA5E79'
+                ],
+                'circle-opacity': 0.8
+            }
         });
 
-        map.addLayer({
-            "id": "boundaries",
-            'type': 'fill',
-            'layout': {},
-            "source": "departements-fr",
-            'paint': {
-                'fill-color': '#AEBBFF',
-                'fill-opacity': 0.7,
-                'fill-outline-color': '#000000'
+        document.getElementById('slider').addEventListener('input', function (e) {
+            var year = parseInt(e.target.value);
+            console.log("selected year: " + year);
+            console.log("selected property: " + 'JOBS_' + year);
 
-            }
+            // update the map
+            // map.setFilter('boundaries', ['==', 'JOBS_' + year, 'JOBS_' + year]);
+            map.setPaintProperty('boundaries', 'circle-radius', ['number', ['get', 'JOBS_' + year]]);
+
+            // update text in the UI
+            document.getElementById('active-year').innerText = year;
         });
 
         // Change the cursor to a pointer when the mouse is over the states layer.
