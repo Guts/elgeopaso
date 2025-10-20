@@ -8,8 +8,9 @@ wheel
 
 # Django
 # -----------------------
-django>=2.2,<3
-django-allauth>=0.42,<0.45         # https://django-allauth.readthedocs.io
+django>=4.2,<5
+#django-allauth>=0.42,<0.45         # https://django-allauth.readthedocs.io
+django-allauth>=0.51,<0.55         # https://django-allauth.readthedocs.io
 django-crispy-forms==1.11.*      # https://django-crispy-forms.readthedocs.io
 django-ckeditor>=6.0,<6.8
 django-filter==2.4.*
