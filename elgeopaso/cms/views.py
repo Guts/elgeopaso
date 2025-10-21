@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import get_object_or_404, render 
 from django.views.decorators.cache import cache_page
 from django.views.decorators.gzip import gzip_page
 from django.views.decorators.http import require_safe
@@ -37,7 +37,7 @@ def docs(request):
 @cache_page(60 * 60)
 def view_category(request, slug):
     category = get_object_or_404(Category, slug_name=slug)
-    return render_to_response(
+    return render(
         "cms/category_detail.html",
         {
             "categories": Category.objects.all(),
@@ -53,7 +53,7 @@ def view_category(request, slug):
 @gzip_page
 @cache_page(60 * 60)
 def view_article(request, slug, category):
-    return render_to_response(
+    return render(
         "cms/article_detail.html",
         {"article": get_object_or_404(Article, slug_title=slug)},
     )

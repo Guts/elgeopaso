@@ -76,6 +76,7 @@ except ImproperlyConfigured:
     }
 
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -102,12 +103,11 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "ckeditor",
+    "django_ckeditor_5",
     "ckeditor_uploader",
     "crispy_forms",
     "rest_framework",
     "rest_framework_filters",
-    "drf_yasg",
     "django_filters",
     "widget_tweaks",
 ]
@@ -190,6 +190,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # https://docs.djangoproject.com/fr/2.2/ref/settings/#template-dirs
         "DIRS": [str(PROJ_DIR / "templates")],
+        'APP_DIRS': True,  # ✅ indispensable pour debug_toolbar et les apps Django classiques
         "OPTIONS": {
             # https://docs.djangoproject.com/fr/2.2/ref/settings/#template-loaders
             # https://docs.djangoproject.com/fr/2.2/ref/templates/api/#loader-types
@@ -198,15 +199,15 @@ TEMPLATES = [
             #     "django.template.loaders.app_directories.Loader",
             #     "django.template.loaders.filesystem.Loader",
             # ],
-            "loaders": [
-                (
-                    "django.template.loaders.cached.Loader",
-                    [
-                        "django.template.loaders.filesystem.Loader",
-                        "django.template.loaders.app_directories.Loader",
-                    ],
-                ),
-            ],
+            #"loaders": [
+            #    (
+            #        "django.template.loaders.cached.Loader",
+            #        [
+            #            "django.template.loaders.filesystem.Loader",
+            #            "django.template.loaders.app_directories.Loader",
+            #        ],
+            #    ),
+            #],
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
@@ -242,7 +243,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#login-url
-LOGIN_REDIRECT_URL = None  # if None, then the previous page will be used
+LOGIN_REDIRECT_URL = '/admin/'  # if None, then the previous page will be used
 
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#std:setting-SITE_ID
 SITE_ID = 1  # required by Django AllAuth
@@ -351,6 +352,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     "PAGE_SIZE": 20,
 }
 

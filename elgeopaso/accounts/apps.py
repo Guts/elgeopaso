@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class AccountsConfig(AppConfig):
-    name = "accounts"
+    name = "elgeopaso.accounts"
     verbose_name = "Comptes d'utilisateurs"
