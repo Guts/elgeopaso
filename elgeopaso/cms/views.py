@@ -11,8 +11,8 @@ from elgeopaso.cms.models import Article, Category
 @cache_page(60 * 60)
 def about(request):
     """Displays global metrics about database on homepage."""
-    content = Article.objects.filter(published=1).first().content
-
+    article = Article.objects.filter(published=1).first()
+    content = article.content if article else "Aucun contenu disponible pour le moment."
     # values to replace within the template
     context = {
         "content": content,
@@ -38,6 +38,7 @@ def docs(request):
 def view_category(request, slug):
     category = get_object_or_404(Category, slug_name=slug)
     return render(
+        request,
         "cms/category_detail.html",
         {
             "categories": Category.objects.all(),
@@ -54,6 +55,7 @@ def view_category(request, slug):
 @cache_page(60 * 60)
 def view_article(request, slug, category):
     return render(
+        request,
         "cms/article_detail.html",
         {"article": get_object_or_404(Article, slug_title=slug)},
     )

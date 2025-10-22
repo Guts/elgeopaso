@@ -1,5 +1,5 @@
 # 3rd party package
-from ckeditor_uploader.fields import RichTextUploadingField
+from django_ckeditor_5.fields import CKEditor5Field
 from django.contrib.auth.models import User
 from django.core.validators import MaxLengthValidator
 from django.db import models
@@ -38,7 +38,7 @@ class Article(models.Model):
         "Titre", max_length=200, validators=[MaxLengthValidator(200)]
     )
     slug_title = models.SlugField(verbose_name="Alias normé", unique=True, blank=True)
-    content = RichTextUploadingField("Corps de texte")
+    content = CKEditor5Field("Corps de texte", config_name='default')
     ext_url = models.URLField("Lien externe", blank=True)
     published = models.BooleanField("Publié", blank=False, default=False)
     # dates
