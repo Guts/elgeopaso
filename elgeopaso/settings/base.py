@@ -110,6 +110,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_filters",
     "django_filters",
     "widget_tweaks",
+    'drf_spectacular',
 ]
 
 PROJECT_APPS = [
@@ -357,11 +358,16 @@ REST_FRAMEWORK = {
 }
 
 # OpenAPI
-SWAGGER_SETTINGS = {
-    "DEEP_LINKING": True,
-    "REFETCH_SCHEMA_WITH_AUTH": True,
-    "REFETCH_SCHEMA_ON_LOGOUT": True,
-    "TAGS_SORTER": "alpha",
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'ElGeoPaso API',
+    'DESCRIPTION': 'API pour ElGeoPaso',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SCHEMA_PATH_PREFIX': "api",
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'tagsSorter': 'alpha',
+    },
 }
 
 # ===========================================================================
