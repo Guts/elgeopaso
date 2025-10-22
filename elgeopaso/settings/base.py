@@ -104,6 +104,7 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "django_ckeditor_5",
+    "ckeditor_uploader",
     "crispy_forms",
     "rest_framework",
     "rest_framework_filters",
