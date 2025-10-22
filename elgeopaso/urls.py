@@ -43,7 +43,7 @@ urlpatterns = [
     path("jobs/", include("elgeopaso.jobs.urls")),
     # CMS
     path("content/", include(("elgeopaso.cms.urls", "cms"), namespace="cms")),
-    path("ckeditor5/", include('django_ckeditor_5.urls')),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     # API
     path("api/", include(("elgeopaso.api.urls", "api"), namespace="api")),
 ]

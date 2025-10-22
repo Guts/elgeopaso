@@ -24,9 +24,9 @@ from .base import *  # noqa
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#secret-key
 SECRET_KEY = getenv(
-        "DJANGO_SECRET_KEY",
-        default="xhaBNHx2NPM3H2xmvn7fV8puVuIYxKr2aODG3Iw1HNxbkKbwV6QtGM2OHiWNPD7f",
-        )
+    "DJANGO_SECRET_KEY",
+    default="xhaBNHx2NPM3H2xmvn7fV8puVuIYxKr2aODG3Iw1HNxbkKbwV6QtGM2OHiWNPD7f",
+)
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = getenv("DJANGO_ALLOWED_HOSTS", default="elgeopaso.georezo.net, ").split(
     ", "

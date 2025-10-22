@@ -14,12 +14,15 @@ Learn more here:
 # ##################################
 
 # Django
-from django.conf import settings
-from django.urls import path, include
+from django.urls import include, path
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 # Dajngo REST Framework
-from rest_framework import permissions, routers
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
+from rest_framework import routers
 
 # application
 from elgeopaso.api import views
@@ -39,8 +42,12 @@ router.register(r"metiers", views.JobViewSet)
 router.register(r"technos", views.TechnoViewSet)
 
 urlpatterns = [
-    path('schema/', SpectacularAPIView.as_view(api_version="api/1.0"), name='schema'),
-    path('docs/', SpectacularSwaggerView.as_view(url_name='api:schema'), name='swagger-ui'),
-    path('redoc/', SpectacularRedocView.as_view(url_name='api:schema'), name='redoc'),
+    path("schema/", SpectacularAPIView.as_view(api_version="api/1.0"), name="schema"),
+    path(
+        "docs/",
+        SpectacularSwaggerView.as_view(url_name="api:schema"),
+        name="swagger-ui",
+    ),
+    path("redoc/", SpectacularRedocView.as_view(url_name="api:schema"), name="redoc"),
     path("", include(router.urls)),
 ]

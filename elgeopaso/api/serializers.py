@@ -25,6 +25,7 @@ class JobSerializer(serializers.ModelSerializer):
         # fields = ('abbrv', 'name', 'comment')
         ref_name = "Job"
 
+
 class PlaceVariationsSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlaceVariations
@@ -50,7 +51,7 @@ class OfferSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Offer
-        #FIX: depth = 1
+        # FIX: depth = 1
         ref_name = "Offer"
         fields = (
             "id",
@@ -65,6 +66,7 @@ class OfferSerializer(serializers.ModelSerializer):
             "content",
             "raw_offer",
         )
+
 
 class TechnoSerializer(serializers.ModelSerializer):
     class Meta:
