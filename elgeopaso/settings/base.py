@@ -322,25 +322,42 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 # SOCIALACCOUNT_ADAPTER = "django_starter.users.adapters.SocialAccountAdapter"
 
 # CMS - CK EDITOR
-CKEDITOR_UPLOAD_PATH = "ck_uploads"
-CKEDITOR_IMAGE_BACKEND = "pillow"
-IMAGE_QUALITY = 75
-THUMBNAIL_SIZE = (300, 300)
-
-# CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
-CKEDITOR_ALLOW_NONIMAGE_FILES = False
-CKEDITOR_RESTRICT_BY_DATE = False
-CKEDITOR_BROWSE_SHOW_DIRS = True
-CKEDITOR_CONFIGS = {
+CKEDITOR_5_CONFIGS = {
     "default": {
-        "toolbar": "Standard",
+        "toolbar": [
+            "bold", "italic", "link", "underline",
+            "bulletedList", "numberedList", "blockQuote",
+            "undo", "redo"
+        ],
         "height": 400,
         "width": "100%",
-        "language": "fr",
-        "removePlugins": " bidi,flash,forms,language,scayt,wsc,",
-        "extraPlugins": "uploadimage,uploadwidget,",
+    },
+    "full": {
+        "toolbar": "full",
+        "height": 500,
     },
 }
+
+CKEDITOR_UPLOAD_PATH = "ck_uploads"
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+# TODO: 
+# CKEditor 5 ne fait plus de traitement d’image côté serveur, c’est ton stockage Django qui gère.
+# Si tu veux manipuler les images (compression, resize…), tu dois gérer ça dans ton storage ou via un signal Django.
+#CKEDITOR_IMAGE_BACKEND = "pillow"
+# TODO;
+# Plus pris en charge. CKEditor 5 envoie les fichiers bruts.
+# Pour générer des miniatures ou compresser, tu peux utiliser django-imagekit ou un stockage personnalisé.
+#IMAGE_QUALITY = 75
+#THUMBNAIL_SIZE = (300, 300)
+
+# CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
+# TODO:
+# Ces options sont propres à CKEditor 4.
+#  CKEditor 5 ne propose pas de navigateur de fichiers intégré.
+# Pour gérer les uploads ou limiter les types de fichiers, tu dois le faire dans les validators de ton FileField/ImageField ou via ton stockage personnalisé.
+#CKEDITOR_ALLOW_NONIMAGE_FILES = False
+#CKEDITOR_RESTRICT_BY_DATE = False
+#CKEDITOR_BROWSE_SHOW_DIRS = True
 
 # Django REST Framework (API)
 REST_FRAMEWORK = {
