@@ -122,6 +122,9 @@ PROJECT_APPS = [
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 
 
+if getenv("DJANGO_DEBUG") == True:
+    INSTALLED_APPS += ["debug_toolbar"]
+
 # PASSWORDS
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#password-hashers
