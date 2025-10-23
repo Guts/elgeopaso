@@ -89,15 +89,15 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # TEMPLATES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#templates
-TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
-    (
-        "django.template.loaders.cached.Loader",
-        [
-            "django.template.loaders.filesystem.Loader",
-            "django.template.loaders.app_directories.Loader",
-        ],
-    )
-]
+# TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
+#    (
+#        "django.template.loaders.cached.Loader",
+#        [
+#            "django.template.loaders.filesystem.Loader",
+#            "django.template.loaders.app_directories.Loader",
+#        ],
+#    )
+# ]
 
 # EMAIL
 # ------------------------------------------------------------------------------
