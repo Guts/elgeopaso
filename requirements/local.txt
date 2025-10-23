@@ -2,7 +2,7 @@
 
 # Database
 # -----------------------
-psycopg2-binary #==2.8.*  # https://github.com/psycopg/psycopg2
+psycopg2-binary>=2.9,<3  # https://github.com/psycopg/psycopg2
 
 # Server
 # -----------------------
@@ -12,9 +12,9 @@ Werkzeug==3.0.*     # https://github.com/pallets/werkzeug
 
 # Testing
 # ----------------------
-pytest>=6.2,<6.3                # https://github.com/pytest-dev/pytest
+pytest>=7.4                # https://github.com/pytest-dev/pytest
 pytest-cov>=2.12,<4.2
-pytest-django>=4.1,<4.4         # https://github.com/pytest-dev/pytest-django
+pytest-django>=4.5         # https://github.com/pytest-dev/pytest-django
 semver>=2.13,<2.14                  # https://github.com/python-semver/python-semver
 validator-collection== 1.5.*    # https://github.com/insightindustry/validator-collection
 
@@ -33,4 +33,4 @@ pylint-django==2.4.*            # https://github.com/PyCQA/pylint-django
 # Django
 # ------------------------------------------------------------------------------
 django-debug-toolbar>=4.4,<5  # https://github.com/jazzband/django-debug-toolbar
-django-extensions>=3.2,<3.3     # https://github.com/django-extensions/django-extensions
+django-extensions>=4.1     # https://github.com/django-extensions/django-extensions
