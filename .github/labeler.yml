@@ -35,4 +35,3 @@ tooling:
     - head-branch:
           - ^tooling
           - tooling
-
