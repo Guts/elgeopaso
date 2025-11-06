@@ -41,10 +41,10 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install -r requirements/local.txt
 
-      - name: Install NLTK
+      - name: Download NLTK packages
         run: |
           # download NLTK packages - please refer to `ntlk.txt`
-          python -m nltk.downloader punkt stopwords
+          python -m nltk.downloader punkt punkt_tab stopwords
 
       - name: Lint with flake8
         run: |

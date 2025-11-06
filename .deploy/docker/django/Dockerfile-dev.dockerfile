@@ -19,7 +19,7 @@ RUN apt update \
 COPY ./requirements /requirements
 RUN python -m pip install --upgrade pip \
   && python -m pip install -r /requirements/local.txt \
-  && python -m nltk.downloader punkt stopwords
+  && python -m nltk.downloader punkt punkt_tab stopwords
 
 # Add release script
 COPY .deploy/release-tasks.sh /release-tasks.sh

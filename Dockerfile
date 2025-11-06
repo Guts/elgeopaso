@@ -20,7 +20,7 @@ RUN apt update \
 COPY ./requirements /requirements
 RUN python -m pip install --upgrade pip \
   && python -m pip install -r /requirements/production.txt \
-  && python -m nltk.downloader punkt stopwords \
+  && python -m nltk.downloader punkt punkt_tab stopwords \
   && python -m pip install pyopenssl --upgrade
 
 # Add release script

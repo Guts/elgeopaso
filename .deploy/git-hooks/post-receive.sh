@@ -45,7 +45,7 @@ python -m pip install -U pip setuptools wheel
 
 # Install dependencies
 python -m pip install -U -r requirements/production.txt
-python -m nltk.downloader punkt stopwords
+python -m nltk.downloader punkt punkt_tab stopwords
 
 # Run migrations
 python manage.py migrate
