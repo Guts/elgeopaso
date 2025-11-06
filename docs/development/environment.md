@@ -52,7 +52,7 @@ python -m pip install -U -r .\requirements\local.txt
 # on Linux: python -m pip install -U -r requirements/local.txt
 
 # download NLTK packages - please refer to `ntlk.txt`
-python -m nltk.downloader punkt stopwords
+python -m nltk.downloader punkt punkt_tab stopwords
 
 # optionally, install pre-commit git-hooks
 pre-commit install

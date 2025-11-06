@@ -87,7 +87,7 @@ class TextToolbelt:
         contenu = contenu.get_text("\n")
         contenu = cls.remove_html_markups(input_content)
         # contenu = self.clean_xml(contenu)
-        contenu_tokenized = nltk.word_tokenize(contenu)
+        contenu_tokenized = nltk.word_tokenize(contenu, language="french")
 
         # stop words filter
         for mot in contenu_tokenized:
