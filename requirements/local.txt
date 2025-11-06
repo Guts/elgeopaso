@@ -7,7 +7,7 @@ psycopg2-binary>=2.9,<3  # https://github.com/psycopg/psycopg2
 # Server
 # -----------------------
 #pyOpenSSL>=19.1,<20.1   # required for run webiste on HTTPS even in local
-pyOpenSSL>=23.2,<24.0   # required for run webiste on HTTPS even in local
+pyOpenSSL>=23.2,<26.0   # required for run webiste on HTTPS even in local
 Werkzeug==3.0.*     # https://github.com/pallets/werkzeug
 
 # Testing
