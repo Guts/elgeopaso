@@ -9,7 +9,7 @@ Application URLs settings.
 # ##################################
 
 # Django
-from django.conf.urls import url
+from django.urls import path
 
 from elgeopaso.cms import views
 
@@ -17,11 +17,15 @@ from elgeopaso.cms import views
 # ########### Globals ##############
 # ##################################
 urlpatterns = [
-    url(r"^about/$", views.about, name="about"),
-    url(r"^(?P<slug>[-\w]+)/$", views.view_category, name="view_category"),
-    url(
-        r"^(?P<category>[-\w]+)/(?P<slug>[-\w]+)/$",
-        views.view_article,
-        name="view_article",
-    ),
+    path("about/", views.about, name="about"),
+    path("<slug:slug>/", views.view_category, name="view_category"),
+    #    re_path(r"^(?P<slug>[-\w]+)/$", views.view_category, name="view_category"),
+    #    path(r"^(?P<slug>[-\w]+)/$", views.view_category, name="view_category"),
+    path("<slug:category>/<slug:slug>/", views.view_article, name="view_article"),
+    #    re_path(r"^(?P<category>[-\w]+)/(?P<slug>[-\w]+)/$", views.view_article, name="view_article"),
+    #    path(
+    #        r"^(?P<category>[-\w]+)/(?P<slug>[-\w]+)/$",
+    #        views.view_article,
+    #        name="view_article",
+    #    ),
 ]

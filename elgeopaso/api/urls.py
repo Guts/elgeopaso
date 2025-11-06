@@ -14,13 +14,15 @@ Learn more here:
 # ##################################
 
 # Django
-from django.conf import settings
-from django.urls import re_path
+from django.urls import include, path
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 
 # Dajngo REST Framework
-from drf_yasg import openapi
-from drf_yasg.views import get_schema_view
-from rest_framework import permissions, routers
+from rest_framework import routers
 
 # application
 from elgeopaso.api import views
@@ -39,32 +41,13 @@ router.register(r"offres", views.OfferViewSet)
 router.register(r"metiers", views.JobViewSet)
 router.register(r"technos", views.TechnoViewSet)
 
-urlpatterns = router.urls
-
-# API SWAGGER
-schema_view = get_schema_view(
-    openapi.Info(
-        title="El Géo Paso - Documentation de l'API",
-        default_version="v1",
-        description="Documentation standardisée de l'API REST d'El Géo Paso",
-        terms_of_service="https://blog.georezo.net/laminute/tout-sur-georezo/mentions-legales/",
-        contact=openapi.Contact(email=settings.EMAIL_HOST_USER),
+urlpatterns = [
+    path("schema/", SpectacularAPIView.as_view(api_version="api/1.0"), name="schema"),
+    path(
+        "docs/",
+        SpectacularSwaggerView.as_view(url_name="api:schema"),
+        name="swagger-ui",
     ),
-    public=False,
-    permission_classes=(permissions.AllowAny,),
-)
-
-urlpatterns += [
-    # OpenAPI files
-    re_path(
-        r"^swagger(?P<format>\.json|\.yaml)$",
-        schema_view.without_ui(cache_timeout=60 * 60),
-        name="schema-json",
-    ),
-    # Swagger UI
-    re_path(
-        "swagger|docs",
-        schema_view.with_ui(renderer="swagger", cache_timeout=60 * 60),
-        name="schema-swagger-ui",
-    ),
+    path("redoc/", SpectacularRedocView.as_view(url_name="api:schema"), name="redoc"),
+    path("", include(router.urls)),
 ]

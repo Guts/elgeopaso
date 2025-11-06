@@ -76,6 +76,7 @@ except ImproperlyConfigured:
     }
 
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -102,14 +103,13 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "ckeditor",
-    "ckeditor_uploader",
+    "django_ckeditor_5",
     "crispy_forms",
     "rest_framework",
     "rest_framework_filters",
-    "drf_yasg",
     "django_filters",
     "widget_tweaks",
+    "drf_spectacular",
 ]
 
 PROJECT_APPS = [
@@ -121,6 +121,9 @@ PROJECT_APPS = [
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + PROJECT_APPS
 
+
+if getenv("DJANGO_DEBUG") == True:
+    INSTALLED_APPS += ["debug_toolbar"]
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -190,6 +193,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # https://docs.djangoproject.com/fr/2.2/ref/settings/#template-dirs
         "DIRS": [str(PROJ_DIR / "templates")],
+        "APP_DIRS": True,  # ✅ indispensable pour debug_toolbar et les apps Django classiques
         "OPTIONS": {
             # https://docs.djangoproject.com/fr/2.2/ref/settings/#template-loaders
             # https://docs.djangoproject.com/fr/2.2/ref/templates/api/#loader-types
@@ -198,15 +202,15 @@ TEMPLATES = [
             #     "django.template.loaders.app_directories.Loader",
             #     "django.template.loaders.filesystem.Loader",
             # ],
-            "loaders": [
-                (
-                    "django.template.loaders.cached.Loader",
-                    [
-                        "django.template.loaders.filesystem.Loader",
-                        "django.template.loaders.app_directories.Loader",
-                    ],
-                ),
-            ],
+            # "loaders": [
+            #    (
+            #        "django.template.loaders.cached.Loader",
+            #        [
+            #            "django.template.loaders.filesystem.Loader",
+            #            "django.template.loaders.app_directories.Loader",
+            #        ],
+            #    ),
+            # ],
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
@@ -242,7 +246,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#login-url
-LOGIN_REDIRECT_URL = None  # if None, then the previous page will be used
+LOGIN_REDIRECT_URL = "/admin/"  # if None, then the previous page will be used
 
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#std:setting-SITE_ID
 SITE_ID = 1  # required by Django AllAuth
@@ -320,25 +324,48 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
 # SOCIALACCOUNT_ADAPTER = "django_starter.users.adapters.SocialAccountAdapter"
 
 # CMS - CK EDITOR
-CKEDITOR_UPLOAD_PATH = "ck_uploads"
-CKEDITOR_IMAGE_BACKEND = "pillow"
-IMAGE_QUALITY = 75
-THUMBNAIL_SIZE = (300, 300)
-
-# CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
-CKEDITOR_ALLOW_NONIMAGE_FILES = False
-CKEDITOR_RESTRICT_BY_DATE = False
-CKEDITOR_BROWSE_SHOW_DIRS = True
-CKEDITOR_CONFIGS = {
+CKEDITOR_5_CONFIGS = {
     "default": {
-        "toolbar": "Standard",
+        "toolbar": [
+            "bold",
+            "italic",
+            "link",
+            "underline",
+            "bulletedList",
+            "numberedList",
+            "blockQuote",
+            "undo",
+            "redo",
+        ],
         "height": 400,
         "width": "100%",
-        "language": "fr",
-        "removePlugins": " bidi,flash,forms,language,scayt,wsc,",
-        "extraPlugins": "uploadimage,uploadwidget,",
+    },
+    "full": {
+        "toolbar": "full",
+        "height": 500,
     },
 }
+
+CKEDITOR_UPLOAD_PATH = "ck_uploads"
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+# TODO:
+# CKEditor 5 ne fait plus de traitement d’image côté serveur, c’est ton stockage Django qui gère.
+# Si tu veux manipuler les images (compression, resize…), tu dois gérer ça dans ton storage ou via un signal Django.
+# CKEDITOR_IMAGE_BACKEND = "pillow"
+# TODO;
+# Plus pris en charge. CKEditor 5 envoie les fichiers bruts.
+# Pour générer des miniatures ou compresser, tu peux utiliser django-imagekit ou un stockage personnalisé.
+# IMAGE_QUALITY = 75
+# THUMBNAIL_SIZE = (300, 300)
+
+# CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
+# TODO:
+# Ces options sont propres à CKEditor 4.
+#  CKEditor 5 ne propose pas de navigateur de fichiers intégré.
+# Pour gérer les uploads ou limiter les types de fichiers, tu dois le faire dans les validators de ton FileField/ImageField ou via ton stockage personnalisé.
+# CKEDITOR_ALLOW_NONIMAGE_FILES = False
+# CKEDITOR_RESTRICT_BY_DATE = False
+# CKEDITOR_BROWSE_SHOW_DIRS = True
 
 # Django REST Framework (API)
 REST_FRAMEWORK = {
@@ -351,15 +378,21 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "PAGE_SIZE": 20,
 }
 
 # OpenAPI
-SWAGGER_SETTINGS = {
-    "DEEP_LINKING": True,
-    "REFETCH_SCHEMA_WITH_AUTH": True,
-    "REFETCH_SCHEMA_ON_LOGOUT": True,
-    "TAGS_SORTER": "alpha",
+SPECTACULAR_SETTINGS = {
+    "TITLE": "ElGeoPaso API",
+    "DESCRIPTION": "API pour ElGeoPaso",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SCHEMA_PATH_PREFIX": "api",
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "tagsSorter": "alpha",
+    },
 }
 
 # ===========================================================================

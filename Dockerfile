@@ -1,4 +1,5 @@
 FROM python:3.10-slim-bookworm
+LABEL MAINTAINER="Yves Jacolin"
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -18,8 +19,9 @@ RUN apt update \
 # Application requirements
 COPY ./requirements /requirements
 RUN python -m pip install --upgrade pip \
-  && python -m pip install -r /requirements/local.txt \
-  && python -m nltk.downloader punkt stopwords
+  && python -m pip install -r /requirements/production.txt \
+  && python -m nltk.downloader punkt stopwords \
+  && python -m pip install pyopenssl --upgrade
 
 # Add release script
 COPY .deploy/release-tasks.sh /release-tasks.sh
@@ -31,7 +33,9 @@ COPY ./.deploy/docker/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r$//g' /entrypoint.sh \
   && chmod +x /entrypoint.sh
 
+COPY ./ /app
 # Move application files after requirements
 WORKDIR /app
+EXPOSE 8000
 
 ENTRYPOINT ["/entrypoint.sh"]

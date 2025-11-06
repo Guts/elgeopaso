@@ -15,6 +15,7 @@ class ContractSerializer(serializers.ModelSerializer):
         model = Contract
         fields = "__all__"
         # fields = ('abbrv', 'name', 'comment')
+        ref_name = "Contract"
 
 
 class JobSerializer(serializers.ModelSerializer):
@@ -22,12 +23,36 @@ class JobSerializer(serializers.ModelSerializer):
         model = JobPosition
         fields = "__all__"
         # fields = ('abbrv', 'name', 'comment')
+        ref_name = "Job"
+
+
+class PlaceVariationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlaceVariations
+        # fields = '__all__'
+        fields = ("label",)
+        ref_name = "PlaceVariation"
+
+
+class PlaceSerializer(serializers.ModelSerializer):
+    variations = PlaceVariationsSerializer(source="label", read_only=True, many=True)
+
+    class Meta:
+        model = Place
+        # fields = '__all__'
+        # depth = 1
+        ref_name = "Place"
+        fields = ("name", "code", "scale", "variations")
 
 
 class OfferSerializer(serializers.ModelSerializer):
+    place = PlaceSerializer(read_only=True)
+    contract = ContractSerializer(read_only=True)
+
     class Meta:
         model = Offer
-        depth = 1
+        # FIX: depth = 1
+        ref_name = "Offer"
         fields = (
             "id",
             "id_rss",
@@ -43,25 +68,9 @@ class OfferSerializer(serializers.ModelSerializer):
         )
 
 
-class PlaceVariationsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PlaceVariations
-        # fields = '__all__'
-        fields = ("label",)
-
-
-class PlaceSerializer(serializers.ModelSerializer):
-    variations = PlaceVariationsSerializer(source="label", read_only=True, many=True)
-
-    class Meta:
-        model = Place
-        # fields = '__all__'
-        # depth = 1
-        fields = ("name", "code", "scale", "variations")
-
-
 class TechnoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Technology
         fields = "__all__"
+        ref_name = "Techno"
         # fields = ('abbrv', 'name', 'comment')

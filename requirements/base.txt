@@ -8,29 +8,29 @@ wheel
 
 # Django
 # -----------------------
-django>=2.2,<3
-django-allauth>=0.42,<0.45         # https://django-allauth.readthedocs.io
+django>=5,<6
+django-allauth>=0.51,<0.55         # https://django-allauth.readthedocs.io
 django-crispy-forms==1.11.*      # https://django-crispy-forms.readthedocs.io
-django-ckeditor>=6.0,<6.8
-django-filter==2.4.*
+django-ckeditor-5==0.2.18
+django-filter==25.*
 django-widgets-improved==1.5.*
 whitenoise[brotli]>=5.1,<5.4    # https://github.com/evansd/whitenoise
 
 # Django REST Framework (DRF)
 # --------------------------
-djangorestframework==3.12.*
+djangorestframework==3.16
 djangorestframework-filters==1.0.*
-drf-yasg[validation]==1.20.*
+drf-spectacular
 
 # Utils
 # --------------------------
 argon2-cffi==21.3.0  # https://github.com/hynek/argon2_cffi
-arrow>=0.12,<0.18
-beautifulsoup4>=4.9,<4.10
-lxml>=4.7,<4.10
-Pillow>=10,<10.2  # https://github.com/python-pillow/Pillow
+arrow>=1.4,<2
+beautifulsoup4>=4.14,<5
+lxml #>=4.7,<4.10
+Pillow #>=10,<10.2  # https://github.com/python-pillow/Pillow
 python-dotenv>=0.14,<0.21   # https://saurabh-kumar.com/python-dotenv/#django
-pytz>=2020.1,<2022  # https://github.com/stub42/pytz
+pytz>=2020.1,<2023  # https://github.com/stub42/pytz
 
 # Database
 # -----------------------

@@ -23,7 +23,10 @@ from .base import *  # noqa
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#secret-key
-SECRET_KEY = getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = getenv(
+    "DJANGO_SECRET_KEY",
+    default="xhaBNHx2NPM3H2xmvn7fV8puVuIYxKr2aODG3Iw1HNxbkKbwV6QtGM2OHiWNPD7f",
+)
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = getenv("DJANGO_ALLOWED_HOSTS", default="elgeopaso.georezo.net, ").split(
     ", "
@@ -31,6 +34,7 @@ ALLOWED_HOSTS = getenv("DJANGO_ALLOWED_HOSTS", default="elgeopaso.georezo.net, "
 
 # DATABASES
 # ------------------------------------------------------------------------------
+DATABASE_URL = "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
 DATABASES["default"] = dj_database_url.config(env="DATABASE_URL")  # noqa F405
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
 DATABASES["default"]["CONN_MAX_AGE"] = int(  # noqa F405
@@ -85,15 +89,15 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # TEMPLATES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#templates
-TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
-    (
-        "django.template.loaders.cached.Loader",
-        [
-            "django.template.loaders.filesystem.Loader",
-            "django.template.loaders.app_directories.Loader",
-        ],
-    )
-]
+# TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
+#    (
+#        "django.template.loaders.cached.Loader",
+#        [
+#            "django.template.loaders.filesystem.Loader",
+#            "django.template.loaders.app_directories.Loader",
+#        ],
+#    )
+# ]
 
 # EMAIL
 # ------------------------------------------------------------------------------
@@ -132,7 +136,7 @@ LOGGING = {
             "class": "django.utils.log.AdminEmailHandler",
         },
         "console": {
-            "level": "DEBUG",
+            "level": "ERROR",
             "class": "logging.StreamHandler",
             "formatter": "verbose",
         },
