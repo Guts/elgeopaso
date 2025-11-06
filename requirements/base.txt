@@ -39,4 +39,4 @@ dj-database-url==3.0.*
 # Project
 # -----------------------
 feedparser>=5.2,<6.1
-nltk>=3.5,<3.8
+nltk>=3.5,<3.10
