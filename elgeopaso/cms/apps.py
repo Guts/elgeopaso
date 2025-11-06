@@ -16,5 +16,5 @@ from django.apps import AppConfig
 # ########### Classes ##############
 # ##################################
 class CmsConfig(AppConfig):
-    name = "cms"
+    name = "elgeopaso.cms"
     verbose_name = "Contenu éditorial"
