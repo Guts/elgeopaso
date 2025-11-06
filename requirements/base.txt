@@ -24,7 +24,7 @@ drf-spectacular
 
 # Utils
 # --------------------------
-argon2-cffi==21.3.0  # https://github.com/hynek/argon2_cffi
+argon2-cffi==25.1.0  # https://github.com/hynek/argon2_cffi
 arrow>=1.4,<2
 beautifulsoup4>=4.14,<5
 lxml #>=4.7,<4.10
