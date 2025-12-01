@@ -18,7 +18,7 @@ whitenoise[brotli]>=5.1,<6.12    # https://github.com/evansd/whitenoise
 
 # Django REST Framework (DRF)
 # --------------------------
-djangorestframework==3.16
+djangorestframework==3.16.1
 djangorestframework-filters==1.0.*
 drf-spectacular
 
