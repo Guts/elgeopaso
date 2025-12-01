@@ -30,7 +30,7 @@ beautifulsoup4>=4.14,<5
 lxml #>=4.7,<4.10
 Pillow #>=10,<10.2  # https://github.com/python-pillow/Pillow
 python-dotenv>=0.14,<1.3   # https://saurabh-kumar.com/python-dotenv/#django
-pytz>=2020.1,<2023  # https://github.com/stub42/pytz
+pytz>=2020.1,<2026  # https://github.com/stub42/pytz
 
 # Database
 # -----------------------
