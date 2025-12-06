@@ -17,7 +17,7 @@
 import unittest
 
 # 3rd party
-import semver
+from packaging.version import parse
 from validator_collection import validators
 
 # module target
@@ -46,7 +46,7 @@ class TestAbout(unittest.TestCase):
         self.assertIsInstance(__about__.__author__, str)
         self.assertIsInstance(__about__.__copyright__, str)
         self.assertIsInstance(__about__.__title__, str)
-        self.assertTrue(semver.VersionInfo.isvalid(__about__.__version__))
+        self.assertTrue(parse(__about__.__version__))
         validators.email(__about__.__email__)
         validators.url(__about__.__uri__)
 
