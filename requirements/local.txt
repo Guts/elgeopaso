@@ -21,7 +21,7 @@ validator-collection== 1.5.*    # https://github.com/insightindustry/validator-c
 # Code quality
 # ----------------------
 black
-django-coverage-plugin==1.8.*   # https://github.com/nedbat/django_coverage_plugin
+django-coverage-plugin==3.2.*   # https://github.com/nedbat/django_coverage_plugin
 flake8>=4
 flake8-bugbear>=23.1
 flake8-builtins>=2.1
