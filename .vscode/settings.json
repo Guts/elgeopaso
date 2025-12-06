@@ -14,7 +14,7 @@
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
-            "source.organizeImports": true
+            "source.organizeImports": "explicit"
         },
         "editor.rulers": [
             88
@@ -22,7 +22,7 @@
         "editor.wordWrapColumn": 88,
     },
     // Tests
-    "python.testing.unittestEnabled": true,
+    "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
     // extensions
     "autoDocstring.guessTypes": true,
