@@ -13,7 +13,7 @@ Werkzeug==3.1.*     # https://github.com/pallets/werkzeug
 # Testing
 # ----------------------
 pytest>=7.4                # https://github.com/pytest-dev/pytest
-pytest-cov>=2.12,<4.2
+pytest-cov>=2.12,<7.1
 pytest-django>=4.5         # https://github.com/pytest-dev/pytest-django
 semver>=2.13,<2.14                  # https://github.com/python-semver/python-semver
 validator-collection== 1.5.*    # https://github.com/insightindustry/validator-collection
