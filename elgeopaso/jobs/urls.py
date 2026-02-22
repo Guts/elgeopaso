@@ -16,6 +16,7 @@ from django.views.generic import TemplateView
 
 # project
 from elgeopaso.jobs import views
+from .proxy_views import proxy_jobs_api
 
 # #############################################################################
 # ########### Globals ##############
