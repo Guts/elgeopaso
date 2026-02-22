@@ -16,6 +16,7 @@ from django.views.generic import TemplateView
 
 # project
 from elgeopaso.jobs import views
+
 from .proxy_views import proxy_jobs_api
 
 # #############################################################################
@@ -49,5 +50,5 @@ urlpatterns = [
         r"stats/get_countries_top5", views.get_countries_top5, name="get_countries_top5"
     ),
     path(r"stats/get_fr_dpts_top10", views.get_fr_dpts_top10, name="get_fr_dpts_top10"),
-    path('proxy/jobs/', proxy_jobs_api, name='proxy_jobs'),
+    path("proxy/jobs/", proxy_jobs_api, name="proxy_jobs"),
 ]
