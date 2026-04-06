@@ -5,7 +5,6 @@ Module in charge of analyzing raw offers from GeoRezo: extracting contract type,
 place, etc. from title and abstract.
 """
 
-
 # ###########################################################################
 # ######### Libraries #############
 # #################################
