@@ -99,7 +99,7 @@ $(document).ready(function () {
     // Fonction pour récupérer les données directement depuis l'API geoelpasso
     function fetchJobsData() {
         const countUrl = 'https://cors-anywhere.herokuapp.com/https://elgeopaso.georezo.net/api/offres/?format=json&limit=1';
-        
+
         return fetch(countUrl, {
             method: 'GET',
             headers: {
@@ -117,7 +117,7 @@ $(document).ready(function () {
             const totalCount = data.count;
             const offset = Math.max(0, totalCount - 60);
             const externalApiUrl = `https://cors-anywhere.herokuapp.com/https://elgeopaso.georezo.net/api/offres/?format=json&offset=${offset}&limit=60`;
-            
+
             return fetch(externalApiUrl, {
                 method: 'GET',
                 headers: {
@@ -140,7 +140,7 @@ $(document).ready(function () {
             } else {
                 jobsData = [];
             }
-            
+
             // Collecter les types de contrats disponibles
             availableContractTypes.clear();
             jobsData.forEach(job => {
@@ -148,13 +148,13 @@ $(document).ready(function () {
                     availableContractTypes.add(job.contract.abbrv);
                 }
             });
-            
+
             // Mettre à jour l'UI du filtre
             updateFilterUI();
-            
+
             // Appliquer le filtre actuel
             applyFilter();
-            
+
             return jobsData;
         })
         .catch(error => {
@@ -181,15 +181,15 @@ $(document).ready(function () {
     // Appliquer le filtre actuel
     function applyFilter() {
         var filteredJobs = jobsData;
-        
+
         if (currentFilter !== 'all') {
             filteredJobs = jobsData.filter(job => {
                 return job.contract && job.contract.abbrv === currentFilter;
             });
         }
-        
+
         jobCountsByDepartment = countJobsByDepartment(filteredJobs);
-        
+
         // Mettre à jour les cercles sur la carte
         if (window.geojsonData) {
             updateJobCircles(window.geojsonData);
@@ -217,10 +217,10 @@ $(document).ready(function () {
             `;
             document.body.appendChild(filterContainer);
         }
-        
+
         // Trier les types de contrats
         var sortedTypes = Array.from(availableContractTypes).sort();
-        
+
         var html = `
             <div style="font-weight: bold; margin-bottom: 8px; color: #333;">
                 📋 Filtrer par contrat
@@ -237,7 +237,7 @@ $(document).ready(function () {
                     Tous les contrats (${jobsData.length})
                 </option>
         `;
-        
+
         sortedTypes.forEach(type => {
             var count = jobsData.filter(job => job.contract && job.contract.abbrv === type).length;
             html += `
@@ -246,9 +246,9 @@ $(document).ready(function () {
                 </option>
             `;
         });
-        
+
         html += `</select>`;
-        
+
         // Ajouter des statistiques
         html += `
             <div style="margin-top: 10px; font-size: 11px; color: #666; border-top: 1px solid #eee; padding-top: 8px;">
@@ -256,17 +256,17 @@ $(document).ready(function () {
                 <div>🗺️ ${Object.keys(jobCountsByDepartment).length} départements</div>
             </div>
         `;
-        
+
         filterContainer.innerHTML = html;
-        
+
         // Ajouter l'événement de changement
         document.getElementById('contract-type-select').addEventListener('change', function(e) {
             currentFilter = e.target.value;
             applyFilter();
-            
+
             // Mettre à jour l'UI avec les nouvelles stats
             updateFilterUI();
-            
+
             // Rafraîchir la popup si elle est ouverte
             if (window.currentPopupDept) {
                 showJobListPopup(window.currentPopupDept.code, window.currentPopupDept.name, window.currentPopupDept.location);
@@ -277,13 +277,13 @@ $(document).ready(function () {
     // Fonction pour récupérer les offres d'un département spécifique (avec filtre)
     function getJobsForDepartment(deptCode) {
         var filteredJobs = jobsData;
-        
+
         if (currentFilter !== 'all') {
             filteredJobs = jobsData.filter(job => {
                 return job.contract && job.contract.abbrv === currentFilter;
             });
         }
-        
+
         return filteredJobs.filter(job => {
             if (!job.place || !job.place.code) return false;
             var code = String(job.place.code).padStart(2, '0');
@@ -310,7 +310,7 @@ $(document).ready(function () {
             name: deptName,
             location: clickLocation
         };
-        
+
         var departmentJobs = getJobsForDepartment(deptCode);
         var jobCount = departmentJobs.length;
 
@@ -508,7 +508,7 @@ $(document).ready(function () {
         .setLngLat(clickLocation)
         .setHTML(popupContent)
         .addTo(map);
-        
+
         // Nettoyer la référence quand la popup est fermée
         window.jobListPopup.on('close', function() {
             window.currentPopupDept = null;
@@ -666,7 +666,7 @@ $(document).ready(function () {
             .then(response => response.json())
             .then(geojsonData => {
                 window.geojsonData = geojsonData;
-                
+
                 map.addSource('departments', {
                     type: 'geojson',
                     data: geojsonData
