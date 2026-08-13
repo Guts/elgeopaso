@@ -1,2 +1,2 @@
 # install Apache mod_wsgi - Python package handler
-mod-wsgi==5.0.*   # https://github.com/GrahamDumpleton/mod_wsgi
+mod-wsgi==6.0.*   # https://github.com/GrahamDumpleton/mod_wsgi
