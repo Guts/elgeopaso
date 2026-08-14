@@ -32,5 +32,5 @@ pylint-django==2.8.*
 
 # Django
 # ------------------------------------------------------------------------------
-django-debug-toolbar>=7.0.0,<8  # https://github.com/jazzband/django-debug-toolbar
+django-debug-toolbar>=5.1.0,<8  # https://github.com/jazzband/django-debug-toolbar
 django-extensions>=4.1     # https://github.com/django-extensions/django-extensions
