@@ -1,5 +1,3 @@
-version: '3.7'
-
 # Persistent data
 volumes:
   postgres_data: {}
