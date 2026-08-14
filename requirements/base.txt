@@ -10,7 +10,7 @@ wheel
 # -----------------------
 django>=5.2.17,<6
 django-allauth>=65.19.0,<65.20         # https://django-allauth.readthedocs.io
-django-crispy-forms==2.5      # https://django-crispy-forms.readthedocs.io
+django-crispy-forms==2.7      # https://django-crispy-forms.readthedocs.io
 django-ckeditor-5==0.2.19
 django-filter==26.*
 django-widgets-improved==1.5.*
