@@ -2,7 +2,7 @@
 
 # Database
 # -----------------------
-psycopg2-binary>=2.9,<3  # https://github.com/psycopg/psycopg2
+psycopg2-binary>=2.9.12,<3  # https://github.com/psycopg/psycopg2
 
 # Server
 # -----------------------
