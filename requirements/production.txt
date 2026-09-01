@@ -3,7 +3,7 @@
 -r ./base.txt
 
 # Using gunicorn (and probably nginx)
-gunicorn==26.0.*  # https://github.com/benoitc/gunicorn
+gunicorn==26.2.*  # https://github.com/benoitc/gunicorn
 
 
 # PostgreSQL driver
