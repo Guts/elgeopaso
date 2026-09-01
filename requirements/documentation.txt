@@ -6,4 +6,4 @@ sphinx-autobuild>=2021
 sphinx-autodoc-typehints>=3.13.2
 sphinx-copybutton<1
 sphinx-rtd-theme
-sphinxext-opengraph>=0.4
+sphinxext-opengraph>=0.13.0
