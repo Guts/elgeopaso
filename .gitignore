@@ -86,7 +86,6 @@ crawler_*.json
 # custom
 *.log*
 tmp/
-static/*
 *Thumbs.db
 historik/*.mdb
 historik/*.shp
