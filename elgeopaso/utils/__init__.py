@@ -1,3 +1,3 @@
-#! python3  # noqa: E265
+#! python3
 
 from .text_toolbelt import TextToolbelt  # noqa: F401

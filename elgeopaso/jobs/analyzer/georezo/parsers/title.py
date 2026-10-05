@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 
 """
@@ -161,7 +161,6 @@ class TitleParser:
                 t_place = t_place.lower().split(",")
             else:
                 t_place = t_place.lower().split()
-                pass
             # try to get a match in place variations
             for i in t_place:
                 if PlaceVariations.objects.filter(label=i).exists():
@@ -175,7 +174,6 @@ class TitleParser:
                 return self.parse_place(mode=mode + 1)
             else:
                 logging.warning(f"No place found in title: {self.input_title}")
-                pass
 
         # method ending if no place found during various attempts
         return "ND"
@@ -186,4 +184,3 @@ class TitleParser:
 # #################################
 if __name__ == "__main__":
     """standalone execution."""
-    pass

@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 """
 Settings built upon base for production.
@@ -15,7 +15,7 @@ from os import getenv
 import dj_database_url
 
 # common settings
-from .base import *  # noqa
+from .base import *
 
 # ##############################################################################
 # ########## Globals ###############
@@ -35,15 +35,15 @@ ALLOWED_HOSTS = getenv("DJANGO_ALLOWED_HOSTS", default="elgeopaso.georezo.net, "
 # DATABASES
 # ------------------------------------------------------------------------------
 DATABASE_URL = "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
-DATABASES["default"] = dj_database_url.config(env="DATABASE_URL")  # noqa F405
-DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
-DATABASES["default"]["CONN_MAX_AGE"] = int(  # noqa F405
+DATABASES["default"] = dj_database_url.config(env="DATABASE_URL")
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
+DATABASES["default"]["CONN_MAX_AGE"] = int(
     getenv("CONN_MAX_AGE", default="60")
 )
 
 # CACHES
 # ------------------------------------------------------------------------------
-CACHE_DIR = ROOT_DIR / "_cache"  # noqa: F405
+CACHE_DIR = ROOT_DIR / "_cache"
 CACHE_DIR.mkdir(exist_ok=True)
 CACHES = {
     "default": {
@@ -89,7 +89,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # TEMPLATES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#templates
-# TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
+# TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index]
 #    (
 #        "django.template.loaders.cached.Loader",
 #        [
@@ -128,7 +128,7 @@ LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
-    "formatters": {"verbose": {"format": LOG_FORMAT}},  # noqa: F405
+    "formatters": {"verbose": {"format": LOG_FORMAT}},
     "handlers": {
         "mail_admins": {
             "level": "ERROR",

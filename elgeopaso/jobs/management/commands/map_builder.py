@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 # ############################################################################
 # ########## Libraries #############
@@ -37,9 +37,7 @@ class Command(BaseCommand):
         if not isinstance(settings.GEOJSON_FOLDER, Path):
             logging.error(
                 TypeError(
-                    "GeoJSON folder is not a correct path: {}".format(
-                        settings.GEOJSON_FOLDER
-                    )
+                    f"GeoJSON folder is not a correct path: {settings.GEOJSON_FOLDER}"
                 )
             )
             return
@@ -102,9 +100,7 @@ class Command(BaseCommand):
             json.dump(data, jsonFile, ensure_ascii=False)
 
         logging.info(
-            "GeoJSON completed with French departements statistics updated: {}".format(
-                out_gjson_fr_dpts
-            )
+            f"GeoJSON completed with French departements statistics updated: {out_gjson_fr_dpts}"
         )
         return out_gjson_fr_dpts
 
@@ -130,8 +126,8 @@ class Command(BaseCommand):
                 )
             else:
                 logging.info(
-                    "File doesn't exists or overwrite is enabled: {}. "
-                    "Let's download it.".format(final_path)
+                    f"File doesn't exists or overwrite is enabled: {final_path}. "
+                    "Let's download it."
                 )
                 li_url_to_dl.append((v, final_path))
 

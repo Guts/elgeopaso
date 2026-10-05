@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 """
 Settings built upon base for running tests.
@@ -12,7 +12,7 @@ Settings built upon base for running tests.
 from os import getenv
 
 # common settings
-from .base import *  # noqa
+from .base import *
 
 # ##############################################################################
 # ########## Globals ###############
@@ -46,7 +46,7 @@ PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
-TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa F405
+TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index]
     (
         "django.template.loaders.cached.Loader",
         [
