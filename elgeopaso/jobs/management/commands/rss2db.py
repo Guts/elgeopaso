@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 """
 Custom Django management command to parse GeoRezo feed and launch analisis.
@@ -127,13 +127,11 @@ class Command(BaseCommand):
 
         # LOG and mail notification
         logging.debug(
-            "{} new offers added\n"
-            "{} offers updated\n"
-            "{} orphans offers fixed\n"
-            "{} broken raw offers fixed\n"
-            "{} broken clean offers fixed\n".format(
-                ct_added, ct_selected, ct_orphans, ct_broken_raw, ct_broken_clean
-            )
+            f"{ct_added} new offers added\n"
+            f"{ct_selected} offers updated\n"
+            f"{ct_orphans} orphans offers fixed\n"
+            f"{ct_broken_raw} broken raw offers fixed\n"
+            f"{ct_broken_clean} broken clean offers fixed\n"
         )
         # recipients
         dest = list(settings.REPORT_RECIPIENTS)
@@ -146,13 +144,11 @@ class Command(BaseCommand):
         if not settings.DEBUG:
             send_mail(
                 subject="El Géo Paso - Analyse terminée",
-                message="{} new offers added\n"
-                "{} offers updated\n"
-                "{} orphans offers fixed\n"
-                "{} broken raw offers fixed\n"
-                "{} broken clean offers fixed\n".format(
-                    ct_added, ct_selected, ct_orphans, ct_broken_raw, ct_broken_clean
-                ),
+                message=f"{ct_added} new offers added\n"
+                f"{ct_selected} offers updated\n"
+                f"{ct_orphans} orphans offers fixed\n"
+                f"{ct_broken_raw} broken raw offers fixed\n"
+                f"{ct_broken_clean} broken clean offers fixed\n",
                 from_email=settings.EMAIL_HOST_USER,
                 recipient_list=dest,
                 fail_silently=False,
@@ -272,9 +268,7 @@ class Command(BaseCommand):
         ).values_list("id_rss", flat=True)
         if raw_orphans.count():
             logging.debug(
-                "{} raw_orphans (in GeorezoRSS but not in Offer).".format(
-                    raw_orphans.count()
-                )
+                f"{raw_orphans.count()} raw_orphans (in GeorezoRSS but not in Offer)."
             )
             analyzer = GeorezoOfferAnalizer(list(raw_orphans))
             analyzer.analisis()

@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 
 """
@@ -103,4 +103,3 @@ class TextToolbelt:
 # #################################
 if __name__ == "__main__":
     """standalone execution."""
-    pass

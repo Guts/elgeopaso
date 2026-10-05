@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 """
 Module in charge of analyzing raw offers from GeoRezo: extracting contract type,
@@ -91,7 +91,6 @@ class GeorezoOfferAnalizer:
                 continue
             else:
                 logger.debug(f"launch analisis on : {self.offer_id}")
-                pass
             # get raw offer from georezo_rss table
             raw_offer = GeorezoRSS.objects.get(id_rss=offer_id)
 
@@ -129,18 +128,14 @@ class GeorezoOfferAnalizer:
                     clean_offer.save()
                 except IntegrityError as err_msg:
                     logger.error(
-                        "Offer RSS_ID ({}) already exists in DB: {}".format(
-                            offer_id, err_msg
-                        )
+                        f"Offer RSS_ID ({offer_id}) already exists in DB: {err_msg}"
                     )
                     continue
             else:
                 clean_offer = Offer.objects.select_related().filter(id_rss=offer_id)
                 if not clean_offer.exists():
                     logger.info(
-                        "Offer to update no longer exists and won't be created: {}".format(
-                            offer_id
-                        )
+                        f"Offer to update no longer exists and won't be created: {offer_id}"
                     )
                     continue
                 else:
@@ -166,4 +161,3 @@ class GeorezoOfferAnalizer:
 # #################################
 if __name__ == "__main__":
     """standalone execution."""
-    pass

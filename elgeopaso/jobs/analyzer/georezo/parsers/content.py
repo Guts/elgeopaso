@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 """
 Content parser.
@@ -71,4 +71,3 @@ class ContentParser:
 # #################################
 if __name__ == "__main__":
     """standalone execution."""
-    pass

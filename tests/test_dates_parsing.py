@@ -1,4 +1,4 @@
-#! python3  # noqa E265
+#! python3
 
 """Usage from the repo root folder:
 
@@ -35,11 +35,9 @@ class TestDatetimesParsing(unittest.TestCase):
     # -- Standard methods --------------------------------------------------------
     def setUp(self):
         """Executed before each test."""
-        pass
 
     def tearDown(self):
         """Executed after each test."""
-        pass
 
     # -- TESTS ---------------------------------------------------------
     def test_rss_datetimes(self):

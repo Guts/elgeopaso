@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 """
 Settings built upon base for local development.
@@ -12,7 +12,7 @@ Settings built upon base for local development.
 from os import getenv
 
 # common settings
-from .base import *  # noqa
+from .base import *
 
 # ##############################################################################
 # ########## Globals ###############
@@ -45,11 +45,11 @@ CACHES = {
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#installed-apps
 # ------------------------------------------------------------------------------
 DEVELOPMENT_APPS = ["debug_toolbar", "django_extensions"]
-INSTALLED_APPS += DEVELOPMENT_APPS  # noqa: F405
+INSTALLED_APPS += DEVELOPMENT_APPS
 
 # For development, Whitenoise must be added at the top of installed apps
 # http://whitenoise.evans.io/en/latest/django.html#using-whitenoise-in-development
-INSTALLED_APPS = ["whitenoise.runserver_nostatic"] + INSTALLED_APPS  # noqa F405
+INSTALLED_APPS = ["whitenoise.runserver_nostatic"] + INSTALLED_APPS
 
 
 # EMAIL
@@ -64,7 +64,7 @@ EMAIL_BACKEND = getenv(
 # ------------------------------------------------------------------------------
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#prerequisites
 # https://django-debug-toolbar.readthedocs.io/en/latest/installation.html#middleware
-MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]  # noqa F405
+MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 # https://django-debug-toolbar.readthedocs.io/en/latest/configuration.html#debug-toolbar-config
 DEBUG_TOOLBAR_CONFIG = {
     "DISABLE_PANELS": ["debug_toolbar.panels.redirects.RedirectsPanel"],

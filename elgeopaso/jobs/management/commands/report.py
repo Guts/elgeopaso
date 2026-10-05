@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 # ############################################################################
 # ########## Libraries #############
@@ -54,16 +54,10 @@ class Command(BaseCommand):
         no_place_all = Offer.objects.filter(place="ND").count()
         no_contract_all = Offer.objects.filter(contract="ND").count()
         base_msg = (
-            "BASE GLOBALE DES {} OFFRES\n"
-            "\t- {} ({}%) offres sans lieu reconnu (https://elgeopaso.georezo.net/jobs/search/?place=ND)\n"
-            "\t- {} ({}%) offres sans contrat reconnu (https://elgeopaso.georezo.net/jobs/search/?contract=ND)\n"
-            "\n=====================================================\n".format(
-                offers_all,
-                no_place_all,
-                int(100 * no_place_all / offers_all),
-                no_contract_all,
-                int(100 * no_contract_all / offers_all),
-            )
+            f"BASE GLOBALE DES {offers_all} OFFRES\n"
+            f"\t- {no_place_all} ({int(100 * no_place_all / offers_all)}%) offres sans lieu reconnu (https://elgeopaso.georezo.net/jobs/search/?place=ND)\n"
+            f"\t- {no_contract_all} ({int(100 * no_contract_all / offers_all)}%) offres sans contrat reconnu (https://elgeopaso.georezo.net/jobs/search/?contract=ND)\n"
+            "\n=====================================================\n"
         )
         # -- NEW OFFERS
         # get offers added since previous execution
@@ -113,11 +107,9 @@ class Command(BaseCommand):
 
         if ct_broken_places + ct_broken_techs + ct_broken_jobs:
             db_msg = (
-                "\n{} relations cassées dans les lieux"
-                "\n{} relations cassées dans les technologies"
-                "\n{} relations cassées dans les métiers".format(
-                    ct_broken_places, ct_broken_techs, ct_broken_jobs
-                )
+                f"\n{ct_broken_places} relations cassées dans les lieux"
+                f"\n{ct_broken_techs} relations cassées dans les technologies"
+                f"\n{ct_broken_jobs} relations cassées dans les métiers"
             )
         else:
             db_msg = "Aucun problème trouvé dans la base de données."
@@ -131,13 +123,11 @@ class Command(BaseCommand):
         )
         if not settings.DEBUG:
             send_mail(
-                "El Géo Paso - Rapport hebdomadaire - {} semaine {}".format(
-                    self.now.year, self.now.week
-                ),
-                base_msg + "{} NOUVELLES OFFRES\n\n"
-                "ANALYSE\n\nLIEUX\n{}\n_______\n"
-                "\nCONTRATS\n{}\n_______\n"
-                "\nSANTE\n{} ".format(ct_added, place_msg, contract_msg, db_msg),
+                f"El Géo Paso - Rapport hebdomadaire - {self.now.year} semaine {self.now.week}",
+                base_msg + f"{ct_added} NOUVELLES OFFRES\n\n"
+                f"ANALYSE\n\nLIEUX\n{place_msg}\n_______\n"
+                f"\nCONTRATS\n{contract_msg}\n_______\n"
+                f"\nSANTE\n{db_msg} ",
                 settings.EMAIL_HOST_USER,
                 dest,
                 fail_silently=False,

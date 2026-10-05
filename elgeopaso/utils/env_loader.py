@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 """Project utilities."""
 
@@ -36,10 +36,8 @@ def find_and_load_environment_vars(start_dir: Path = "."):
 
     if not len(dotenv_files):
         logging.info(
-            "No environment ('.env') file found in: {}"
-            " Using environment variables stored into the user and system levels.".format(
-                start_dir.resolve()
-            )
+            f"No environment ('.env') file found in: {start_dir.resolve()}"
+            " Using environment variables stored into the user and system levels."
         )
     elif len(dotenv_files) == 1:
         logging.info(f"Environment file found: {dotenv_files[0].resolve()}")
@@ -47,9 +45,7 @@ def find_and_load_environment_vars(start_dir: Path = "."):
         load_dotenv(find_dotenv(dotenv_files[0]), override=True)
     else:
         logging.warning(
-            "Multiple ({}) environment files found. Picking one among: {}".format(
-                len(dotenv_files), str(dotenv_files)
-            )
+            f"Multiple ({len(dotenv_files)}) environment files found. Picking one among: {dotenv_files!s}"
         )
         for env_file in dotenv_files:
             if env_file.name == ".env" and not USE_DOCKER:
@@ -66,9 +62,7 @@ def find_and_load_environment_vars(start_dir: Path = "."):
                 break
             else:
                 logging.warning(
-                    "No specific environment file found. Using the first: {}".format(
-                        dotenv_files[0]
-                    )
+                    f"No specific environment file found. Using the first: {dotenv_files[0]}"
                 )
                 # load environment variables
                 load_dotenv(dotenv_files[0], override=True)

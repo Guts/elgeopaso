@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 """
 Command used to import a CSV from a Georezo database export.

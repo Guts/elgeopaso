@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 """
 Base settings to build other settings files upon.
@@ -32,9 +32,7 @@ PROJ_DIR = ROOT_DIR / getenv("DJANGO_PROJECT_FOLDER", default="elgeopaso")
 
 # some metadata
 PROJECT_VERSION = __about__.__version__
-USER_AGENT = "{}/{} +https://elgeopaso.georezo.net/".format(
-    __about__.__title_clean__, PROJECT_VERSION
-)
+USER_AGENT = f"{__about__.__title_clean__}/{PROJECT_VERSION} +https://elgeopaso.georezo.net/"
 
 # https://docs.djangoproject.com/fr/2.2/ref/settings/#debug
 DEBUG = getenv("DJANGO_DEBUG", default="0")

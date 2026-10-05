@@ -1,4 +1,4 @@
-#! python3  # noqa: E265
+#! python3
 
 """
 Name:         GeoRezo Jobs RSS Parser
@@ -75,9 +75,7 @@ class GeorezoRssParser:
         :rtype: str
         """
         if self.feed_length_param and self.items_to_parse:
-            complete_feed_url = "{}&{}={}".format(
-                self.feed_base_url, self.feed_length_param, self.items_to_parse
-            )
+            complete_feed_url = f"{self.feed_base_url}&{self.feed_length_param}={self.items_to_parse}"
         else:
             complete_feed_url = self.feed_base_url
 
@@ -127,10 +125,8 @@ class GeorezoRssParser:
                 out_dict = json.load(in_json)
         else:
             logging.warning(
-                "File with the latest ID offer is missing: {}. "
-                "Considering latest ID = 0 and updated_parsed = None.".format(
-                    in_source.resolve()
-                )
+                f"File with the latest ID offer is missing: {in_source.resolve()}. "
+                "Considering latest ID = 0 and updated_parsed = None."
             )
             out_dict = {"latest_offer_id": 0, "feed_updated_parsed": None}
 
@@ -193,9 +189,7 @@ class GeorezoRssParser:
             )
         except Exception as err:
             logging.error(
-                "Feed date '{}' can be parsed with format: {}. Error: {}".format(
-                    feed_parsed.feed.updated, self.FEED_DATETIME_RAW_FORMAT, err
-                )
+                f"Feed date '{feed_parsed.feed.updated}' can be parsed with format: {self.FEED_DATETIME_RAW_FORMAT}. Error: {err}"
             )
             # fallback value
             feed_build_dt = None
@@ -244,9 +238,7 @@ class GeorezoRssParser:
 
         # RSS parser
         logging.info(
-            "Connecting to the RSS. Expecting {} entries as specified in settings.".format(
-                self.items_to_parse
-            )
+            f"Connecting to the RSS. Expecting {self.items_to_parse} entries as specified in settings."
         )
         feed = feedparser.parse(
             url_file_stream_or_string=self._build_feed_url(),
@@ -258,26 +250,22 @@ class GeorezoRssParser:
         if feed.bozo:
             logging.warning("Parser raised a non blocking error. Investigating...")
             if isinstance(feed.bozo_exception, feedparser.CharacterEncodingOverride):
-                feedparser_related_doc = "{}character-encoding.html".format(
-                    FEEDPARSER_DOC_BASE_URL
-                )
+                feedparser_related_doc = f"{FEEDPARSER_DOC_BASE_URL}character-encoding.html"
                 logging.error(
                     "Feed encoding is badly declared. It could be parsed but with errors."
-                    " Parser error: {}."
-                    " See: {}".format(feed.bozo_exception, feedparser_related_doc)
+                    f" Parser error: {feed.bozo_exception}."
+                    f" See: {feedparser_related_doc}"
                 )
                 if not ignore_encoding_errors:
                     # then return empty list
                     return li_new_job_offers_id
             elif isinstance(feed.bozo_exception, feedparser.CharacterEncodingUnknown):
-                feedparser_related_doc = "{}character-encoding.html".format(
-                    FEEDPARSER_DOC_BASE_URL
-                )
+                feedparser_related_doc = f"{FEEDPARSER_DOC_BASE_URL}character-encoding.html"
                 logging.error(
                     "Feed encoding could not be identified. "
                     "Parsing result is likely to be unpredictable..."
-                    " Parser error: {}."
-                    " See: {}".format(feed.bozo_exception, feedparser_related_doc)
+                    f" Parser error: {feed.bozo_exception}."
+                    f" See: {feedparser_related_doc}"
                 )
                 if not ignore_encoding_errors:
                     # then return empty list
@@ -285,9 +273,7 @@ class GeorezoRssParser:
             else:
                 feedparser_related_doc = f"{FEEDPARSER_DOC_BASE_URL}bozo.html"
                 logging.error(
-                    "Feed error is not recognized: {}. Aborting parsing of '{}'".format(
-                        feed.bozo_exception, self._build_feed_url()
-                    )
+                    f"Feed error is not recognized: {feed.bozo_exception}. Aborting parsing of '{self._build_feed_url()}'"
                 )
                 # then return empty list
                 return li_new_job_offers_id
@@ -301,17 +287,13 @@ class GeorezoRssParser:
         if not len(feed.entries):
             # log everything
             logging.error(
-                "RSS feed is empty, no entries (items) found. Feed info: {}.".format(
-                    feed_metadata
-                )
+                f"RSS feed is empty, no entries (items) found. Feed info: {feed_metadata}."
             )
             # then return empty list
             return li_new_job_offers_id
         elif self.items_to_parse and (len(feed.entries) != self.items_to_parse):
             logging.warning(
-                "Number of items ({}) is different from the required: {}.".format(
-                    len(feed.entries), self.items_to_parse
-                )
+                f"Number of items ({len(feed.entries)}) is different from the required: {self.items_to_parse}."
             )
         else:
             logging.info(f"{len(feed.entries)} items retrieved from the feed.")
@@ -323,9 +305,7 @@ class GeorezoRssParser:
                 job_id = self.extract_offer_id_from_url(entry.id)
             except AttributeError as err:
                 logging.error(
-                    "Feed index corrupted: {} - ({})".format(
-                        feed.entries.index(entry), err
-                    )
+                    f"Feed index corrupted: {feed.entries.index(entry)} - ({err})"
                 )
                 continue
 

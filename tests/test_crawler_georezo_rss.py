@@ -1,4 +1,4 @@
-#! python3  # noqa E265
+#! python3
 
 """Usage from the repo root folder:
 
@@ -68,15 +68,11 @@ class TestCrawlerGeorezo(TestCase):
         # instanciate
         georezo_parser = GeorezoRssParser(
             items_to_parse=200,
-            user_agent="ElGeoPaso/{} https://elgeopaso.georezo.net/".format(
-                __version__
-            ),
+            user_agent=f"ElGeoPaso/{__version__} https://elgeopaso.georezo.net/",
         )
 
         # enforce different metadata file path to avoid conflicts between tests and real process
-        georezo_parser.CRAWLER_LATEST_METADATA = "tests/fixtures/tmp/{}.json".format(
-            get_test_marker()
-        )
+        georezo_parser.CRAWLER_LATEST_METADATA = f"tests/fixtures/tmp/{get_test_marker()}.json"
 
         # check
         validators.url(georezo_parser._build_feed_url())
@@ -94,9 +90,7 @@ class TestCrawlerGeorezo(TestCase):
                 feed_base_url=str(i.resolve()),
                 items_to_parse=None,
                 feed_length_param=None,
-                user_agent="ElGeoPaso/{} https://elgeopaso.georezo.net/".format(
-                    __version__
-                ),
+                user_agent=f"ElGeoPaso/{__version__} https://elgeopaso.georezo.net/",
             )
 
             # enforce different metadata file path to avoid conflicts between tests and real process
